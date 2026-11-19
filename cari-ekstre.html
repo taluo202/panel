@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Cari Hesap Ekstresi</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif;background:#eef2f9}
+  .inp{background:#fff;border:1px solid #e2e8f0;border-radius:0.6rem;padding:0.4rem 0.7rem;font-size:0.85rem;outline:none}
+  .inp.ekstre-tarih{display:block;width:100%;min-width:0;padding-left:.5rem;padding-right:.4rem}
+  @media(min-width:768px){.inp.ekstre-tarih{width:9.5rem}}
+  .p-doc{max-width:820px;margin:0 auto;font-family:Arial,sans-serif;color:#1a1a1a;background:#fff;padding:28px;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+  .p-header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:10px;border-bottom:2px solid #00236f;margin-bottom:14px}
+  .p-logo{height:48px}
+  .p-title{font-size:16pt;font-weight:700;color:#00236f;margin:0;text-align:right}
+  .e-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 20px;font-size:9.5pt;margin-bottom:14px}
+  .e-grid label{color:#666;font-size:8pt}
+  .e-table{width:100%;border-collapse:collapse;font-size:9pt}
+  .e-table th{background:#00236f;color:#fff;padding:6px 8px;text-align:left;font-size:8pt}
+  .e-table td{padding:5px 8px;border-bottom:1px solid #e8eaf0}
+  .e-table tr:nth-child(even) td{background:#f7f9ff}
+  .e-table .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .e-table td:first-child{white-space:nowrap}
+  @media screen and (max-width:767px){#ekstreIcerik .pa-table td:first-child,.pa-table td:first-child{white-space:nowrap!important;overflow-wrap:normal!important}}
+  .e-ozet{margin-top:14px;margin-left:auto;width:300px;font-size:10pt}
+  .e-ozet td{padding:4px 10px}
+  .e-ozet .grand{font-weight:700;font-size:12pt;color:#00236f;border-top:2px solid #00236f}
+  .e-footer{margin-top:16px;font-size:7.5pt;color:#888;border-top:1px solid #e2e8f0;padding-top:8px;text-align:center}
+  @media print {
+    body{background:#fff}
+    .no-print{display:none!important}
+    .p-doc{max-width:100%;box-shadow:none;border-radius:0;padding:6mm;margin:0}
+    @page{margin:8mm;size:A4}
+  }
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="text-on-surface antialiased">
+
+<div class="no-print sticky top-0 z-20 bg-primary text-white px-4 py-3 flex flex-wrap items-center gap-3 shadow-md">
+  <a href="musteriler.html" class="flex items-center gap-1 text-sm font-bold hover:opacity-80"><span class="material-symbols-outlined text-lg">arrow_back</span><span class="hidden sm:inline">Müşteriler</span></a>
+  <a id="musteriKartLink" href="#" class="hidden items-center gap-1 text-sm font-bold hover:opacity-80" title="Bu müşterinin kartına git"><span class="material-symbols-outlined text-lg">person</span><span class="hidden sm:inline">Müşteri Kartı</span></a>
+  <span class="font-bold text-sm flex-1 truncate" id="tbBaslik">Cari Hesap Ekstresi</span>
+  <div class="flex items-center gap-3 w-full md:w-auto">
+  <label class="flex flex-col md:flex-row flex-1 md:flex-none min-w-0 md:items-center gap-1 md:gap-1.5 text-xs font-bold"><span>Başlangıç</span><input id="fBas" type="date" class="inp ekstre-tarih text-on-surface" title="Başlangıç"/></label>
+  <label class="flex flex-col md:flex-row flex-1 md:flex-none min-w-0 md:items-center gap-1 md:gap-1.5 text-xs font-bold"><span>Bitiş</span><input id="fBit" type="date" class="inp ekstre-tarih text-on-surface" title="Bitiş"/></label>
+  </div>
+  <button data-on-click="uygula" class="bg-white/15 hover:bg-white/25 rounded-lg px-3 py-1.5 text-sm font-bold flex items-center gap-1"><span class="material-symbols-outlined text-base">filter_alt</span>Uygula</button>
+  <button data-on-click="App.belgeYazdir" data-args='["ekstreDoc"]' class="bg-white text-primary rounded-lg px-3 py-1.5 text-sm font-bold flex items-center gap-1"><span class="material-symbols-outlined text-base">print</span>Yazdır</button>
+  <button data-on-click="paylas" class="bg-green-500 hover:bg-green-600 rounded-lg px-3 py-1.5 text-sm font-bold flex items-center gap-1"><span class="material-symbols-outlined text-base">share</span>Paylaş</button>
+</div>
+
+<div class="py-6 px-3">
+  <div id="ekstreDoc"></div>
+</div>
+
+<div id="paylasModal" class="no-print hidden fixed inset-0 z-[120] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta p-7">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-bold font-headline">Ekstreyi Paylaş</h2>
+      <button data-on-click="Eylem.gizle" data-args='["paylasModal"]' class="p-1 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <p class="text-xs text-slate-500 mb-4">Ekstrenin herkese açık görüntüleme bağlantısı oluşturuldu.</p>
+    <div class="flex gap-2 mb-5">
+      <input id="paylasLink" type="text" readonly class="inp flex-1 text-xs"/>
+      <button data-on-click="paylasKopyala" class="shrink-0 px-3 bg-surface-container-low rounded-xl text-sm font-bold text-primary hover:bg-primary/10 transition flex items-center gap-1"><span class="material-symbols-outlined text-base">content_copy</span></button>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      <a id="paylasWa" href="#" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-green-50 text-green-700 font-bold text-sm hover:bg-green-100 transition"><span class="material-symbols-outlined">chat</span>WhatsApp</a>
+      <a id="paylasMail" href="#" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-blue-50 text-blue-700 font-bold text-sm hover:bg-blue-100 transition"><span class="material-symbols-outlined">mail</span>E-posta</a>
+    </div>
+  </div>
+</div>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script><script src="js/belge-sablon.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/s-cari-ekstre.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

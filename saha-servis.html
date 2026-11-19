@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Saha Servisi — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.6rem 0.9rem;font-size:1rem;outline:none;min-height:44px}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+  .ss-imza{display:block;width:100%;height:150px;touch-action:none;background:#fff;border:1px dashed #8a9caf;border-radius:12px}
+  .ss-bolum{border:1px solid #e9eff6;border-radius:14px;padding:12px;display:grid;gap:10px;background:#fff}
+  .ss-bolum.hidden,.ss-secim.hidden{display:none}
+  .ss-bolum>h3{font-size:12px;font-weight:800;color:#00236f;text-transform:uppercase;letter-spacing:.05em;margin:0}
+  .ss-secim{display:flex;flex-wrap:wrap;gap:6px}
+  .ss-secim label{position:relative;cursor:pointer}
+  .ss-secim input{position:absolute;opacity:0;pointer-events:none}
+  .ss-secim span{display:inline-flex;align-items:center;min-height:40px;padding:0 12px;border-radius:999px;background:#eff4ff;font-size:13px;font-weight:600;color:#334155}
+  .ss-secim input:checked+span{background:#00236f;color:#fff}
+  .ss-secim input:focus-visible+span{box-shadow:0 0 0 2px #00236f66}
+  .ss-karar span{min-height:48px;padding:0 20px;font-size:15px}
+  .ss-bilesen{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 8px;align-items:center;font-size:13px}
+  .ss-bilesen .ss-secim span{min-height:34px;padding:0 10px;font-size:12px}
+  .ss-cizgi{display:grid;gap:6px}
+  .ss-cizgi li{display:flex;align-items:center;gap:8px;font-size:13px}
+  .ss-cizgi .ss-nokta{width:22px;height:22px;border-radius:999px;display:grid;place-items:center;flex:none;background:#eef2f7;color:#94a3b8}
+  .ss-cizgi .ss-tamam .ss-nokta{background:#16a34a;color:#fff}
+  .ss-dugme{min-height:48px}
+  #bzil, #garama { display:none !important; }
+</style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+
+<main class="min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <img src="img/logo.svg" alt="" class="firma-logo h-9 w-auto"/>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Saha Servisi</h1>
+    </div>
+    <a href="islerim.html" class="text-xs font-bold text-primary hover:underline">← İşlerim</a>
+  </header>
+  <div class="p-4 md:p-8 max-w-lg mx-auto">
+    <p class="text-xs text-slate-500 mb-3">Size atanan servis işleri. İşe dokunun: adres, müşteri şikâyeti, yol tarifi, adım adım servis formu.</p>
+    <div id="ssListe" class="space-y-3"><p class="text-slate-400 text-sm text-center py-6">Yükleniyor…</p></div>
+  </div>
+</main>
+
+<div id="ssIsModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-5 pt-5 pb-3 sticky top-0 bg-white border-b border-slate-100 z-10">
+      <h2 class="text-lg font-bold font-headline" id="ssIsBaslik">Saha işi</h2>
+      <button data-on-click="ssKapat" class="p-1.5 hover:bg-surface-container-low rounded-lg" title="Kapat"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-5 py-4 space-y-4">
+      <div id="ssIsBilgi" class="space-y-3"></div>
+      <ol id="ssCizgi" class="ss-cizgi p-3 rounded-xl bg-surface-container-low"></ol>
+      <div id="ssQrBant" class="hidden p-3 rounded-xl bg-green-50 text-green-800 text-sm">
+        Makinenin QR'ı okutuldu ve bu işin makinesi. <button type="button" data-on-click="ssQrIleVardim" class="ml-1 font-bold underline">Vardım</button>
+      </div>
+      <div id="ssYolAlan" class="hidden ss-bolum">
+        <h3>Yola çıkış</h3>
+        <div class="grid grid-cols-2 gap-2">
+          <div><label class="lbl" for="ssKmCikisYol">Çıkış km</label><input id="ssKmCikisYol" class="inp" inputmode="decimal" placeholder="Araç km"/></div>
+          <div><label class="lbl" for="ssAracYol">Araç plaka no</label><select id="ssAracYol" class="inp"></select></div>
+        </div>
+      </div>
+      <div id="ssAdimlar" class="flex flex-wrap gap-2"></div>
+
+      <div id="ssRaporAlan" class="hidden space-y-4 pt-3 border-t border-slate-100">
+        <section class="ss-bolum">
+          <h3>Makine bilgileri</h3>
+          <div id="ssKunye" class="grid grid-cols-2 gap-2 text-sm"></div>
+          <div><span class="lbl">Çalışma saati</span>
+            <div class="grid grid-cols-3 gap-2">
+              <input id="ssCsE" class="inp" inputmode="decimal" placeholder="Elektrik" aria-label="Çalışma saati — elektrik" data-on-input="ssCsToplam"/>
+              <input id="ssCsD" class="inp" inputmode="decimal" placeholder="Dizel" aria-label="Çalışma saati — dizel" data-on-input="ssCsToplam"/>
+              <input id="ssCsT" class="inp" inputmode="decimal" placeholder="Toplam" aria-label="Çalışma saati — toplam"/>
+            </div></div>
+          <div><span class="lbl">Arıza sebebi</span>
+            <div class="ss-secim" role="radiogroup" aria-label="Arıza sebebi">
+              <label><input type="radio" name="ssArizaKaynak" value="makine"/><span>Makine kaynaklı</span></label>
+              <label><input type="radio" name="ssArizaKaynak" value="musteri"/><span>Müşteri kaynaklı</span></label>
+            </div></div>
+        </section>
+
+        <section class="ss-bolum">
+          <h3>Müşteri talebi / şikâyet</h3>
+          <textarea id="ssTalep" rows="2" class="inp resize-none" aria-label="Müşteri talebi / şikâyet"></textarea>
+          <div><span class="lbl">Servis gerekçesi</span><div id="ssGerekceAlan" class="ss-secim" role="radiogroup" aria-label="Servis gerekçesi"></div></div>
+        </section>
+
+        <section class="ss-bolum">
+          <h3>Makinenin arızalı yerlerinin ekspertizi</h3>
+          <p class="text-xs text-slate-500">Arızalı ya da hasarlı yeri işaretleyin; sağlam olanı boş bırakın. Fotoğrafı ilgili yeri seçerek ekleyin.</p>
+          <div id="ssBilesenler" class="ss-bilesen"></div>
+          <div class="flex gap-2 items-end">
+            <div class="flex-1"><label class="lbl" for="ssFotoBilesen">Fotoğraf hangi yerin?</label><select id="ssFotoBilesen" class="inp"></select></div>
+            <label class="ss-dugme shrink-0 inline-flex items-center gap-1 px-4 rounded-xl bg-primary text-white text-sm font-bold cursor-pointer">
+              <span class="material-symbols-outlined text-base">add_a_photo</span>Foto (<span id="ssFotoSayi">0</span>)
+              <input type="file" accept="image/*" capture="environment" class="hidden" data-on-change="ssFotoSecildi" data-args='["$this"]'/>
+            </label>
+          </div>
+          <div id="ssFotoListe" class="rf-kucukler"></div>
+        </section>
+
+        <section class="ss-bolum">
+          <h3>Tespit *</h3>
+          <textarea id="ssTespit" rows="2" class="inp resize-none" placeholder="Arızanın sebebi" aria-label="Tespit"></textarea>
+        </section>
+
+        <section class="ss-bolum">
+          <h3>Kullanılan yedek parçalar</h3>
+          <ul id="ssKalemler" class="divide-y divide-slate-200"></ul>
+          <div class="ss-secim" role="radiogroup" aria-label="Parça kaynağı">
+            <label><input type="radio" name="ssParcaKaynak" value="stok" checked data-on-change="ssParcaKaynakDegisti"/><span>Stoktan seç</span></label>
+            <label><input type="radio" name="ssParcaKaynak" value="elle" data-on-change="ssParcaKaynakDegisti"/><span>Elle yaz</span></label>
+          </div>
+          <div id="ssParcaStok"><label class="lbl" for="ssParca">Yedek parça (stoktan düşer)</label><select id="ssParca" class="inp"></select></div>
+          <div id="ssParcaElle" class="hidden grid grid-cols-2 gap-2">
+            <div><label class="lbl" for="ssParcaKod">Yedek parça kodu</label><input id="ssParcaKod" class="inp" maxlength="60"/></div>
+            <div><label class="lbl" for="ssParcaAd">Yedek parça adı *</label><input id="ssParcaAd" class="inp" maxlength="300"/></div>
+          </div>
+          <div class="flex gap-2 items-end">
+            <div class="flex-1"><label class="lbl" for="ssMiktar">Miktarı</label><input id="ssMiktar" class="inp" inputmode="decimal" placeholder="Adet"/></div>
+            <button type="button" data-on-click="ssKalemEkle" class="ss-dugme px-5 rounded-xl bg-primary text-white text-sm font-bold">Parça ekle</button>
+          </div>
+        </section>
+
+        <section class="ss-bolum">
+          <h3>Yapılan işlemler <span id="ssYapilanZorunlu" class="hidden">*</span></h3>
+          <textarea id="ssYapilan" rows="3" class="inp resize-none" aria-label="Yapılan işlemler"></textarea>
+        </section>
+
+        <button id="ssBitirBtn" type="button" data-on-click="ssAdimAt" data-args='["bitti"]' class="ss-dugme w-full rounded-xl bg-green-600 text-white font-bold">Servisi bitirdim</button>
+
+        <div id="ssKapanisBlok" class="hidden space-y-4">
+          <section class="ss-bolum">
+            <h3>İş durumu</h3>
+            <div><label class="lbl" for="ssSonuc">İş tamamlandı mı? / Sonuç *</label>
+              <select id="ssSonuc" class="inp" data-on-change="ssSonucDegisti">
+                <option value="">— Seçin —</option><option value="yerinde_cozuldu">Evet — yerinde çözüldü</option><option value="subeye_gelecek">Hayır — şubeye gelecek (sahada onarılamaz)</option>
+                <option value="parca_bekliyor">Hayır — parça bekleniyor</option><option value="tekrar_ziyaret">Hayır — tekrar ziyaret gerekli</option><option value="yapilamadi">Hayır — iş yapılamadı (müşteri yok, saha kapalı…)</option>
+              </select></div>
+            <label class="flex items-center gap-2 text-sm font-semibold min-h-[44px]"><input type="checkbox" id="ssTeklif" class="w-5 h-5"/> Teklif isteniyor</label>
+            <div><label class="lbl" for="ssSonucNot">Not</label><input id="ssSonucNot" class="inp" placeholder="Ofise not (isteğe bağlı)"/></div>
+          </section>
+
+          <section class="ss-bolum">
+            <h3>İşçilik bilgileri</h3>
+            <div class="grid grid-cols-2 gap-2">
+              <div><label class="lbl" for="ssIsBas">İşe başlangıç saati</label><input id="ssIsBas" type="time" class="inp" data-on-input="ssSureCiz"/></div>
+              <div><label class="lbl" for="ssIsBit">İşin bitiş saati</label><input id="ssIsBit" type="time" class="inp" data-on-input="ssSureCiz"/></div>
+            </div>
+            <p class="text-sm">Toplam işçilik süresi: <b id="ssIsToplam">—</b></p>
+          </section>
+
+          <section class="ss-bolum">
+            <h3>Yol bilgileri</h3>
+            <div class="grid grid-cols-2 gap-2">
+              <div><label class="lbl" for="ssKmCikis">Çıkış km</label><input id="ssKmCikis" class="inp" inputmode="decimal" data-on-input="ssKmCiz"/></div>
+              <div><label class="lbl" for="ssKmDonus">Dönüş km</label><input id="ssKmDonus" class="inp" inputmode="decimal" data-on-input="ssKmCiz" placeholder="Dönüşte de girilebilir"/></div>
+            </div>
+            <p class="text-sm">Toplam km: <b id="ssKmToplam">—</b></p>
+            <div><label class="lbl" for="ssArac">Araç plaka no</label><select id="ssArac" class="inp" data-on-change="ssAracDegisti"></select></div>
+            <input id="ssAracPlaka" class="inp hidden" maxlength="20" placeholder="Plaka (listede yoksa)" aria-label="Araç plaka no (elle)"/>
+          </section>
+
+
+          <section id="ssMusteriImzaAlan" class="ss-bolum">
+            <h3>Müşteri yetkilisi</h3>
+            <div class="grid grid-cols-2 gap-2">
+              <div><label class="lbl" for="ssMusteriAd">Adı soyadı *</label><input id="ssMusteriAd" class="inp"/></div>
+              <div><label class="lbl" for="ssMusteriTel">Cep telefonu</label><input id="ssMusteriTel" class="inp" inputmode="tel"/></div>
+            </div>
+            <label class="lbl">İmza *</label>
+            <canvas id="ssImzaMusteri" class="ss-imza"></canvas>
+            <button type="button" data-on-click="ssImza.temizle" data-args='["ssImzaMusteri"]' class="text-xs font-bold text-slate-500 justify-self-start">Temizle</button>
+          </section>
+          <section class="ss-bolum">
+            <h3>Servis yetkilisi</h3>
+            <div><label class="lbl" for="ssServisAd">Adı soyadı</label><input id="ssServisAd" class="inp"/></div>
+            <label class="lbl">İmza *</label>
+            <canvas id="ssImzaTeknisyen" class="ss-imza"></canvas>
+            <button type="button" data-on-click="ssImza.temizle" data-args='["ssImzaTeknisyen"]' class="text-xs font-bold text-slate-500 justify-self-start">Temizle</button>
+          </section>
+          <button id="ssGonderBtn" type="button" data-on-click="ssRaporGonder" class="ss-dugme w-full rounded-xl bg-amber-600 text-white font-bold">Formu gönder</button>
+        </div>
+      </div>
+
+      <div id="ssSonucAlan" class="hidden p-4 rounded-xl bg-green-50 text-green-800 text-sm space-y-2"></div>
+    </div>
+  </div>
+</div>
+
+<script src="js/eylem.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/servis-kalem.js"></script>
+<script src="js/referans-foto.js"></script>
+<script src="js/saha-servis.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

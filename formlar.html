@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Formlar — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .form-panel{display:none}.form-panel.active{display:block}
+  .tab-btn{white-space:nowrap;padding:6px 14px;font-size:12px;font-weight:600;border-radius:10px;transition:all .15s;color:#64748b;border:none;background:transparent;cursor:pointer}
+  .tab-btn.active{background:#00236f;color:#fff}
+  .tab-btn:not(.active):hover{background:#eff4ff;color:#00236f}
+  .item-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#64748b;padding:8px 10px;background:#f8f9ff;border-bottom:1px solid #e2e8f0}
+  .item-table td{padding:4px 6px;border-bottom:1px solid #f1f5f9}
+  .item-input{width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:4px 8px;font-size:13px;outline:none}
+  .item-input:focus{border-color:#00236f;box-shadow:0 0 0 2px rgba(0,35,111,.1)}
+  .lbl{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+  .inp{width:100%;border:1px solid #e2e8f0;border-radius:10px;padding:8px 12px;font-size:13px;outline:none}
+  .inp:focus{border-color:#00236f;box-shadow:0 0 0 2px rgba(0,35,111,.1)}
+  .sel{width:100%;border:1px solid #e2e8f0;border-radius:10px;padding:8px 32px 8px 12px;font-size:13px;line-height:1.4;outline:none;background-color:#eff4ff;color:#0f172a}
+  .sel:focus{border-color:#00236f;background-color:#fff}
+  textarea.inp{resize:vertical;min-height:60px}
+  .sadece-mobil{display:block}
+  .sadece-masaustu{display:none}
+  @media (min-width:768px){
+    .sadece-mobil{display:none}
+    .sadece-masaustu{display:block}
+  }
+  @media (max-width: 768px) {
+    .item-table thead { display: none; }
+    .item-table, .item-table tbody, .item-table tr, .item-table td { display: block; width: 100%; }
+    .item-table tr {
+      border: 1px solid #e2e8f0; border-radius: 12px; padding: 48px 12px 8px;
+      margin-bottom: 10px; background: #fff; position: relative;
+    }
+    .item-table td { border: none !important; padding: 4px 0; display: flex; align-items: center; gap: 10px; }
+    .item-table td::before {
+      content: attr(data-etiket); flex: 0 0 42%; text-align: left; font-size: 11px; font-weight: 600;
+      color: #64748b; text-transform: uppercase; letter-spacing: .04em;
+    }
+    .item-table td:empty { display: none; }
+    .item-table .item-input { flex: 1; min-width: 0; }
+    .item-table td:first-child { position: absolute; top: 14px; left: 12px; right: auto; width: auto; padding: 0; }
+    .item-table td:first-child::before { content: "#"; flex: none; }
+    .item-table td.no-print:last-child { position: absolute; top: 2px; right: 6px; left: auto; width: auto; padding: 0; }
+    .item-table td.no-print:last-child::before { content: none; }
+    .item-table .row-total, .item-table .row-ara { justify-content: space-between; font-weight: 700; }
+  }
+  .inp-hata{border-color:#ba1a1a !important;box-shadow:0 0 0 2px rgba(186,26,26,.12) !important}
+  label.lbl.zorunlu::after{content:" *";color:#ba1a1a;font-weight:700}
+  .sig-canvas{touch-action:none;cursor:crosshair;display:block;border-radius:0.75rem;background:#fff}
+  @media print {
+    #sidebar,#topHeader,.tab-bar-wrap,.no-print,main{display:none!important}
+    #printArea{display:block!important;padding:10mm;width:100%!important}
+    @page{margin:0;size:A4}
+    html,body{margin:0!important;padding:0!important;height:auto!important}
+    body{font-family:Arial,sans-serif;font-size:10pt}
+    table{width:100%!important;font-size:9pt!important}
+    td,th{padding:3px 6px!important;word-break:break-word}
+    img{max-width:100%!important}
+  }
+  #printArea{display:none}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html" title="Dashboard"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5">
+    <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">dashboard</span><span>Dashboard</span></a>
+    <a href="personel.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">badge</span><span>Personel Yönetimi</span></a>
+    <a href="arac.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">directions_car</span><span>Araç Yönetimi</span></a>
+    <a href="manlift.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">precision_manufacturing</span><span>Makine Yönetimi</span></a>
+    <a href="finans.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">account_balance_wallet</span><span>Finans</span></a>
+    <a href="rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">summarize</span><span>Raporlar</span></a>
+    <a href="kiralama.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">menu_book</span><span>Kataloglar</span></a>
+    <a href="kiralama-takip.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">assignment</span><span>Kiralama Takip</span></a>
+    <a href="musteriler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">groups</span><span>M&#252;&#351;teriler</span></a>
+    <a href="teklifler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">request_quote</span><span>Teklifler</span></a>
+    <a href="hakedisler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt</span><span>Hakedi&#351;ler</span></a>
+    <a href="nakliye.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">local_shipping</span><span>Nakliye</span></a>
+    <a href="yedek-parca.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">build</span><span>Yedek Par&#231;a</span></a>
+    <a href="makine-rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">monitoring</span><span>Makine Raporu</span></a>
+    <a href="formlar.html" class="flex items-center gap-3 px-3 py-2.5 bg-primary text-white rounded-xl text-sm font-bold shadow-sm"><span class="material-symbols-outlined text-xl">receipt_long</span><span>Formlar</span></a>
+    <a href="ayarlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">settings</span><span>Ayarlar</span></a>
+  </nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all">
+      <span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header id="topHeader" class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Formlar</h1>
+    </div>
+    <div class="flex gap-2">
+      <button data-on-click="yazdir" class="no-print px-4 py-2 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl flex items-center gap-2 hover:bg-surface-container-low transition">
+        <span class="material-symbols-outlined text-lg">picture_as_pdf</span> PDF / Yazdır
+      </button>
+      <button data-on-click="kaydet" class="no-print px-5 py-2 bg-primary text-white text-sm font-bold rounded-xl flex items-center gap-2 hover:opacity-90 transition">
+        <span class="material-symbols-outlined text-lg">save</span> Kaydet
+      </button>
+      <span id="taslakNot" class="hidden text-[10px] text-slate-400 self-center ml-2 no-print"></span>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-6">
+
+    <div class="sadece-mobil no-print mb-4">
+      <label class="lbl" for="mobilSekme">Form</label>
+      <select id="mobilSekme" class="sel" data-on-change="mobilSekmeSec" data-args='["$value"]'></select>
+    </div>
+
+    <div class="tab-bar-wrap sadece-masaustu no-print overflow-x-auto pb-1 mb-5">
+      <div class="flex gap-1.5 min-w-max">
+        <button data-tab="satis_teklif" class="tab-btn active" data-on-click="switchTab" data-args='["satis_teklif","$this"]'>Satış Teklif</button>
+        <button data-tab="kiralama_teklif" class="tab-btn" data-on-click="switchTab" data-args='["kiralama_teklif","$this"]'>Kiralama Teklif</button>
+        <button data-tab="manlift_servis" class="tab-btn" data-on-click="switchTab" data-args='["manlift_servis","$this"]'>Makine Servis</button>
+        <button data-tab="vinc_kiralama" class="tab-btn" data-on-click="switchTab" data-args='["vinc_kiralama","$this"]'>Vinç Kiralama</button>
+        <button data-tab="gecici_gorev" class="tab-btn" data-on-click="switchTab" data-args='["gecici_gorev","$this"]'>Geçici Görev</button>
+        <button data-tab="ucretli_izin" class="tab-btn" data-on-click="switchTab" data-args='["ucretli_izin","$this"]'>Ücretli İzin</button>
+        <button data-tab="ucretsiz_izin" class="tab-btn" data-on-click="switchTab" data-args='["ucretsiz_izin","$this"]'>Ücretsiz İzin</button>
+        <button data-tab="yillik_izin" class="tab-btn" data-on-click="switchTab" data-args='["yillik_izin","$this"]'>Yıllık İzin</button>
+        <button data-tab="proforma" class="tab-btn" data-on-click="switchTab" data-args='["proforma","$this"]'>Proforma</button>
+        <button data-tab="teslim_iade" class="tab-btn" data-on-click="switchTab" data-args='["teslim_iade","$this"]'>Teslim / İade</button>
+        <button data-tab="belgeler" class="tab-btn" id="tabBelgeler" data-on-click="switchTab" data-args='["belgeler","$this"]'><span class="inline-flex items-center gap-1 align-middle"><span class="material-symbols-outlined !text-base !leading-none">folder_open</span>Belgeler</span></button>
+      </div>
+    </div>
+
+    <div id="taslakBanner" class="hidden no-print bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
+      <div class="flex items-start gap-3 flex-wrap">
+        <span class="material-symbols-outlined text-amber-600">history</span>
+        <div class="flex-1 min-w-[180px]">
+          <p class="text-sm font-bold text-amber-900">Yarım kalmış bir form var</p>
+          <p class="text-xs text-amber-800 mt-0.5" id="taslakBilgi"></p>
+        </div>
+        <div class="flex gap-2">
+          <button type="button" data-on-click="taslakDevam" class="px-4 py-2 bg-amber-600 text-white text-xs font-bold rounded-xl hover:opacity-90 transition">Kaldığım yerden devam et</button>
+          <button type="button" data-on-click="taslakSil" class="px-4 py-2 border border-amber-300 text-amber-800 text-xs font-bold rounded-xl hover:bg-amber-100 transition">Sıfırdan başla</button>
+        </div>
+      </div>
+    </div>
+
+    <datalist id="makineListesi"></datalist>
+    <div id="panel_satis_teklif" class="form-panel active">
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <h2 class="text-sm font-bold text-primary mb-4 uppercase tracking-wider">Satış Teklif Formu</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div><label class="lbl zorunlu" for="s1_musteri">Müşteri / Firma</label><input id="s1_musteri" class="inp" placeholder="Müşteri adı" autocomplete="organization" /></div>
+          <div><label class="lbl" for="s1_konu">Konu</label><input id="s1_konu" class="inp" placeholder="Teklif konusu"/></div>
+          <div><label class="lbl" for="s1_alim">Alım Türü</label>
+            <select id="s1_alim" class="sel"><option>Peşin</option><option>Taksitli</option><option>Leasing</option><option>Diğer</option></select></div>
+          <div><label class="lbl zorunlu" for="s1_tarih">Teklif Tarihi</label><input id="s1_tarih" type="date" class="inp"/></div>
+          <div><label class="lbl" for="s1_son_tarih">Son Teklif Tarihi</label><input id="s1_son_tarih" type="date" class="inp"/></div>
+          <div><label class="lbl" for="s1_sozlesme">Sözleşme No</label><input id="s1_sozlesme" class="inp" placeholder="Opsiyonel"/></div>
+          <div class="md:col-span-3 border-t pt-3 mt-1 no-print"><span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">İlgili Personel</span></div>
+          <div><label class="lbl" for="s1_personel">Ad Soyad</label><input id="s1_personel" class="inp" placeholder="Ad Soyad" autocomplete="name" /></div>
+          <div><label class="lbl" for="s1_tel">Telefon</label><input id="s1_tel" class="inp" placeholder="+90..." type="tel" inputmode="tel" autocomplete="tel" /></div>
+          <div><label class="lbl" for="s1_mail">E-Posta</label><input id="s1_mail" class="inp" placeholder="@" type="email" inputmode="email" autocomplete="email" spellcheck="false" /></div>
+          <div><label class="lbl" for="s1_garanti">Garanti Süresi</label><input id="s1_garanti" class="inp" placeholder="ör: 2 yıl"/></div>
+          <div><label class="lbl" for="s1_teslim">Teslim Süresi</label><input id="s1_teslim" class="inp" placeholder="ör: 30 iş günü"/></div>
+          <div><label class="lbl" for="s1_para">Para Birimi</label>
+            <select id="s1_para" class="sel"><option>TRY (₺)</option><option>EUR (€)</option><option>USD ($)</option></select></div>
+          <div class="md:col-span-3"><label class="lbl" for="s1_odeme">Ödeme Koşulları</label><input id="s1_odeme" class="inp" placeholder="ör: %30 peşin, kalan teslimde"/></div>
+          <div><label class="lbl" for="s1_marka_model">Marka / Model</label><input id="s1_marka_model" class="inp" placeholder="ör: JLG 450AJ"/></div>
+          <div><label class="lbl" for="s1_imalat_yili">İmalat Yılı</label><input id="s1_imalat_yili" class="inp" placeholder="ör: 2022" type="number" inputmode="numeric" min="1950" max="2100" step="1" /></div>
+          <div><label class="lbl" for="s1_teslim_yeri">Teslim Yeri</label><input id="s1_teslim_yeri" class="inp" placeholder="Teslim yeri"/></div>
+          <div class="md:col-span-3"><label class="lbl" for="s1_teslim_yeri_adresi">Teslim Yeri Adresi</label><input id="s1_teslim_yeri_adresi" class="inp" placeholder="Tam adres" autocomplete="street-address" /></div>
+          <div class="md:col-span-3"><label class="lbl" for="s1_notlar">Notlar / Özel Koşullar</label><textarea id="s1_notlar" class="inp" rows="3"></textarea></div>
+          <div class="md:col-span-3"><label class="lbl" for="s1_sartlar">Teklif Şartları</label><textarea id="s1_sartlar" class="inp" rows="5" data-sart-tur="satis" placeholder="Boş bırakılırsa teklifte şart metni basılmaz."></textarea><p class="text-[11px] text-slate-400 mt-1 no-print">Ayarlar'daki satış teklifi şartlarıyla dolu gelir; yalnız bu teklif için değiştirebilirsiniz.</p></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-sm font-bold text-slate-700">Kalemler</h3>
+          <button data-on-click="addRow" data-args='["s1_tbody","satis"]' class="no-print text-xs px-3 py-1.5 bg-primary text-white rounded-lg flex items-center gap-1"><span class="material-symbols-outlined text-sm">add</span> Satır Ekle</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="item-table w-full">
+            <thead><tr>
+              <th style="width:40px">No</th>
+              <th>Açıklama</th>
+              <th style="width:80px">Miktar</th>
+              <th style="width:80px">Birim</th>
+              <th style="width:110px">Birim Fiyat</th>
+              <th style="width:120px">Toplam</th>
+              <th class="no-print" style="width:36px"></th>
+            </tr></thead>
+            <tbody id="s1_tbody"></tbody>
+          </table>
+        </div>
+        <div class="mt-4 flex justify-end">
+          <div class="w-full sm:w-72 space-y-1.5">
+            <div class="flex justify-between text-sm"><span class="text-slate-500">Ara Toplam</span><span id="s1_ara" class="font-semibold">0,00</span></div>
+            <div class="flex justify-between items-center text-sm gap-2">
+              <span class="text-slate-500">KDV %</span>
+              <input id="s1_kdv_oran" type="number" value="20" min="0" max="100" data-on-input="calcKdv" data-args='["s1"]' class="w-16 border border-slate-200 rounded-lg px-2 py-0.5 text-right text-sm"/>
+              <span id="s1_kdv_tutar" class="font-semibold w-24 text-right">0,00</span>
+            </div>
+            <div class="flex justify-between text-sm font-bold text-primary border-t pt-1.5"><span>Genel Toplam</span><span id="s1_genel">0,00</span></div>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" id="s1_id" value="0"/>
+    </div>
+
+    <div id="panel_kiralama_teklif" class="form-panel">
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <h2 class="text-sm font-bold text-primary mb-4 uppercase tracking-wider">Kiralama Teklif Formu</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div><label class="lbl zorunlu" for="s2_musteri">Müşteri / Firma</label><input id="s2_musteri" class="inp" placeholder="Müşteri adı" autocomplete="organization" /></div>
+          <div><label class="lbl zorunlu" for="s2_tarih">Teklif Tarihi</label><input id="s2_tarih" type="date" class="inp"/></div>
+          <div><label class="lbl" for="s2_son_tarih">Son Teklif Tarihi</label><input id="s2_son_tarih" type="date" class="inp"/></div>
+          <div><label class="lbl" for="s2_sozlesme">Sözleşme No</label><input id="s2_sozlesme" class="inp" placeholder="Opsiyonel"/></div>
+          <div><label class="lbl" for="s2_nakliye">Nakliye</label>
+            <select id="s2_nakliye" class="sel"><option>Dahil</option><option>Hariç</option></select></div>
+          <div><label class="lbl" for="s2_para">Para Birimi</label>
+            <select id="s2_para" class="sel"><option>TRY (₺)</option><option>EUR (€)</option><option>USD ($)</option></select></div>
+          <div><label class="lbl" for="s2_personel">İlgili Personel</label><input id="s2_personel" class="inp" placeholder="Ad Soyad" autocomplete="name" /></div>
+          <div><label class="lbl" for="s2_tel">Telefon</label><input id="s2_tel" class="inp" placeholder="+90..." type="tel" inputmode="tel" autocomplete="tel" /></div>
+          <div><label class="lbl" for="s2_mail">E-Posta</label><input id="s2_mail" class="inp" placeholder="@" type="email" inputmode="email" autocomplete="email" spellcheck="false" /></div>
+          <div><label class="lbl" for="s2_teslim">Teslim Süresi</label><input id="s2_teslim" class="inp" placeholder="ör: 3 iş günü"/></div>
+          <div class="md:col-span-2"><label class="lbl" for="s2_odeme">Ödeme Koşulları</label><input id="s2_odeme" class="inp" placeholder="ör: Kira bedeli peşin"/></div>
+          <div class="md:col-span-3"><label class="lbl" for="s2_notlar">Notlar</label><textarea id="s2_notlar" class="inp" rows="3"></textarea></div>
+          <div class="md:col-span-3"><label class="lbl" for="s2_sartlar">Teklif Şartları</label><textarea id="s2_sartlar" class="inp" rows="5" data-sart-tur="kiralama" placeholder="Boş bırakılırsa teklifte şart metni basılmaz."></textarea><p class="text-[11px] text-slate-400 mt-1 no-print">Ayarlar'daki kiralama teklifi şartlarıyla dolu gelir; yalnız bu teklif için değiştirebilirsiniz.</p></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-sm font-bold text-slate-700">Kiralama Kalemleri</h3>
+          <button data-on-click="addRow" data-args='["s2_tbody","kiralama"]' class="no-print text-xs px-3 py-1.5 bg-primary text-white rounded-lg flex items-center gap-1"><span class="material-symbols-outlined text-sm">add</span> Satır Ekle</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="item-table w-full">
+            <thead><tr>
+              <th style="width:40px">No</th>
+              <th>Marka / Model</th>
+              <th style="width:80px">Metraj</th>
+              <th style="width:100px">Makine Kodu</th>
+              <th style="width:100px">Seri No</th>
+              <th style="width:65px">Miktar</th>
+              <th style="width:110px">B.Fiyat (Gün/Ay)</th>
+              <th style="width:110px">Toplam</th>
+              <th class="no-print" style="width:36px"></th>
+            </tr></thead>
+            <tbody id="s2_tbody"></tbody>
+          </table>
+        </div>
+        <div class="mt-4 flex justify-end">
+          <div class="w-full sm:w-72 space-y-1.5">
+            <div class="flex justify-between text-sm"><span class="text-slate-500">Ara Toplam</span><span id="s2_ara" class="font-semibold">0,00</span></div>
+            <div class="flex justify-between items-center text-sm gap-2">
+              <span class="text-slate-500">KDV %</span>
+              <input id="s2_kdv_oran" type="number" value="20" min="0" max="100" data-on-input="calcKdv" data-args='["s2"]' class="w-16 border border-slate-200 rounded-lg px-2 py-0.5 text-right text-sm"/>
+              <span id="s2_kdv_tutar" class="font-semibold w-24 text-right">0,00</span>
+            </div>
+            <div class="flex justify-between text-sm font-bold text-primary border-t pt-1.5"><span>Genel Toplam</span><span id="s2_genel">0,00</span></div>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" id="s2_id" value="0"/>
+    </div>
+
+    <div id="panel_manlift_servis" class="form-panel">
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <h2 class="text-sm font-bold text-primary mb-4 uppercase tracking-wider">Makine Servis Teklif Formu</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div><label class="lbl zorunlu" for="s3_musteri">Müşteri / Firma</label><input id="s3_musteri" class="inp" placeholder="Müşteri adı" autocomplete="organization" /></div>
+          <div><label class="lbl zorunlu" for="s3_tarih">Teklif Tarihi</label><input id="s3_tarih" type="date" class="inp"/></div>
+          <div><label class="lbl" for="s3_son_tarih">Son Teklif Tarihi</label><input id="s3_son_tarih" type="date" class="inp"/></div>
+          <div><label class="lbl" for="s3_ariza">Arıza / Müdahale Sebebi</label><input id="s3_ariza" class="inp" placeholder="Arıza açıklaması"/></div>
+          <div><label class="lbl" for="s3_servis">Servis Tipi</label>
+            <select id="s3_servis" class="sel"><option>Yerinde Servis</option><option>Şubede Servis</option></select></div>
+          <div><label class="lbl" for="s3_para">Para Birimi</label>
+            <select id="s3_para" class="sel"><option>TRY (₺)</option><option>EUR (€)</option><option>USD ($)</option></select></div>
+          <div><label class="lbl" for="s3_personel">İlgili Personel</label><input id="s3_personel" class="inp" placeholder="Ad Soyad" autocomplete="name" /></div>
+          <div><label class="lbl" for="s3_tel">Telefon</label><input id="s3_tel" class="inp" placeholder="+90..." type="tel" inputmode="tel" autocomplete="tel" /></div>
+          <div><label class="lbl" for="s3_mail">E-Posta</label><input id="s3_mail" class="inp" placeholder="@" type="email" inputmode="email" autocomplete="email" spellcheck="false" /></div>
+          <div><label class="lbl" for="s3_teslim">Teslim Süresi</label><input id="s3_teslim" class="inp" placeholder="ör: 5 iş günü"/></div>
+          <div class="md:col-span-2"><label class="lbl" for="s3_odeme">Ödeme Koşulları</label><input id="s3_odeme" class="inp"/></div>
+          <div><label class="lbl" for="s3_teslim_yeri">Teslim Yeri</label><input id="s3_teslim_yeri" class="inp" placeholder="Teslim yeri"/></div>
+          <div class="md:col-span-2"><label class="lbl" for="s3_teslim_yeri_adresi">Teslim Yeri Adresi</label><input id="s3_teslim_yeri_adresi" class="inp" placeholder="Tam adres" autocomplete="street-address" /></div>
+          <div class="md:col-span-3"><label class="lbl" for="s3_notlar">Notlar</label><textarea id="s3_notlar" class="inp" rows="3"></textarea></div>
+          <div class="md:col-span-3"><label class="lbl" for="s3_sartlar">Teklif Şartları</label><textarea id="s3_sartlar" class="inp" rows="5" data-sart-tur="servis" placeholder="Boş bırakılırsa teklifte şart metni basılmaz."></textarea><p class="text-[11px] text-slate-400 mt-1 no-print">Ayarlar'daki servis teklifi şartlarıyla dolu gelir; yalnız bu teklif için değiştirebilirsiniz.</p></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-sm font-bold text-slate-700">Servis Kalemleri</h3>
+          <button data-on-click="addRow" data-args='["s3_tbody","servis"]' class="no-print text-xs px-3 py-1.5 bg-primary text-white rounded-lg flex items-center gap-1"><span class="material-symbols-outlined text-sm">add</span> Satır Ekle</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="item-table w-full">
+            <thead><tr>
+              <th style="width:40px">No</th>
+              <th>Marka / Model</th>
+              <th>Yedek Parça / İşçilik</th>
+              <th style="width:65px">Miktar</th>
+              <th style="width:110px">Birim Fiyat</th>
+              <th style="width:110px">Toplam</th>
+              <th class="no-print" style="width:36px"></th>
+            </tr></thead>
+            <tbody id="s3_tbody"></tbody>
+          </table>
+        </div>
+        <div class="mt-4 flex justify-end">
+          <div class="w-full sm:w-72 space-y-1.5">
+            <div class="flex justify-between text-sm"><span class="text-slate-500">Ara Toplam</span><span id="s3_ara" class="font-semibold">0,00</span></div>
+            <div class="flex justify-between items-center text-sm gap-2">
+              <span class="text-slate-500">KDV %</span>
+              <input id="s3_kdv_oran" type="number" value="20" min="0" max="100" data-on-input="calcKdv" data-args='["s3"]' class="w-16 border border-slate-200 rounded-lg px-2 py-0.5 text-right text-sm"/>
+              <span id="s3_kdv_tutar" class="font-semibold w-24 text-right">0,00</span>
+            </div>
+            <div class="flex justify-between text-sm font-bold text-primary border-t pt-1.5"><span>Genel Toplam</span><span id="s3_genel">0,00</span></div>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" id="s3_id" value="0"/>
+    </div>
+
+    <div id="panel_vinc_kiralama" class="form-panel">
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <h2 class="text-sm font-bold text-primary mb-4 uppercase tracking-wider">Vinç ve Sepetli Platform Kiralama Teklif Formu</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div><label class="lbl" for="s4_teklif_no">Teklif No</label><input id="s4_teklif_no" class="inp" placeholder="ör: 00041"/></div>
+          <div><label class="lbl zorunlu" for="s4_tarih">Teklif Tarihi</label><input id="s4_tarih" type="date" class="inp"/></div>
+          <div><label class="lbl" for="s4_son_tarih">Son Teklif Tarihi</label><input id="s4_son_tarih" type="date" class="inp"/></div>
+          <div class="md:col-span-2"><label class="lbl zorunlu" for="s4_musteri">Firma / Müşteri</label><input id="s4_musteri" class="inp" placeholder="Firma adı" autocomplete="organization" /></div>
+          <div><label class="lbl" for="s4_tel">Telefon</label><input id="s4_tel" class="inp" placeholder="+90..." type="tel" inputmode="tel" autocomplete="tel" /></div>
+          <div class="md:col-span-2"><label class="lbl" for="s4_adres">Adres</label><input id="s4_adres" class="inp" placeholder="Firma adresi" autocomplete="street-address" /></div>
+          <div><label class="lbl" for="s4_gsm">GSM</label><input id="s4_gsm" class="inp" placeholder="+90..." type="tel" inputmode="tel" autocomplete="tel" /></div>
+          <div><label class="lbl" for="s4_vd">Vergi Dairesi</label><input id="s4_vd" class="inp" placeholder="Vergi Dairesi"/></div>
+          <div><label class="lbl" for="s4_mail">E-Posta</label><input id="s4_mail" class="inp" placeholder="@" type="email" inputmode="email" autocomplete="email" spellcheck="false" /></div>
+          <div><label class="lbl" for="s4_vno">Vergi No</label><input id="s4_vno" class="inp" placeholder="Vergi numarası"/></div>
+          <div><label class="lbl" for="s4_yetkili">Yetkili</label><input id="s4_yetkili" class="inp" placeholder="Yetkili adı" autocomplete="name" /></div>
+          <div><label class="lbl" for="s4_sozlesme">Sözleşme No</label><input id="s4_sozlesme" class="inp" placeholder="Opsiyonel"/></div>
+          <div><label class="lbl" for="s4_operatorlu">Operatör Durumu</label>
+            <select id="s4_operatorlu" class="sel"><option>Operatörlü</option><option>Operatörsüz</option></select></div>
+          <div><label class="lbl" for="s4_teslim_yeri">Teslim Yeri</label><input id="s4_teslim_yeri" class="inp" placeholder="Teslim yeri"/></div>
+          <div><label class="lbl" for="s4_teslim_yeri_adresi">Teslim Yeri Adresi</label><input id="s4_teslim_yeri_adresi" class="inp" placeholder="Tam adres" autocomplete="street-address" /></div>
+          <div class="md:col-span-3"><label class="lbl" for="s4_notlar">Özel Koşullar</label><textarea id="s4_notlar" class="inp" rows="2" placeholder="Müşteriye özel koşullar (ödeme vadesi, çalışma saatleri vb.)"></textarea></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-sm font-bold text-slate-700">Hizmet Bilgileri</h3>
+          <button data-on-click="addRow" data-args='["s4_tbody","vinc"]' class="no-print text-xs px-3 py-1.5 bg-primary text-white rounded-lg flex items-center gap-1"><span class="material-symbols-outlined text-sm">add</span> Satır Ekle</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="item-table w-full">
+            <thead><tr>
+              <th style="width:36px">No</th>
+              <th>Makine / Hizmet</th>
+              <th style="width:60px">Birim</th>
+              <th style="width:65px">Döviz</th>
+              <th style="width:115px">Günlük Ücret</th>
+              <th style="width:110px">Ara Toplam</th>
+              <th style="width:110px">İskonto Tutarı</th>
+              <th style="width:110px">Toplam Ücret</th>
+              <th class="no-print" style="width:36px"></th>
+            </tr></thead>
+            <tbody id="s4_tbody"></tbody>
+          </table>
+        </div>
+        <div class="mt-4 flex justify-end">
+          <div class="w-full sm:w-80 space-y-1.5">
+            <div class="flex justify-between text-sm"><span class="text-slate-500">Ara Toplam</span><span id="s4_ara" class="font-semibold">0,00</span></div>
+            <div class="flex justify-between items-center text-sm gap-2">
+              <span class="text-slate-500">İskonto Tutarı (₺)</span>
+              <input id="s4_iskonto_genel" type="number" value="0" min="0" step="0.01" data-on-input="calcVincTotals" class="w-28 border border-slate-200 rounded-lg px-2 py-0.5 text-right text-sm"/>
+            </div>
+            <div class="flex justify-between text-sm"><span class="text-slate-500">İskontolu Ara Toplam</span><span id="s4_iskontolu" class="font-semibold">0,00</span></div>
+            <div class="flex justify-between items-center text-sm gap-2">
+              <span class="text-slate-500">KDV %</span>
+              <input id="s4_kdv_oran" type="number" value="20" min="0" max="100" data-on-input="calcVincTotals" class="w-16 border border-slate-200 rounded-lg px-2 py-0.5 text-right text-sm"/>
+              <span id="s4_kdv_tutar" class="font-semibold w-24 text-right">0,00</span>
+            </div>
+            <div class="flex justify-between text-sm font-bold text-primary border-t pt-1.5"><span>Net Tutar</span><span id="s4_net">0,00</span></div>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" id="s4_id" value="0"/>
+    </div>
+
+    <div id="panel_gecici_gorev" class="form-panel">
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <h2 class="text-sm font-bold text-primary mb-4 uppercase tracking-wider">Geçici Görevlendirme Belgesi</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div><label class="lbl zorunlu" for="s5_tarih">Belge Tarihi</label><input id="s5_tarih" type="date" class="inp"/></div>
+          <div class="md:col-span-2"><label class="lbl zorunlu" for="s5_musteri">Müşteri / Görevlendirilen Firma</label><input id="s5_musteri" class="inp" placeholder="Firma adı" autocomplete="organization" /></div>
+          <div><label class="lbl zorunlu" for="s5_baslangic">Görev Başlangıç Tarihi</label><input id="s5_baslangic" type="date" class="inp"/></div>
+          <div><label class="lbl" for="s5_bitis">Görev Bitiş Tarihi</label><input id="s5_bitis" type="date" class="inp"/></div>
+          <div><label class="lbl" for="s5_is_tanimi">İş Tanımı</label><input id="s5_is_tanimi" class="inp" placeholder="ör: sepetli vinç kullanımı"/></div>
+          <div class="md:col-span-2"><label class="lbl" for="s5_calisma_yeri">Çalışma Yeri / Adresi</label><input id="s5_calisma_yeri" class="inp" placeholder="ör: İstanbul, Ümraniye Şantiyesi"/></div>
+          <div class="md:col-span-3"><label class="lbl" for="s5_notlar">Notlar</label><textarea id="s5_notlar" class="inp" rows="2"></textarea></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-sm font-bold text-slate-700">Görevlendirilen Operatörler</h3>
+          <button data-on-click="addGGDRow" class="no-print text-xs px-3 py-1.5 bg-primary text-white rounded-lg flex items-center gap-1"><span class="material-symbols-outlined text-sm">add</span> Operatör Ekle</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="item-table w-full">
+            <thead><tr>
+              <th>Personel Seç</th>
+              <th>İsim Soy İsim</th>
+              <th style="width:120px">TC Kimlik No</th>
+              <th>Vinç Türü</th>
+              <th style="width:100px">Plaka</th>
+              <th class="no-print" style="width:36px"></th>
+            </tr></thead>
+            <tbody id="s5_tbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <input type="hidden" id="s5_id" value="0"/>
+    </div>
+
+    <div id="panel_ucretli_izin" class="form-panel">
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <h2 class="text-sm font-bold text-primary mb-4 uppercase tracking-wider">Ücretli İzin Belgesi</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="md:col-span-2"><label class="lbl zorunlu" for="s6_personel_id">Personel</label>
+            <select id="s6_personel_id" class="sel" data-on-change="izinPersonelSec" data-args='["s6","$this"]'><option value="">Personel seçin…</option></select></div>
+          <div><label class="lbl" for="s6_tc">TC Kimlik No</label><input id="s6_tc" class="inp" readonly placeholder="Personel seçince otomatik"/></div>
+          <div><label class="lbl" for="s6_belge_tarihi">Belge Tarihi</label><input id="s6_belge_tarihi" type="date" class="inp"/></div>
+          <div><label class="lbl zorunlu" for="s6_baslangic">İzin Başlangıç Tarihi</label><input id="s6_baslangic" type="date" class="inp" data-on-change="calcGun" data-args='["s6"]'/></div>
+          <div><label class="lbl zorunlu" for="s6_bitis">İzin Bitiş Tarihi</label><input id="s6_bitis" type="date" class="inp" data-on-change="calcGun" data-args='["s6"]'/></div>
+          <div><label class="lbl" for="s6_gun">Toplam Gün Sayısı</label><input id="s6_gun" type="number" class="inp" readonly placeholder="Otomatik"/></div>
+          <div><label class="lbl" for="s6_neden">İzin Nedeni</label><input id="s6_neden" class="inp" placeholder="ör: özel işler"/></div>
+          <div class="md:col-span-2"><label class="lbl" for="s6_izin_adresi">İzin Adresi</label><input id="s6_izin_adresi" class="inp" placeholder="İzin süresince bulunacağınız adres"/></div>
+          <div class="md:col-span-2"><label class="lbl" for="s6_notlar">Notlar</label><textarea id="s6_notlar" class="inp" rows="2"></textarea></div>
+        </div>
+      </div>
+      <input type="hidden" id="s6_id" value="0"/>
+    </div>
+
+    <div id="panel_ucretsiz_izin" class="form-panel">
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <h2 class="text-sm font-bold text-primary mb-4 uppercase tracking-wider">Ücretsiz İzin Belgesi</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="md:col-span-2"><label class="lbl zorunlu" for="s7_personel_id">Personel</label>
+            <select id="s7_personel_id" class="sel" data-on-change="izinPersonelSec" data-args='["s7","$this"]'><option value="">Personel seçin…</option></select></div>
+          <div><label class="lbl" for="s7_tc">TC Kimlik No</label><input id="s7_tc" class="inp" readonly placeholder="Personel seçince otomatik"/></div>
+          <div><label class="lbl" for="s7_belge_tarihi">Belge Tarihi</label><input id="s7_belge_tarihi" type="date" class="inp"/></div>
+          <div><label class="lbl zorunlu" for="s7_baslangic">İzin Başlangıç Tarihi</label><input id="s7_baslangic" type="date" class="inp" data-on-change="calcGun" data-args='["s7"]'/></div>
+          <div><label class="lbl zorunlu" for="s7_bitis">İzin Bitiş Tarihi</label><input id="s7_bitis" type="date" class="inp" data-on-change="calcGun" data-args='["s7"]'/></div>
+          <div><label class="lbl" for="s7_gun">Toplam Gün Sayısı</label><input id="s7_gun" type="number" class="inp" readonly placeholder="Otomatik"/></div>
+          <div><label class="lbl" for="s7_neden">İzin Nedeni</label><input id="s7_neden" class="inp" placeholder="ör: özel işler"/></div>
+          <div class="md:col-span-2"><label class="lbl" for="s7_izin_adresi">İzin Adresi</label><input id="s7_izin_adresi" class="inp" placeholder="İzin süresince bulunacağınız adres"/></div>
+          <div class="md:col-span-2"><label class="lbl" for="s7_notlar">Notlar</label><textarea id="s7_notlar" class="inp" rows="2"></textarea></div>
+        </div>
+      </div>
+      <input type="hidden" id="s7_id" value="0"/>
+    </div>
+
+    <div id="panel_yillik_izin" class="form-panel">
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <h2 class="text-sm font-bold text-primary mb-4 uppercase tracking-wider">Yıllık İzin Belgesi</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="md:col-span-2"><label class="lbl zorunlu" for="s8_personel_id">Personel</label>
+            <select id="s8_personel_id" class="sel" data-on-change="izinPersonelSec" data-args='["s8","$this"]'><option value="">Personel seçin…</option></select></div>
+          <div><label class="lbl" for="s8_tc">TC Kimlik No</label><input id="s8_tc" class="inp" readonly placeholder="Personel seçince otomatik"/></div>
+          <div><label class="lbl" for="s8_baba_adi">Baba Adı</label><input id="s8_baba_adi" class="inp" placeholder="Baba adı"/></div>
+          <div><label class="lbl" for="s8_ana_adi">Ana Adı</label><input id="s8_ana_adi" class="inp" placeholder="Ana adı"/></div>
+          <div><label class="lbl" for="s8_gorevi">Görevi / Pozisyonu</label><input id="s8_gorevi" class="inp" placeholder="ör: Vinç Operatörü"/></div>
+          <div><label class="lbl" for="s8_yil">İzin Yılı</label><input id="s8_yil" type="number" class="inp" placeholder="2025"/></div>
+          <div><label class="lbl" for="s8_kalan">Kalan İzin Günü</label><input id="s8_kalan" type="number" class="inp" placeholder="0"/></div>
+          <div><label class="lbl" for="s8_kullanilacak">Kullanılacak Gün</label><input id="s8_kullanilacak" type="number" class="inp"/></div>
+          <div><label class="lbl zorunlu" for="s8_baslangic">İzin Başlangıç Tarihi</label><input id="s8_baslangic" type="date" class="inp" data-on-change="calcGunYillik"/></div>
+          <div><label class="lbl zorunlu" for="s8_bitis">İzin Bitiş Tarihi</label><input id="s8_bitis" type="date" class="inp" data-on-change="calcGunYillik"/></div>
+          <div><label class="lbl" for="s8_belge_tarihi">Belge Tarihi</label><input id="s8_belge_tarihi" type="date" class="inp"/></div>
+          <div class="md:col-span-3"><label class="lbl" for="s8_izin_adresi">İzin Adresi</label><input id="s8_izin_adresi" class="inp" placeholder="İzin süresince bulunacağınız adres"/></div>
+          <div class="md:col-span-3"><label class="lbl" for="s8_notlar">Notlar</label><textarea id="s8_notlar" class="inp" rows="2"></textarea></div>
+        </div>
+      </div>
+      <input type="hidden" id="s8_id" value="0"/>
+    </div>
+
+    <div id="panel_proforma" class="form-panel">
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <h2 class="text-sm font-bold text-primary mb-4 uppercase tracking-wider">Proforma Fatura</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div><label class="lbl" for="s9_no">Proforma No</label><input id="s9_no" class="inp" placeholder="ör: 2026-001"/></div>
+          <div><label class="lbl zorunlu" for="s9_tarih">Düzenlenme Tarihi</label><input id="s9_tarih" type="date" class="inp"/></div>
+          <div><label class="lbl" for="s9_saat">Düzenlenme Saati</label><input id="s9_saat" type="time" class="inp"/></div>
+          <div><label class="lbl zorunlu" for="s9_musteri">Alıcı / Firma</label><input id="s9_musteri" class="inp" placeholder="Müşteri / Firma adı" autocomplete="organization" /></div>
+          <div><label class="lbl" for="s9_adres">Alıcı Adresi</label><input id="s9_adres" class="inp" placeholder="Adres" autocomplete="street-address" /></div>
+          <div><label class="lbl" for="s9_tel">Alıcı Telefon</label><input id="s9_tel" class="inp" placeholder="+90..." type="tel" inputmode="tel" autocomplete="tel" /></div>
+          <div><label class="lbl" for="s9_vd">Vergi Dairesi</label><input id="s9_vd" class="inp" placeholder="Vergi Dairesi adı"/></div>
+          <div><label class="lbl" for="s9_vno">Vergi No</label><input id="s9_vno" class="inp" placeholder="Vergi numarası"/></div>
+          <div><label class="lbl" for="s9_mail">Alıcı E-Posta</label><input id="s9_mail" class="inp" placeholder="@" type="email" inputmode="email" autocomplete="email" spellcheck="false" /></div>
+          <div><label class="lbl" for="s9_gecerlilik">Geçerlilik Tarihi</label><input id="s9_gecerlilik" type="date" class="inp"/></div>
+          <div><label class="lbl" for="s9_para">Para Birimi</label>
+            <select id="s9_para" class="sel"><option>TRY (₺)</option><option>EUR (€)</option><option>USD ($)</option></select></div>
+          <div><label class="lbl" for="s9_tevkifat_oran">Tevkifat Oranı</label>
+            <select id="s9_tevkifat_oran" class="sel" data-on-change="calcProformaKdv">
+              <option value="0">Tevkifat Yok</option>
+              <option value="2/10">2/10 Tevkifat</option>
+              <option value="3/10">3/10 Tevkifat</option>
+              <option value="5/10">5/10 Tevkifat</option>
+              <option value="7/10">7/10 Tevkifat</option>
+              <option value="9/10">9/10 Tevkifat</option>
+            </select></div>
+          <div><label class="lbl" for="s9_odeme">Ödeme Koşulları</label><input id="s9_odeme" class="inp" placeholder="ör: 30 gün net"/></div>
+          <div><label class="lbl" for="s9_teslim">Teslim Koşulları</label><input id="s9_teslim" class="inp" placeholder="ör: EXW İstanbul"/></div>
+          <div class="md:col-span-3"><label class="lbl" for="s9_notlar">Notlar</label><textarea id="s9_notlar" class="inp" rows="2"></textarea></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-sm font-bold text-slate-700">Kalemler</h3>
+          <button data-on-click="addRow" data-args='["s9_tbody","satis"]' class="no-print text-xs px-3 py-1.5 bg-primary text-white rounded-lg flex items-center gap-1"><span class="material-symbols-outlined text-sm">add</span> Satır Ekle</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="item-table w-full">
+            <thead><tr>
+              <th style="width:40px">No</th>
+              <th>Açıklama</th>
+              <th style="width:65px">Miktar</th>
+              <th style="width:70px">Birim</th>
+              <th style="width:110px">Birim Fiyat</th>
+              <th style="width:110px">Toplam</th>
+              <th class="no-print" style="width:36px"></th>
+            </tr></thead>
+            <tbody id="s9_tbody"></tbody>
+          </table>
+        </div>
+        <div class="mt-4 flex justify-end">
+          <div class="w-full sm:w-80 space-y-1.5">
+            <div class="flex justify-between text-sm"><span class="text-slate-500">Toplam</span><span id="s9_toplam_ham" class="font-semibold">0,00</span></div>
+            <div class="flex justify-between items-center text-sm gap-2">
+              <span class="text-slate-500">İskonto (₺)</span>
+              <input id="s9_iskonto" type="number" value="0" min="0" step="0.01" data-on-input="calcProformaKdv" class="w-28 border border-slate-200 rounded-lg px-2 py-0.5 text-right text-sm"/>
+            </div>
+            <div class="flex justify-between text-sm"><span class="text-slate-500">Ara Toplam</span><span id="s9_ara" class="font-semibold">0,00</span></div>
+            <div class="flex justify-between items-center text-sm gap-2">
+              <span class="text-slate-500">KDV %</span>
+              <input id="s9_kdv_oran" type="number" value="20" min="0" max="100" data-on-input="calcProformaKdv" class="w-16 border border-slate-200 rounded-lg px-2 py-0.5 text-right text-sm"/>
+              <span id="s9_kdv_tutar" class="font-semibold w-24 text-right">0,00</span>
+            </div>
+            <div id="s9_tevkifat_row" class="hidden flex justify-between text-sm">
+              <span class="text-slate-500">Tevkifat <span id="s9_tevkifat_lbl"></span></span>
+              <span id="s9_tevkifat_tutar" class="font-semibold text-orange-600">0,00</span>
+            </div>
+            <div id="s9_tahsil_row" class="hidden flex justify-between text-sm">
+              <span class="text-slate-500">Tahsil Edilen KDV</span>
+              <span id="s9_tahsil_kdv" class="font-semibold">0,00</span>
+            </div>
+            <div class="flex justify-between text-sm font-bold text-primary border-t pt-1.5"><span>Genel Toplam</span><span id="s9_genel">0,00</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <h3 class="text-sm font-bold text-slate-700 mb-3">Banka Bilgileri</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div><label class="lbl" for="s9_banka">Banka Adı</label><input id="s9_banka" class="inp"/></div>
+          <div><label class="lbl" for="s9_iban">IBAN</label><input id="s9_iban" class="inp" placeholder="TR..."/></div>
+          <div><label class="lbl" for="s9_hesap_ad">Hesap Adı</label><input id="s9_hesap_ad" class="inp"/></div>
+        </div>
+      </div>
+      <input type="hidden" id="s9_id" value="0"/>
+    </div>
+
+    <div id="panel_teslim_iade" class="form-panel">
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <h2 class="text-sm font-bold text-primary mb-4 uppercase tracking-wider">Ekipman Teslim / İade Tutanağı</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div><label class="lbl" for="s10_islem">İşlem Tipi</label>
+            <select id="s10_islem" class="sel">
+              <option value="teslim">Teslim (müşteriye veriliyor)</option>
+              <option value="iade">İade (müşteriden geri alınıyor)</option>
+            </select>
+          </div>
+          <div><label class="lbl" for="s10_belge_no">Belge No</label><input id="s10_belge_no" class="inp" placeholder="ör: TUT-2026-001"/></div>
+          <div><label class="lbl zorunlu" for="s10_tarih">Tarih</label><input id="s10_tarih" type="date" class="inp"/></div>
+          <div class="md:col-span-2"><label class="lbl zorunlu" for="s10_musteri">Müşteri / Firma</label><input id="s10_musteri" class="inp" placeholder="Firma adı" autocomplete="organization" /></div>
+          <div><label class="lbl" for="s10_yetkili">Yetkili Kişi</label><input id="s10_yetkili" class="inp" placeholder="Teslim alan/veren kişi" autocomplete="name" /></div>
+          <div class="md:col-span-3"><label class="lbl" for="s10_lokasyon">Lokasyon / Şantiye Adresi</label><input id="s10_lokasyon" class="inp" placeholder="ör: İstanbul, Ümraniye Şantiyesi"/></div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <h3 class="text-sm font-bold text-slate-700 mb-3">Ekipman Bilgileri</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="md:col-span-2"><label class="lbl zorunlu" for="s10_ekipman">Ekipman / Makine</label><input id="s10_ekipman" class="inp" list="makineListesi" data-on-change="teslimMakineSecildi" data-args='["$this"]' placeholder="ör: Zoomlion 16m Eklemli Platform"/></div>
+          <div><label class="lbl" for="s10_kod">Kod / Plaka</label><input id="s10_kod" class="inp" placeholder="Envanter kodu / plaka"/></div>
+          <div><label class="lbl" for="s10_seri">Seri No</label><input id="s10_seri" class="inp"/></div>
+          <div><label class="lbl" for="s10_saat">Çalışma Saati (sayaç)</label><input id="s10_saat" type="number" min="0" step="0.1" class="inp" placeholder="ör: 1240"/></div>
+          <div><label class="lbl" for="s10_km">Kilometre (varsa)</label><input id="s10_km" type="number" min="0" class="inp" placeholder="Araç için"/></div>
+          <div><label class="lbl" for="s10_yakit">Yakıt Durumu</label>
+            <select id="s10_yakit" class="sel">
+              <option value="">— Seçin —</option>
+              <option value="Dolu">Dolu</option>
+              <option value="3/4">3/4</option>
+              <option value="1/2">1/2</option>
+              <option value="1/4">1/4</option>
+              <option value="Boş">Boş</option>
+            </select>
+          </div>
+          <div><label class="lbl" for="s10_durum">Genel Durum</label>
+            <select id="s10_durum" class="sel">
+              <option value="Sağlam / Eksiksiz">Sağlam / Eksiksiz</option>
+              <option value="Hasarlı">Hasarlı</option>
+              <option value="Eksik aksesuar">Eksik aksesuar</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-4">
+          <div class="lbl">Teslim Edilen Aksesuarlar</div>
+          <div class="flex flex-wrap gap-3 mt-1" id="s10_aksesuarlar">
+            <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Anahtar" class="rounded"/> Anahtar</label>
+            <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Kumanda" class="rounded"/> Kumanda</label>
+            <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Şarj Aleti" class="rounded"/> Şarj Aleti</label>
+            <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Ruhsat" class="rounded"/> Ruhsat</label>
+            <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Operatör El Kitabı" class="rounded"/> El Kitabı</label>
+            <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Stepne" class="rounded"/> Stepne</label>
+          </div>
+        </div>
+        <div class="mt-4 grid grid-cols-1 gap-4">
+          <div><label class="lbl" for="s10_hasar">Hasar / Eksik Notu</label><textarea id="s10_hasar" class="inp" rows="2" placeholder="Varsa hasar/çizik/eksik açıklaması"></textarea></div>
+          <div><label class="lbl" for="s10_notlar">Genel Notlar</label><textarea id="s10_notlar" class="inp" rows="2"></textarea></div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm p-5 mb-4">
+        <h3 class="text-sm font-bold text-slate-700 mb-1">İmzalar (dokunmatik)</h3>
+        <p class="text-xs text-slate-400 mb-4">Aşağıdaki alanlara fare veya parmakla imza atın. İmza belgeye eklenecektir.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div>
+            <div class="lbl mb-1">Teslim Eden — <input id="s10_eden_ad" class="inline-block w-auto border-b border-slate-300 outline-none text-sm font-normal px-1" placeholder="ad soyad"/></div>
+            <div class="relative border-2 border-dashed border-slate-300 rounded-xl bg-slate-50">
+              <canvas id="s10_sig_eden" class="sig-canvas w-full" height="160"></canvas>
+              <button type="button" data-on-click="sigClear" data-args='["s10_sig_eden"]' class="no-print absolute top-2 right-2 text-[11px] px-2 py-1 bg-white border border-slate-200 rounded-lg text-slate-500 hover:bg-slate-100">Temizle</button>
+            </div>
+          </div>
+          <div>
+            <div class="lbl mb-1">Teslim Alan — <input id="s10_alan_ad" class="inline-block w-auto border-b border-slate-300 outline-none text-sm font-normal px-1" placeholder="ad soyad"/></div>
+            <div class="relative border-2 border-dashed border-slate-300 rounded-xl bg-slate-50">
+              <canvas id="s10_sig_alan" class="sig-canvas w-full" height="160"></canvas>
+              <button type="button" data-on-click="sigClear" data-args='["s10_sig_alan"]' class="no-print absolute top-2 right-2 text-[11px] px-2 py-1 bg-white border border-slate-200 rounded-lg text-slate-500 hover:bg-slate-100">Temizle</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" id="s10_id" value="0"/>
+    </div>
+
+    <div id="panel_belgeler" class="form-panel">
+      <div class="bg-white rounded-xl shadow-sm p-5">
+        <div class="mb-4">
+          <div class="flex flex-wrap gap-2 items-center">
+            <h2 class="text-sm font-bold text-slate-700 mr-2">Kayıtlı Formlar</h2>
+            <select id="belgelerFilter" data-on-change="yukle" class="sel text-xs py-1.5 px-3" style="width:auto">
+              <option value="">Tüm form türleri</option>
+              <option value="satis_teklif">Satış Teklif</option>
+              <option value="kiralama_teklif">Kiralama Teklif</option>
+              <option value="manlift_servis">Makine Servis</option>
+              <option value="vinc_kiralama">Vinç Kiralama</option>
+              <option value="gecici_gorev">Geçici Görev</option>
+              <option value="ucretli_izin">Ücretli İzin</option>
+              <option value="ucretsiz_izin">Ücretsiz İzin</option>
+              <option value="yillik_izin">Yıllık İzin</option>
+              <option value="proforma">Proforma</option>
+              <option value="teslim_iade">Teslim / İade</option>
+            </select>
+            <input data-sayfa-arama id="belgelerAra" type="text" placeholder="Müşteri / personel ara…" data-on-input="yukleDebounce" class="inp text-xs py-1.5 px-3" style="width:200px"/>
+            <input id="belgelerBaslangic" type="date" data-on-input="yukle" class="inp text-xs py-1.5 px-3" style="width:auto" title="Başlangıç tarihi"/>
+            <input id="belgelerBitis" type="date" data-on-input="yukle" class="inp text-xs py-1.5 px-3" style="width:auto" title="Bitiş tarihi"/>
+            <button data-on-click="belgelerTemizle" class="text-xs px-3 py-1.5 border border-slate-200 rounded-lg hover:bg-surface-container-low text-slate-500 flex items-center gap-1"><span class="material-symbols-outlined text-sm">filter_alt_off</span>Temizle</button>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-surface-container-low text-left">
+                <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Tür</th>
+                <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Ad</th>
+                <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Müşteri / Personel</th>
+                <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Tarih</th>
+                <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Kayıt</th>
+                <th class="px-4 py-3"></th>
+              </tr>
+            </thead>
+            <tbody id="belgeTable">
+              <tr><td colspan="6" class="px-4 py-8 text-center text-slate-400">Yükleniyor…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div id="paylasModal" class="no-print hidden fixed inset-0 z-[120] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta p-7">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-bold font-headline">Belgeyi Paylaş</h2>
+      <button data-on-click="Eylem.gizle" data-args='["paylasModal"]' class="p-1 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <p class="text-xs text-slate-500 mb-4">Belgenin herkese açık görüntüleme bağlantısı oluşturuldu. Aşağıdan paylaşabilirsiniz.</p>
+    <div class="flex gap-2 mb-5">
+      <input id="paylasLink" type="text" readonly class="inp flex-1 text-xs bg-surface-container-low" />
+      <button data-on-click="paylasKopyala" class="shrink-0 px-3 bg-surface-container-low rounded-xl text-sm font-bold text-primary hover:bg-primary-fixed transition flex items-center gap-1"><span class="material-symbols-outlined text-base">content_copy</span>Kopyala</button>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      <a id="paylasWa" href="#" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-green-50 text-green-700 font-bold text-sm hover:bg-green-100 transition"><span class="material-symbols-outlined">chat</span>WhatsApp</a>
+      <a id="paylasMail" href="#" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-blue-50 text-blue-700 font-bold text-sm hover:bg-blue-100 transition"><span class="material-symbols-outlined">mail</span>E-posta</a>
+    </div>
+  </div>
+</div>
+
+<div id="printArea">
+</div>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/belge-sablon.js"></script>
+<script src="js/s-formlar.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

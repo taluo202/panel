@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Dashboard — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif}
+  h1,h2,h3,.font-headline{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px}
+  ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .pd-sayfa{display:flex;flex-direction:column;gap:16px;width:100%}
+  @media(max-width:767px){.pd-sayfa{padding-bottom:84px}}
+  .pd-eyebrow{display:block;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#557183}
+  .pd-karsilama{background:#fff;border:1px solid #e6edf7;border-radius:18px;padding:16px 18px;box-shadow:0 1px 2px rgba(15,23,42,.05);display:flex;flex-direction:column;gap:12px}
+  .pd-karsilama-ust{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .pd-karsilama h2{font-size:22px;font-weight:800;color:#0d1c2e;line-height:1.2;margin:2px 0 0;overflow-wrap:anywhere}
+  .pd-baglam{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .pd-cip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;background:#eff4ff;color:#00236f;font-size:12px;font-weight:700;overflow-wrap:anywhere}
+  .pd-cip .material-symbols-outlined{font-size:15px}
+  .pd-yenile{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:12px;border:1px solid #cbd5e1;background:#fff;color:#334155;font:700 13px 'Inter',sans-serif}
+  .pd-yenile:disabled{opacity:.5}
+  .pd-yenile .material-symbols-outlined{font-size:20px}
+  .pd-eylemler{display:flex;flex-wrap:wrap;gap:8px}
+  .pd-eylem{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:12px;font-weight:800;font-size:13.5px;text-decoration:none;background:#eff4ff;color:#00236f}
+  .pd-eylem-ana{background:#00236f;color:#fff}
+  .pd-eylem .material-symbols-outlined{font-size:20px}
+  .pd-kpi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  @media(min-width:640px){.pd-kpi{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media(min-width:1024px){.pd-kpi{grid-template-columns:repeat(4,minmax(0,1fr))}}
+  .pd-kart{display:flex;flex-direction:column;gap:8px;min-width:0;background:#fff;border:1px solid #e6edf7;border-radius:16px;padding:14px 16px;text-decoration:none;color:inherit;box-shadow:0 1px 2px rgba(15,23,42,.05);transition:box-shadow .15s}
+  .pd-kart:hover{box-shadow:0 6px 18px rgba(15,23,42,.09)}
+  .pd-kart-ust{display:flex;align-items:center;gap:8px;min-width:0}
+  .pd-ikon{flex:none;width:34px;height:34px;border-radius:10px;display:inline-grid;place-items:center}
+  .pd-ikon .material-symbols-outlined{font-size:20px}
+  .pd-ikon-mavi{background:#eff4ff;color:#00236f}.pd-ikon-yesil{background:#e8f7ec;color:#166534}.pd-ikon-turuncu{background:#fff7e6;color:#92400e}
+  .pd-ikon-kirmizi{background:#fde8e8;color:#ba1a1a}.pd-ikon-mor{background:#ede9fe;color:#5b21b6}.pd-ikon-teal{background:#e6f7f5;color:#0f766e}.pd-ikon-gri{background:#f1f5f9;color:#475569}
+  .pd-etiket{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#64748b;overflow-wrap:anywhere;line-height:1.3}
+  .pd-sayi{font-family:'Manrope',sans-serif;font-size:28px;font-weight:900;line-height:1;color:#0d2a63;overflow-wrap:anywhere}
+  .pd-sayi-para{font-size:20px}
+  .pd-alt{font-size:12px;color:#64748b;line-height:1.45;overflow-wrap:anywhere;margin:0}
+  .pd-alt b{color:#ba1a1a;font-weight:700}
+  .pd-alt i{font-style:normal;color:#166534;font-weight:600}
+  .pd-bar{height:6px;border-radius:999px;background:#eef2f7;overflow:hidden;margin-top:auto}
+  .pd-bar span{display:block;height:100%;border-radius:999px;background:#00236f}
+  .pd-izgara{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:start}
+  @media(min-width:1024px){.pd-izgara{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}}
+  .pd-sol,.pd-sag{display:flex;flex-direction:column;gap:16px;min-width:0}
+  .pd-blok{background:#fff;border:1px solid #e6edf7;border-radius:18px;padding:16px;box-shadow:0 1px 2px rgba(15,23,42,.05);min-width:0}
+  @media(min-width:768px){.pd-blok{padding:20px}}
+  .pd-blok-bas{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+  .pd-blok h3{font-size:17px;font-weight:800;color:#0d1c2e;margin:0;line-height:1.25;overflow-wrap:anywhere}
+  .pd-not{font-size:12px;color:#64748b;margin:2px 0 0;overflow-wrap:anywhere}
+  .pd-link{display:inline-flex;align-items:center;gap:2px;min-height:44px;padding:0 10px;border-radius:10px;font-size:13px;font-weight:700;color:#00236f;text-decoration:none;white-space:nowrap}
+  .pd-link .material-symbols-outlined{font-size:18px}
+  .pd-cipler{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .pd-cip-dugme{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border-radius:999px;border:1px solid #d7e0e8;background:#fff;color:#334155;font:600 13px 'Inter',sans-serif}
+  .pd-cip-dugme b{font-size:12px;background:#eef2f7;border-radius:999px;padding:0 7px;line-height:20px}
+  .pd-cip-dugme[aria-pressed=true]{background:#00236f;border-color:#00236f;color:#fff}
+  .pd-cip-dugme[aria-pressed=true] b{background:rgba(255,255,255,.2)}
+  @media(max-width:767px){.pd-cip-dugme{min-height:44px}}
+  .pd-gun{margin-bottom:14px}.pd-gun:last-child{margin-bottom:0}
+  .pd-gun-bas{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#557183;margin:0 0 6px}
+  .pd-gun-geciken .pd-gun-bas{color:#ba1a1a}
+  .pd-sayi-rozet{display:inline-block;min-width:22px;padding:0 7px;border-radius:999px;background:#eef2f7;color:#334155;font-size:12px;line-height:20px;text-align:center;letter-spacing:0}
+  .pd-gun-geciken .pd-sayi-rozet{background:#fde8e8;color:#ba1a1a}
+  .pd-satirlar,.pd-liste{display:flex;flex-direction:column;gap:6px}
+  .pd-satir{display:flex;align-items:flex-start;gap:10px;min-height:44px;padding:10px 12px;border-radius:12px;background:#f8fafc;border:1px solid #eef2f7;text-decoration:none;color:inherit;min-width:0}
+  .pd-satir:hover{background:#eff4ff}
+  .pd-satir-geciken{border-left:4px solid #ba1a1a}
+  .pd-satir-govde{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+  .pd-satir-tur{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.04em}
+  .pd-satir-baslik{font-size:14px;font-weight:700;color:#0d1c2e;overflow-wrap:anywhere;white-space:normal}
+  .pd-satir-alt{font-size:12.5px;color:#526477;overflow-wrap:anywhere;white-space:normal}
+  .pd-satir-eylem{flex:none;display:inline-flex;align-items:center;gap:2px;font-size:12px;font-weight:700;color:#00236f;max-width:40%;text-align:right;overflow-wrap:anywhere;padding-top:6px}
+  .pd-satir-eylem .material-symbols-outlined{font-size:18px}
+  .pd-satir-eylem small{display:block;font-size:11px;color:#ba1a1a;font-weight:700}
+  .pd-satir-eylem.pd-kirmizi{color:#ba1a1a}
+  @media(max-width:639px){.pd-satir{flex-wrap:wrap}.pd-satir-eylem{max-width:none;width:100%;justify-content:flex-end;padding:0 0 0 44px}}
+  .pd-bos{background:#fff;border:1px dashed #cbd5e1;border-radius:14px;padding:14px;font-size:13.5px;color:#64748b;margin:0;display:flex;align-items:center;gap:8px;overflow-wrap:anywhere}
+  .pd-bos-iyi{color:#166534;border-color:#bbf7d0;background:#f0fdf4}
+  .pd-bos .material-symbols-outlined{font-size:20px;flex:none}
+  .pd-hafta-kap{display:flex;flex-direction:column;gap:4px;flex:none}
+  .pd-hafta{display:flex;gap:4px;align-items:flex-end}
+  .pd-hafta-gun{display:flex;flex-direction:column;align-items:center;gap:3px;width:26px}
+  .pd-hafta-cubuk{display:flex;flex-direction:column;justify-content:flex-end;width:100%;height:40px;background:#eef2f7;border-radius:6px;overflow:hidden}
+  .pd-hafta-cik{display:block;background:#166534}
+  .pd-hafta-don{display:block;background:#d97706}
+  .pd-hafta-etiket{font-size:10px;font-weight:700;color:#64748b}
+  .pd-hafta-bugun .pd-hafta-etiket{color:#00236f}
+  .pd-hafta-bugun .pd-hafta-cubuk{box-shadow:inset 0 0 0 2px rgba(0,35,111,.25)}
+  .pd-hafta-acik{display:flex;gap:10px;font-size:11px;color:#64748b;align-items:center;justify-content:flex-end}
+  .pd-hafta-acik i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+  .pd-gruplar{display:flex;flex-direction:column;gap:6px}
+  .pd-grup{display:flex;align-items:center;gap:10px;width:100%;min-height:48px;padding:8px 12px;border-radius:12px;background:#f8fafc;border:1px solid #eef2f7;text-align:left;color:#0d1c2e;font:inherit;cursor:pointer}
+  .pd-grup:hover{background:#eff4ff}
+  .pd-grup[aria-expanded=true]{background:#eff4ff;border-color:#c7d5f5}
+  .pd-grup-ad{flex:1;min-width:0;font-size:14px;font-weight:700;overflow-wrap:anywhere}
+  .pd-grup-sayi{flex:none;font-size:13px;font-weight:800;color:#334155}
+  .pd-grup-acil{flex:none;font-size:11px;font-weight:800;color:#ba1a1a;background:#fde8e8;border-radius:999px;padding:2px 8px}
+  .pd-grup-ok{flex:none;color:#64748b;transition:transform .15s}
+  .pd-grup[aria-expanded=true] .pd-grup-ok{transform:rotate(180deg)}
+  .pd-detay{margin:0 0 4px;padding:10px 12px;border-radius:12px;background:#fff;border:1px solid #e6edf7;display:flex;flex-direction:column;gap:6px}
+  .pd-detay-bas{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+  .pd-detay-bas h4{font-size:13px;font-weight:800;margin:0;overflow-wrap:anywhere}
+  .pd-oge{display:flex;align-items:flex-start;gap:8px;min-height:44px;padding:8px 10px;border-radius:10px;text-decoration:none;color:inherit;background:#f8fafc}
+  .pd-oge:hover{background:#eff4ff}
+  .pd-oge>.material-symbols-outlined{font-size:18px;flex:none;margin-top:1px;color:#94a3b8}
+  .pd-oge-kritik>.material-symbols-outlined{color:#ba1a1a}
+  .pd-oge-metin{font-size:13.5px;font-weight:600;overflow-wrap:anywhere;min-width:0}
+  .pd-oge-alt{display:block;font-size:12px;color:#64748b;overflow-wrap:anywhere;font-weight:400}
+  .pd-saha{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+  @media(min-width:768px){.pd-saha{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .pd-saha-kart{background:#fff;border:1px solid #e6edf7;border-radius:18px;padding:16px;box-shadow:0 1px 2px rgba(15,23,42,.05);display:flex;flex-direction:column;gap:12px;min-width:0}
+  .pd-saha-kart h3{font-size:18px;font-weight:800;margin:2px 0 0;color:#0d1c2e;line-height:1.25;overflow-wrap:anywhere}
+  .pd-saha-sayilar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0;padding:0;list-style:none}
+  .pd-saha-sayilar li{background:#f8fafc;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:2px;min-width:0}
+  .pd-saha-sayilar b{font-family:'Manrope',sans-serif;font-size:24px;font-weight:900;color:#0d2a63;line-height:1}
+  .pd-saha-sayilar span{font-size:12px;font-weight:600;color:#64748b;overflow-wrap:anywhere}
+  .pd-ana{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:0 16px;border-radius:12px;background:#00236f;color:#fff;font-weight:800;font-size:15px;text-decoration:none;align-self:flex-start}
+  .pd-ana .material-symbols-outlined{font-size:20px}
+  .pd-izinli{margin-top:12px;padding-top:12px;border-top:1px solid #eef2f7;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px;color:#526477}
+  .pd-izinli a{display:inline-flex;align-items:center;min-height:36px;padding:0 10px;border-radius:999px;background:#eff4ff;color:#00236f;font-weight:700;text-decoration:none;font-size:12.5px;overflow-wrap:anywhere}
+  @media(max-width:767px){.pd-izinli a{min-height:44px}}
+  .pd-alt-bolum{margin-top:14px;padding-top:12px;border-top:1px solid #eef2f7}
+  .pd-alt-bolum:first-child{margin-top:0;padding-top:0;border-top:0}
+  .pd-alt-bolum h4{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#0d1c2e;margin:0 0 8px}
+  .pd-alt-bolum h4 .material-symbols-outlined{font-size:18px}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2">
+    <a href="index.html" title="Dashboard"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a>
+  </div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto">
+    <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 bg-primary text-white rounded-xl text-sm font-bold shadow-sm">
+      <span class="material-symbols-outlined text-xl">dashboard</span><span>Dashboard</span>
+    </a>
+  </nav>
+  <div class="pt-4 border-t border-slate-100">
+    <div class="flex items-center gap-3 px-3 py-2 mb-1">
+      <div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-xs" data-user-initials>—</div>
+      <span class="text-sm font-semibold text-on-surface truncate" data-user-name>Kullanıcı</span>
+    </div>
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all">
+      <span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span>
+    </button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden rounded-xl hover:bg-surface-container-low text-slate-600" style="padding:10px" aria-label="Menü"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Dashboard</h1>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8 pd-sayfa">
+
+    <section class="pd-karsilama" aria-labelledby="pdSelam">
+      <div class="pd-karsilama-ust">
+        <div class="min-w-0">
+          <span class="pd-eyebrow" id="pdTarih">Bugün</span>
+          <h2 id="pdSelam">Hoş geldiniz</h2>
+          <div class="pd-baglam" id="pdBaglam"></div>
+        </div>
+        <button type="button" class="pd-yenile" id="pdYenile" data-on-click="pdYukle"><span class="material-symbols-outlined" aria-hidden="true">refresh</span><span>Yenile</span></button>
+      </div>
+      <nav class="pd-eylemler" id="pdEylemler" aria-label="Hızlı eylemler"></nav>
+    </section>
+
+    <section id="pdSaha" class="hidden pd-saha" aria-label="İşlerim"></section>
+
+    <section id="pdKpi" class="pd-kpi" aria-label="Özet sayılar"></section>
+
+    <div class="pd-izgara">
+      <div class="pd-sol">
+        <section id="pdBugun" class="pd-blok" aria-labelledby="pdBugunBaslik">
+          <div class="pd-blok-bas">
+            <div class="min-w-0"><span class="pd-eyebrow">Bugün</span><h3 id="pdBugunBaslik">Çıkış, dönüş, bakım, tahsilat</h3><p class="pd-not" id="pdBugunNot">İşler yükleniyor…</p></div>
+            <div class="pd-hafta-kap" id="pdHaftaKap" hidden><div class="pd-hafta" id="pdHafta" aria-label="7 günlük çıkış ve dönüş yoğunluğu"></div><div class="pd-hafta-acik"><span><i style="background:#166534"></i>Çıkış</span><span><i style="background:#d97706"></i>Dönüş</span></div></div>
+          </div>
+          <div class="pd-cipler" id="pdBugunSuzgec" role="group" aria-label="İş türü"></div>
+          <div id="pdZaman" class="pd-zaman" aria-busy="true"><p class="pd-bos">İşler yükleniyor…</p></div>
+          <div id="pdIzinli" class="hidden pd-izinli"></div>
+        </section>
+
+        <section id="pdGorevler" class="pd-blok" aria-labelledby="pdGorevBaslik">
+          <div class="pd-blok-bas">
+            <div class="min-w-0"><span class="pd-eyebrow">Görevler</span><h3 id="pdGorevBaslik">Açık görevler</h3><p class="pd-not" id="pdGorevNot">Son tarihi yaklaşan ve geçen görevler önce.</p></div>
+            <a href="gorevler.html" class="pd-link"><span>Tümü</span><span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></a>
+          </div>
+          <div id="gorevList" class="pd-liste"><p class="pd-bos">Yükleniyor…</p></div>
+        </section>
+      </div>
+
+      <div class="pd-sag">
+        <section id="eylemPanel" class="hidden pd-blok" aria-labelledby="eylemBaslik">
+          <div class="pd-blok-bas">
+            <div class="min-w-0"><span class="pd-eyebrow">Uyarılar</span><h3 id="eylemBaslik">Bugün ne yapmalıyım?</h3><p class="pd-not" id="eylemToplam"></p></div>
+          </div>
+          <div id="eylemGruplar" class="pd-gruplar"></div>
+          <div id="eylemDetay" class="hidden pd-detay"></div>
+        </section>
+
+        <section id="pdTakip" class="hidden pd-blok" aria-label="Takip">
+          <div id="pdTeklifBolum" class="hidden pd-alt-bolum">
+            <h4><span class="material-symbols-outlined text-purple-700" aria-hidden="true">schedule</span>Süresi dolan teklifler <span class="pd-sayi-rozet" id="teklifBadge"></span></h4>
+            <div id="teklifSureList" class="pd-liste"></div>
+          </div>
+          <div id="pdCekBolum" class="hidden pd-alt-bolum">
+            <h4><span class="material-symbols-outlined text-teal-700" aria-hidden="true">payments</span>Vadesi yaklaşan çek / senet <span class="pd-sayi-rozet" id="cekBadge"></span></h4>
+            <div id="cekList" class="pd-liste"></div>
+          </div>
+        </section>
+
+        <section id="pdBelgeler" class="hidden pd-blok" aria-labelledby="pdBelgeBaslik">
+          <div class="pd-blok-bas"><div class="min-w-0"><span class="pd-eyebrow">Belgeler</span><h3 id="pdBelgeBaslik">Son yüklenen belgeler</h3></div></div>
+          <div id="sonBelgelerList" class="pd-liste"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script><script src="js/app-panel.js"></script>
+<script src="js/s-index.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

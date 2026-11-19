@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="img/logo.svg" type="image/svg+xml"><link rel="stylesheet" href="css/tailwind.css"><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/belge.css"><link rel="stylesheet" href="css/analiz-panel.css"><title>Ciro Analizi — AVK</title><style>
+@media(min-width:768px){.analysis-heading{position:sticky;top:57px;z-index:30;background:#f8f9ff;padding:8px 0;margin-bottom:12px}}
+.analysis-tools button,.analysis-tools input,.analysis-tools select{min-height:44px}
+.yf-sirala{cursor:pointer;user-select:none}
+.yf-sirala::after{content:'↕';opacity:.35;margin-left:4px;font-size:10px}
+.yf-sirala[aria-sort=ascending]::after{content:'▲';opacity:1}
+.yf-sirala[aria-sort=descending]::after{content:'▼';opacity:1}
+.yf-sirala:focus-visible{outline:2px solid #00236f;outline-offset:-2px}
+.yf-css-grafik{display:flex;flex-direction:column;gap:8px}
+.yf-cg-satir{display:grid;grid-template-columns:minmax(120px,2fr) 5fr minmax(90px,auto);align-items:center;gap:10px;font-size:13px}
+.yf-cg-etiket{overflow-wrap:anywhere;color:#334155}
+.yf-cg-cubuk{height:12px;border-radius:6px;background:#eef2f7;overflow:hidden}
+.yf-cg-cubuk i{display:block;height:100%;border-radius:6px;background:#00236f}
+.yf-cg-deger{text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.ca-degisim{font-size:11px;font-weight:700}.ca-iyi{color:#15803d}.ca-kotu{color:#b91c1c}.ca-not{font-size:10px;color:#94a3b8}
+@media(max-width:540px){.yf-cg-satir{grid-template-columns:minmax(90px,2fr) 4fr minmax(80px,auto);font-size:12px}}
+@media(max-width:767px){.analysis-row-button,.analysis-button,.analysis-warning summary,.analysis-table a,.analysis-nav a{display:inline-flex;align-items:center;min-height:44px}.analysis-warning summary{display:flex}.analysis-form input:not([type=checkbox]),.analysis-form select{min-height:44px}}
+@media print{.analysis-heading{position:static}}
+</style></head><body class="analysis-page bg-surface text-on-surface antialiased"><aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html" title="Dashboard"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto"></nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside><main class="main-content md:ml-64 min-h-screen"><header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center"><div class="flex items-center gap-3"><button id="hamburgerBtn" aria-label="Menüyü aç" class="md:hidden p-2 rounded-xl"><span class="material-symbols-outlined">menu</span></button><h1 class="text-base font-bold text-blue-950">Ciro Analizi</h1></div><div class="flex items-center gap-2"><a href="analiz.html" title="Analiz &amp; Asistan" aria-label="Analiz &amp; Asistan" class="px-3 py-2 text-primary bg-surface-container-low hover:bg-primary/10 text-sm font-bold rounded-xl flex items-center gap-1.5 transition whitespace-nowrap"><span class="material-symbols-outlined text-lg">auto_awesome</span><span class="hidden sm:inline">Analiz &amp; Asistan</span></a></div></header><div class="analysis-content"><nav class="analysis-nav no-print" aria-label="Analiz sayfaları"><a href="aylik-durum.html">Aylık genel durum</a><a href="sube-prim.html">Şube primleri</a><a href="ciro-analiz.html" aria-current="page">Ciro analizi</a><a href="filo-analiz.html">Filo analizi</a><a href="cek-senet.html">Çek / senet</a><a href="kasa-defteri.html">Kasa defteri</a></nav><p>Ciro kaynakları yükleniyor…</p></div></main><script src="js/eylem.js"></script><script src="js/belge.js"></script><script src="js/app.js"></script><script src="js/app-panel.js"></script><script src="js/ciro-analiz.js"></script><script src="js/ciro-kaynak-tutar.js"></script></body></html>

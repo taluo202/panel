@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Teknik Servis Formu — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  #bzil, #garama { display:none !important; }
+  .sr-dugme{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none}
+  .sr-iskelet{display:grid;gap:10px}
+  .sr-iskelet span{display:block;height:14px;border-radius:6px;background:linear-gradient(90deg,#eef2f7 25%,#f8fafc 50%,#eef2f7 75%);background-size:200% 100%;animation:srIsk 1.2s infinite linear}
+  @keyframes srIsk{to{background-position:-200% 0}}
+  .sr-bos{display:flex;flex-direction:column;align-items:flex-start;gap:10px;font-size:14px;color:#475569}
+  @media(max-width:767px){.sr-dugme{min-height:44px!important}}
+  @media print{header,.no-print{display:none!important}}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<main class="min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center gap-3">
+    <div class="flex items-center gap-2 min-w-0">
+      <a href="saha-servis.html" class="sr-dugme text-primary hover:bg-surface-container-low no-print" title="Saha servis işlerine dön"><span class="material-symbols-outlined">arrow_back</span><span class="hidden sm:inline">Saha servis</span></a>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Teknik Servis Formu</h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <a id="srPdf" href="#" class="sr-dugme bg-primary text-white no-print" style="display:none"><span class="material-symbols-outlined">picture_as_pdf</span><span class="hidden sm:inline">PDF indir</span></a>
+      <button type="button" id="srYazdir" class="sr-dugme bg-surface-container-low text-primary no-print" style="display:none" data-on-click="App.belgeYazdir" data-args='["srBelge"]'><span class="material-symbols-outlined">print</span><span class="hidden sm:inline">Yazdır</span></button>
+    </div>
+  </header>
+  <div class="p-4 md:p-8">
+    <div id="srBelge" class="bg-white rounded-xl p-4 overflow-x-auto"><div class="sr-iskelet" aria-label="Yükleniyor"><span style="width:40%"></span><span style="width:70%"></span><span style="width:55%"></span><span style="width:90%"></span><span style="width:65%"></span></div><p class="text-slate-400 text-sm">Yükleniyor…</p></div>
+  </div>
+</main>
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/belge-sablon.js"></script>
+<script src="js/s-servis-raporu.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

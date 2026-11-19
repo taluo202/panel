@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Fırsatlar — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{height:6px;width:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.55rem 0.9rem;font-size:0.875rem;outline:none}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto"></nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Fırsatlar</h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <button data-on-click="disaAktar" class="px-3 py-2 text-green-700 hover:bg-green-50 text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">download</span><span class="hidden sm:inline">Excel</span></button>
+      <button data-on-click="firsatModalAc" class="px-3 sm:px-5 py-2 bg-primary text-white text-sm font-bold rounded-xl flex items-center gap-1.5 hover:opacity-90 transition"><span class="material-symbols-outlined text-lg">add</span><span class="hidden sm:inline">Yeni Fırsat</span></button>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8">
+    <div class="bg-white rounded-xl shadow-sm p-3 mb-5 flex flex-wrap gap-2 items-center">
+      <div class="relative flex-1 min-w-[180px]">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+        <input data-sayfa-arama id="aramaInp" type="search" data-on-input="render" placeholder="Firma, kişi, telefon, e-posta…" class="w-full bg-surface-container-low border-none rounded-xl pl-9 pr-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/20"/>
+      </div>
+      <select id="fKaynakFiltre" data-on-change="render" class="bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm outline-none">
+        <option value="">Tüm Kaynaklar</option>
+        <option value="referans">Referans</option>
+        <option value="web">Web Sitesi</option>
+        <option value="sosyal_medya">Sosyal Medya</option>
+        <option value="soguk_arama">Soğuk Arama</option>
+        <option value="diger">Diğer</option>
+      </select>
+      <span id="firsatSayac" class="text-[11px] text-slate-400 font-semibold"></span>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-6">
+      <div class="bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Yeni</p><p class="text-xl font-black text-blue-900" id="ozYeni">—</p></div>
+      <div class="bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">İletişimde</p><p class="text-xl font-black text-purple-700" id="ozIletisimde">—</p></div>
+      <div class="bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Teklif Bekliyor</p><p class="text-xl font-black text-orange-600" id="ozTeklif">—</p></div>
+      <div class="bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Kazanıldı</p><p class="text-xl font-black text-green-700" id="ozKazanildi">—</p></div>
+      <div class="bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Açık Tahmini Tutar</p><p class="text-lg font-black text-blue-900" id="ozTutar">—</p></div>
+    </div>
+
+    <div class="overflow-x-auto pb-4">
+      <div class="grid grid-flow-col auto-cols-[280px] xl:auto-cols-[minmax(200px,1fr)] gap-4 min-w-max xl:min-w-0" id="kanban"></div>
+    </div>
+  </div>
+</main>
+
+<div id="firsatModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100">
+      <h2 class="text-lg font-bold font-headline" id="fModalBaslik">Yeni Fırsat</h2>
+      <button data-on-click="kapat" data-args='["firsatModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-7 py-5 space-y-4">
+      <div><label class="lbl">Firma / Ad *</label><input id="fUnvan" class="inp" placeholder="Örn: ABC İnşaat"/></div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="lbl">İlgili Kişi</label><input id="fKisi" class="inp"/></div>
+        <div><label class="lbl">Telefon</label><input id="fTelefon" inputmode="tel" autocomplete="tel" class="inp" placeholder="05xx xxx xx xx"/></div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="lbl">E-posta</label><input id="fEmail" type="email" class="inp"/></div>
+        <div><label class="lbl">Tahmini Tutar (₺)</label><input id="fTutar" type="number" min="0" step="0.01" class="inp"/></div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="lbl">Kaynak</label>
+          <select id="fKaynak" class="inp">
+            <option value="referans">Referans</option>
+            <option value="web">Web Sitesi</option>
+            <option value="sosyal_medya">Sosyal Medya</option>
+            <option value="soguk_arama">Soğuk Arama</option>
+            <option value="diger">Diğer</option>
+          </select>
+        </div>
+        <div><label class="lbl">Durum</label>
+          <select id="fDurum" class="inp">
+            <option value="yeni">Yeni</option>
+            <option value="iletisimde">İletişimde</option>
+            <option value="teklif_bekliyor">Teklif Bekliyor</option>
+            <option value="kazanildi">Kazanıldı</option>
+            <option value="kaybedildi">Kaybedildi</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="lbl">Şube</label><select id="fSube" class="inp"><option value="">— Seçin —</option></select></div>
+        <div><label class="lbl">Temsilci</label><select id="fTemsilci" class="inp"><option value="">— Seçin —</option></select></div>
+      </div>
+      <div><label class="lbl">Not</label><textarea id="fNotlar" rows="3" class="inp resize-none" placeholder="Görüşme notları, ihtiyaç detayı…"></textarea></div>
+    </div>
+    <div class="flex gap-3 px-7 py-4 justify-end sticky bottom-0 bg-white border-t border-slate-100">
+      <button data-on-click="kapat" data-args='["firsatModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="fKaydetBtn" data-on-click="firsatKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/s-firsatlar.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

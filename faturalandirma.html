@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Faturalandırma — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.55rem 0.9rem;font-size:0.875rem;outline:none}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto"></nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Faturalandırma</h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <button data-on-click="excelAktar" class="px-3 py-2 text-green-700 hover:bg-green-50 text-sm font-bold rounded-xl flex items-center gap-1.5 transition" title="AKINSOFT için fatura-hazır Excel"><span class="material-symbols-outlined text-lg">download</span><span class="hidden sm:inline">AKINSOFT Excel</span></button>
+      <button data-on-click="wolvoxXml" class="px-3 py-2 text-primary hover:bg-primary-fixed text-sm font-bold rounded-xl flex items-center gap-1.5 transition" title="Seçili kayıtları Wolvox'un FATURA XML biçiminde indir — Wolvox'ta doğrudan içe aktarılır"><span class="material-symbols-outlined text-lg">integration_instructions</span><span class="hidden sm:inline">Wolvox XML</span></button>
+      <button id="faturalaBtn" data-on-click="faturalaAc" class="hidden px-3 sm:px-5 py-2 bg-primary text-white text-sm font-bold rounded-xl items-center gap-1.5 hover:opacity-90 transition"><span class="material-symbols-outlined text-lg">receipt_long</span><span>Faturalandı (<span id="secSay">0</span>)</span></button>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8">
+    <p class="text-xs text-slate-500 mb-4">Fatura AKINSOFT Wolvox'tan kesilir. Faturalanacakları seçip <b>Wolvox XML</b> indirin ve Wolvox'ta içe aktarın — rakamları elle yazmanız gerekmez. (Excel seçeneği de duruyor.) Aktardıktan sonra <b>"Faturalandı"</b> işaretleyin; çift fatura böyle önlenir.</p>
+
+    <div class="flex gap-1 mb-5 bg-surface-container-low rounded-xl p-1 w-fit">
+      <button id="sekmeKira" data-on-click="sekmeGec" data-args='["kira"]' class="px-4 py-2 text-sm font-bold rounded-lg transition bg-white text-primary shadow-sm">Kira Faturaları</button>
+      <button id="sekmeServis" data-on-click="sekmeGec" data-args='["servis"]' class="px-4 py-2 text-sm font-bold rounded-lg transition text-slate-500 hover:text-primary">Teknik Servis</button>
+      <button id="sekmeHasar" data-on-click="sekmeGec" data-args='["hasar"]' class="px-4 py-2 text-sm font-bold rounded-lg transition text-slate-500 hover:text-primary">Hasar Bedeli</button>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6 max-w-2xl" data-kpi-serit>
+      <div class="bg-white rounded-xl p-5 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Kayıt</p><p class="text-2xl font-black text-blue-900 font-headline" id="ozAdet">—</p></div>
+      <div class="bg-white rounded-xl p-5 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">KDV Hariç</p><p class="text-xl font-black text-slate-700 font-headline" id="ozAra">—</p></div>
+      <div class="bg-white rounded-xl p-5 shadow-sm col-span-2 lg:col-span-1"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">KDV Dahil Toplam</p><p class="text-xl font-black text-primary font-headline" id="ozGenel">—</p></div>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-2 mb-4" data-suzgec>
+      <select id="fDurum" data-on-change="yukle" class="bg-white border-none rounded-xl px-3 py-2 text-sm shadow-sm outline-none focus:ring-2 focus:ring-primary/20"><option value="bekleyen">Faturalanacak</option><option value="faturalandi">Faturalanmış</option></select>
+      <select id="fSube" data-on-change="yukle" class="bg-white border-none rounded-xl px-3 py-2 text-sm shadow-sm outline-none focus:ring-2 focus:ring-primary/20"><option value="">Tüm Şubeler</option></select>
+      <label class="flex items-center gap-1.5 text-xs font-bold text-slate-500 bg-white rounded-xl px-3 py-2 shadow-sm cursor-pointer"><input id="fTamam" type="checkbox" data-on-change="yukle" class="rounded"/> Sadece tamamlananlar</label>
+      <div class="relative flex-1 min-w-[200px] max-w-xs">
+        <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-base">search</span>
+        <input data-sayfa-arama id="fAra" type="text" placeholder="Müşteri, kod, ekipman…" data-on-input="araDebounce" class="w-full pl-10 pr-3 py-2 bg-white border-none rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary/20 shadow-sm"/>
+      </div>
+    </div>
+
+    <div id="kiraAlan">
+    <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+      <table class="w-full text-sm" style="min-width:900px">
+        <thead><tr class="bg-surface-container-low text-left">
+          <th class="px-3 py-3"><input id="secAll" type="checkbox" data-on-change="secTumu" data-args='["$this"]' class="rounded"/></th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Kod</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest" title="Müşteri ve vergi numarası">Müşteri</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Ekipman</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Dönem</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">KDV Hariç</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">KDV Dahil</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Fatura</th>
+          <th class="px-3 py-3"></th>
+        </tr></thead>
+        <tbody id="tablo"><tr><td colspan="9" class="px-6 py-10 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+      </table>
+    </div>
+    <p id="secimNotu" class="hidden text-[12px] text-amber-800 bg-amber-50 border-t border-amber-100 px-4 py-2.5"></p>
+    <div id="sayfalamaFatura"></div>
+    </div>
+    <div id="servisAlan" class="hidden">
+      <p class="text-xs text-slate-500 mb-4">Burada yalnızca <b>tamamlanmış</b> ve <b>müşteri fiyatı girilmiş</b> servisler (müşteriye yansıtılan arıza ya da müşteri makinesi hizmeti) görünür;
+        tutar müşteriye gösterilen KDV dahil toplamdır, maliyetimiz değil. Satırları ve indirimi görmek için "Döküm"e basın. Dönüş kontrolünden gelen onarım ve eksik parça bedelleri de bu sekmededir.</p>
+      <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+        <table class="w-full text-sm" style="min-width:900px">
+          <thead><tr class="bg-surface-container-low text-left">
+            <th class="px-3 py-3"><input id="svSecAll" type="checkbox" data-on-change="svSecTumu" data-args='["$this"]' class="rounded"/></th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Tarih</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Makine</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Müşteri</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Yapılan İş</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Müşteri Tutarı</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Fatura</th>
+          </tr></thead>
+          <tbody id="servisTablo"><tr><td colspan="7" class="px-6 py-10 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="hasarAlan" class="hidden">
+      <p class="text-xs text-slate-500 mb-4">Eski hasar değerlendirme kayıtlarından (arşiv) <b>"Ayrı fatura"</b> ile fiyatlanmış bedeller; yeni servis bedelleri <b>Servis</b> sekmesinde. Döviz tutarın TL karşılığı fatura günü TCMB satış kuruyla hesaplanır (Filo Referans → Tarihli döviz kurları). Wolvox XML yalnız "Faturalandı" işaretlenenler için.</p>
+      <div class="mb-3"><button data-on-click="fhWolvox" class="px-3 py-2 bg-white rounded-xl text-sm font-bold shadow-sm">Wolvox XML (seçili, faturalanmış)</button></div>
+      <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+        <table class="w-full text-sm" style="min-width:820px"><thead><tr class="bg-surface-container-low text-left">
+          <th class="px-3 py-3"><input id="fhSecAll" type="checkbox" data-on-change="fhSecTumu" data-args='["$this"]' class="rounded" aria-label="Tümünü seç"/></th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Tarih</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Hasar</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Müşteri</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Tutar</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Fatura</th></tr></thead>
+          <tbody id="hasarTablo"><tr><td colspan="6" class="px-6 py-10 text-center text-slate-400">Yükleniyor…</td></tr></tbody></table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="faturaModal" class="hidden fixed inset-0 z-[110] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta p-7">
+    <h2 class="text-lg font-bold font-headline mb-1">Faturalandı İşaretle</h2>
+    <p class="text-xs text-slate-500 mb-4"><span id="fmSay">0</span> kayıt faturalandı olarak işaretlenecek. AKINSOFT fatura no'sunu (ops.) girebilirsiniz.</p>
+    <div class="grid grid-cols-2 gap-3">
+      <div><label class="lbl">Fatura No (ops.)</label><input id="fmNo" class="inp" placeholder="AKINSOFT no"/></div>
+      <div><label class="lbl">Fatura Tarihi</label><input id="fmTarih" type="date" class="inp"/></div>
+    </div>
+    <div class="flex gap-3 mt-6 justify-end">
+      <button data-on-click="kapat" data-args='["faturaModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="fmKaydet" data-on-click="faturalaKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">İşaretle</button>
+    </div>
+  </div>
+</div>
+
+<div id="svDokumModal" class="hidden fixed inset-0 z-[110] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere max-h-[90vh] overflow-y-auto p-6">
+    <div class="flex items-start justify-between gap-3 mb-3">
+      <div class="min-w-0"><h2 class="text-lg font-bold font-headline">Servis faturası dökümü</h2><p id="sdBaslik" class="text-xs text-slate-500 break-words"></p></div>
+      <button data-on-click="kapat" data-args='["svDokumModal"]' aria-label="Kapat" class="p-1.5 hover:bg-surface-container-low rounded-lg shrink-0"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <p class="text-[11px] text-slate-500 mb-3">Müşteriye gösterilen satırlar, indirim ve KDV. Maliyetimiz bu dökümde yer almaz.</p>
+    <div id="sdGovde" class="text-sm"></div>
+    <div id="sdEylem" class="mt-4"></div>
+  </div>
+</div>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/fatura-hasar.js"></script>
+<script src="js/servis-bedel.js"></script>
+<script src="js/s-faturalandirma.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

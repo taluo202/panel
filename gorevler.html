@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Görevler & Hatırlatmalar</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.55rem 0.9rem;font-size:0.875rem;outline:none}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto">
+    <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">dashboard</span><span>Dashboard</span></a>
+    <a href="personel.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">badge</span><span>Personel Yönetimi</span></a>
+    <a href="arac.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">directions_car</span><span>Araç Yönetimi</span></a>
+    <a href="manlift.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">precision_manufacturing</span><span>Makine Yönetimi</span></a>
+    <a href="finans.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">account_balance_wallet</span><span>Finans</span></a>
+    <a href="rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">summarize</span><span>Raporlar</span></a>
+    <a href="kiralama.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">menu_book</span><span>Kataloglar</span></a>
+    <a href="formlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt_long</span><span>Formlar</span></a>
+    <a href="ayarlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">settings</span><span>Ayarlar</span></a>
+  </nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Görevler & Hatırlatmalar</h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <button data-on-click="disaAktar" class="px-3 py-2 text-green-700 hover:bg-green-50 text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">download</span><span class="hidden sm:inline">Excel</span></button>
+      <button data-on-click="gorevModalAc" class="px-3 sm:px-5 py-2 bg-primary text-white text-sm font-bold rounded-xl flex items-center gap-1.5 hover:opacity-90 transition"><span class="material-symbols-outlined text-lg">add_task</span><span class="hidden sm:inline">Yeni Görev</span></button>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8">
+    <div class="grid grid-cols-3 gap-2 sm:gap-4 mb-6 max-w-2xl">
+      <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm min-w-0"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-normal sm:tracking-widest mb-1">Açık</p><p class="text-2xl font-black text-blue-900 font-headline" id="ozAcik">—</p></div>
+      <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm min-w-0"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-normal sm:tracking-widest mb-1">Geciken</p><p class="text-2xl font-black text-error font-headline" id="ozGeciken">—</p></div>
+      <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm min-w-0"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-normal sm:tracking-widest mb-1">Tamamlanan</p><p class="text-2xl font-black text-green-700 font-headline" id="ozTamam">—</p></div>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-2 mb-4">
+      <button data-on-click="filtreSet" data-args='["acik"]' id="fbAcik" class="px-3 py-1.5 text-xs font-bold rounded-lg transition bg-primary text-white">Açık</button>
+      <button data-on-click="filtreSet" data-args='["tamamlandi"]' id="fbTamam" class="px-3 py-1.5 text-xs font-bold rounded-lg transition text-slate-500 hover:bg-surface-container-low">Tamamlanan</button>
+      <button data-on-click="filtreSet" data-args='["hepsi"]' id="fbHepsi" class="px-3 py-1.5 text-xs font-bold rounded-lg transition text-slate-500 hover:bg-surface-container-low">Hepsi</button>
+      <span class="flex-1"></span>
+      <div class="relative">
+        <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+        <input data-sayfa-arama id="aramaInp" type="search" data-on-input="render" placeholder="Görevlerde ara…" class="bg-white border-none rounded-xl pl-9 pr-3 py-2 text-sm shadow-sm outline-none focus:ring-2 focus:ring-primary/20 w-44"/>
+      </div>
+      <select id="fOncelik" data-on-change="render" class="bg-white border-none rounded-xl px-3 py-2 text-sm shadow-sm outline-none">
+        <option value="">Tüm Öncelikler</option>
+        <option value="yuksek">Yüksek</option>
+        <option value="normal">Normal</option>
+        <option value="dusuk">Düşük</option>
+      </select>
+    </div>
+
+    <div id="liste" class="grid grid-cols-1 xl:grid-cols-2 gap-2"><p class="text-slate-400 text-sm">Yükleniyor…</p></div>
+  </div>
+</main>
+
+<div id="gorevModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100">
+      <h2 class="text-lg font-bold font-headline" id="mBaslik">Yeni Görev</h2>
+      <button data-on-click="kapat" data-args='["gorevModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-7 py-5 space-y-4">
+      <div><label class="lbl">Başlık *</label><input id="gBaslik" class="inp" placeholder="ör: Müşteriyi ara, evrak hazırla"/></div>
+      <div><label class="lbl">Açıklama</label><textarea id="gAciklama" rows="3" class="inp resize-none"></textarea></div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div><label class="lbl">Atanan</label><select id="gAtanan" class="inp"><option value="">— Kişi —</option></select></div>
+        <div><label class="lbl">Son Tarih</label><input id="gSonTarih" type="date" class="inp"/></div>
+        <div><label class="lbl">Öncelik</label><select id="gOncelik" class="inp"><option value="dusuk">Düşük</option><option value="normal" selected>Normal</option><option value="yuksek">Yüksek</option></select></div>
+      </div>
+    </div>
+    <div class="flex gap-3 px-7 py-4 justify-end sticky bottom-0 bg-white border-t border-slate-100">
+      <button data-on-click="kapat" data-args='["gorevModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="gKaydetBtn" data-on-click="gorevKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/s-gorevler.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

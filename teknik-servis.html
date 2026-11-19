@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Teknik Servis — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.55rem 0.9rem;font-size:0.875rem;outline:none}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+  .kp-dugme{min-height:44px;min-width:44px}
+  #sFiloBlok,#ssKiraSecim{scroll-margin-top:6rem;scroll-margin-bottom:6rem}
+  @media (max-width:639px){ #sMakineSonuc{max-height:55vh} }
+  .yapisik-alt{position:sticky;bottom:var(--yapisik-alt,4.5rem);z-index:5;background:#fff;box-shadow:0 -10px 12px -10px rgba(15,23,42,.35);padding:.5rem 0}
+  #ssKiraListe{max-height:50vh}
+  #ssKiraAlan{scroll-margin-top:5.5rem}
+  .sbKategori{flex:0 0 38%;max-width:230px}
+  .sm-tablo{display:flex;flex-direction:column;gap:.375rem}
+  .sm-satir{display:grid;grid-template-columns:minmax(0,2.6fr) minmax(0,.9fr) minmax(0,1.1fr) minmax(0,1fr) 2.75rem;gap:.5rem;align-items:center;background:#fff;border:1px solid #e9eff6;border-radius:.75rem;padding:.5rem .65rem;font-size:.8125rem}
+  body.maliyet-gizli [data-maliyet]{display:none!important}
+  .sm-maliyetsiz .sm-satir{grid-template-columns:minmax(0,3fr) minmax(0,1fr) 2.75rem}
+  .sm-fiyatli .sm-satir{grid-template-columns:minmax(0,2.3fr) minmax(0,.8fr) minmax(0,1fr) minmax(0,.95fr) minmax(0,1.05fr) minmax(0,.8fr) minmax(0,1fr) 2.75rem}
+  .sm-satir.sm-baslik{background:transparent;border:none;padding:0 .65rem;font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.05em}
+  .sm-sag{text-align:right}
+  .sm-et{display:none}
+  .sm-inp{padding:.35rem .5rem;text-align:right;font-size:.8125rem}
+  .sm-sil{display:flex;justify-content:flex-end}
+  .sm-toplam{display:grid;grid-template-columns:1fr auto;gap:.3rem 1rem;max-width:30rem;margin-left:auto}
+  .sm-ekle{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.5rem}
+  .sm-ekle .sm-genis2{grid-column:span 2}
+  .sm-ekle .sm-genis3{grid-column:span 3}
+  @media (max-width:767px){
+    .sm-satir.sm-baslik{display:none}
+    .sm-satir,.sm-fiyatli .sm-satir{grid-template-columns:1fr 1fr;padding:.65rem}
+    .sm-satir>.sm-ad{grid-column:1/-1}
+    .sm-et{display:block;font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.04em;text-align:left}
+    .sm-sag{text-align:left}
+    .sm-sil{grid-column:1/-1}
+    .sm-ekle{grid-template-columns:1fr 1fr}
+    .sm-ekle .sm-genis2,.sm-ekle .sm-genis3{grid-column:1/-1}
+    .sm-toplam{max-width:none}
+  }
+  #kontrolWrap [hidden],.di-panel [hidden]{display:none!important}
+  #kontrolWrap .inp,.di-panel .inp{padding:.6rem .9rem;font-size:15px;min-height:44px}
+  .di-panel .lbl{margin:10px 0 4px}
+  .di-ust-satir{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .di-eyebrow{display:block;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#557183}
+  .di-ust h2{font-size:20px;font-weight:800;color:#0d1c2e;line-height:1.2;margin:0}
+  .di-ozet{font-size:12.5px;color:#526477;margin-top:2px;overflow-wrap:anywhere}
+  .di-gunler{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;border-radius:14px;background:#e9eef5;margin-top:12px}
+  .di-gunler button{min-height:44px;padding:0 6px;border:0;border-radius:10px;background:transparent;font-weight:700;font-size:14px;color:#475569;cursor:pointer}
+  .di-gunler button[aria-selected=true]{background:#fff;color:#00236f;box-shadow:0 1px 3px rgba(15,23,42,.14)}
+  .di-isler{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+  .di-isler button{display:flex;align-items:center;gap:6px;min-height:48px;padding:6px 10px;border:1px solid #e2e8f0;border-radius:14px;background:#fff;font-weight:700;font-size:13.5px;color:#334155;text-align:left;cursor:pointer;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+  .di-isler button .material-symbols-outlined{font-size:20px;color:#64748b;flex:none}
+  .di-isler button .di-is-ad{flex:1;min-width:0;line-height:1.15}
+  .di-isler button[aria-selected=true]{background:#00236f;border-color:#00236f;color:#fff}
+  .di-isler button[aria-selected=true] .material-symbols-outlined{color:#fff}
+  .di-sayi{flex:none;min-width:22px;padding:0 7px;border-radius:999px;background:#dce1ff;color:#00236f;font-size:12px;line-height:20px;text-align:center;font-weight:800}
+  .di-sayi-sifir{background:#f1f5f9;color:#64748b}
+  .di-isler button[aria-selected=true] .di-sayi{background:#fff;color:#00236f}
+  .di-ustbilgi{margin-top:12px}
+  .di-kisi{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .di-rozet-kisi{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;background:#eff4ff;color:#00236f;font-size:12px;font-weight:700}
+  .di-grup{background:#fff;border:1px solid #e2e8f0;border-radius:18px;box-shadow:0 1px 2px rgba(15,23,42,.05);padding:14px 16px;margin-top:12px;min-width:0}
+  .di-gecikti{border-left:4px solid #ba1a1a}
+  .di-grup-bas{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start}
+  .di-sp{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-family:ui-monospace,Consolas,monospace;font-weight:800;font-size:16px;color:#00236f;overflow-wrap:anywhere}
+  .di-sp-baslik{font-family:'Manrope',sans-serif;color:#0d1c2e}
+  .di-qr{display:inline-block;padding:0 7px;border-radius:6px;background:#ede9fe;color:#5b21b6;font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:800;line-height:18px}
+  .di-mus{display:flex;align-items:flex-start;gap:6px;font-size:13.5px;color:#334155;overflow-wrap:anywhere;margin-top:2px}
+  .di-mus .material-symbols-outlined{font-size:18px;color:#64748b;flex:none;margin-top:1px}
+  .di-tarih{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:#334155;white-space:nowrap;background:#f1f5f9;border-radius:999px;padding:3px 10px}
+  .di-tarih .material-symbols-outlined{font-size:16px}
+  .di-gecikti .di-tarih{color:#ba1a1a;background:#fde8e8}
+  .di-bar{height:6px;border-radius:999px;background:#eef2f7;overflow:hidden;margin:12px 0 4px}
+  .di-bar span{display:block;height:100%;background:linear-gradient(90deg,#16a34a,#22c55e);border-radius:999px}
+  .di-ilerleme{font-size:12.5px;color:#64748b}
+  .di-araclar{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px}
+  .di-arac{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 10px;border-radius:12px;background:#f8fafc;font-size:13px;color:#334155}
+  .di-arac .material-symbols-outlined{font-size:20px;color:#00236f;flex:none}
+  .di-arac-bilgi{flex:1;min-width:0;overflow-wrap:anywhere}
+  .di-kartlar{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-top:12px}
+  @media(min-width:900px){.di-kartlar{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .di-kart{border:1px solid #e2e8f0;border-radius:16px;padding:14px;background:#fff;min-width:0;display:flex;flex-direction:column;gap:8px}
+  .di-kart-bas{display:flex;gap:10px;align-items:flex-start}
+  .di-mk-gorsel{width:72px;height:54px;object-fit:contain;flex:none;border-radius:10px;background:#f1f5f9;border:1px solid #e2e8f0}
+  .rf-simge.di-mk-gorsel{display:grid;place-items:center}
+  .di-kart-kod{flex:1;min-width:0}
+  .di-kod{font-family:ui-monospace,Consolas,monospace;font-weight:800;font-size:17px;color:#00236f;overflow-wrap:anywhere}
+  .di-rozet{display:inline-block;padding:2px 9px;border-radius:999px;font:800 11px/18px 'Inter',sans-serif;background:#eff4ff;color:#00236f;vertical-align:3px;margin-left:6px}
+  .di-rozet-gecikti{background:#fde8e8;color:#ba1a1a}.di-rozet-yarin{background:#fff7e6;color:#92400e}.di-rozet-yukleme{background:#e8f7ec;color:#166534}
+  .di-rozet-inceleme{background:#ede9fe;color:#5b21b6}.di-rozet-yolda{background:#e0f2fe;color:#075985}.di-rozet-toplama{background:#fff7e6;color:#92400e}
+  .di-sahip{font-size:12px;color:#64748b;margin-top:2px;overflow-wrap:anywhere}.di-sahip.di-ben{color:#00236f;font-weight:700}
+  .di-sec{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 10px;border-radius:10px;font-size:12.5px;font-weight:700;color:#475569;flex:none;cursor:pointer}
+  .di-sec input{width:22px;height:22px}
+  .di-kunye{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px;margin:0;padding:8px 0;border-top:1px solid #f1f5f9;border-bottom:1px solid #f1f5f9}
+  .di-kunye div{min-width:0}
+  .di-kunye dt{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#64748b}
+  .di-kunye dd{margin:0;font-size:13.5px;font-weight:600;color:#0f172a;overflow-wrap:anywhere;white-space:normal}
+  .di-satir{display:flex;align-items:flex-start;gap:6px;font-size:13.5px;color:#334155;overflow-wrap:anywhere;margin:0}
+  .di-satir .material-symbols-outlined{font-size:18px;color:#64748b;flex:none;margin-top:1px}
+  .di-cipler{display:flex;flex-wrap:wrap;gap:6px}
+  .di-cip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#fff7e6;color:#92400e;border:1px solid #fde68a}
+  .di-cip-tamam{background:#f0fdf4;color:#166534;border-color:#bbf7d0}
+  .di-cip-notr{background:#f1f5f9;color:#475569;border-color:#e2e8f0}
+  .di-cip-uyari{background:#fde8e8;color:#ba1a1a;border-color:#fecaca}
+  .di-cip .material-symbols-outlined{font-size:15px}
+  .di-eylem{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
+  .di-eylem .di-birincil{flex:1 1 180px}
+  .di-izle{font-size:12.5px;color:#64748b;background:#f8fafc;border-radius:10px;padding:8px 10px;margin:0}
+  .di-birincil{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:0 16px;border-radius:12px;border:0;background:#00236f;color:#fff;font-weight:800;font-size:15px;text-decoration:none;cursor:pointer}
+  .di-birincil .material-symbols-outlined{font-size:20px}
+  .di-birincil:disabled{opacity:.55;cursor:default}
+  .di-ikincil{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 14px;border-radius:12px;border:1px solid #cbd5e1;background:#fff;font-weight:700;font-size:13.5px;color:#334155;cursor:pointer;text-decoration:none}
+  .di-ikincil:disabled{opacity:.55;cursor:default}
+  .di-tehlike{border-color:#fecaca;color:#ba1a1a}
+  .di-dagit{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
+  .di-dagit select{flex:1 1 200px}
+  .di-bos{background:#fff;border:1px dashed #cbd5e1;border-radius:16px;padding:18px 16px;margin-top:12px;font-size:14px;color:#475569;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+  .di-bos .material-symbols-outlined{font-size:32px;color:#94a3b8}
+  .di-bos b{color:#0f172a;display:block}
+  .di-bos p{margin:2px 0 0}
+  .di-not{color:#64748b;font-size:13px}
+  .di-hata{color:#ba1a1a;font-size:13.5px;font-weight:700;background:#fde8e8;border-radius:12px;padding:10px 12px}
+  .di-durum{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:#f1f5f9;color:#334155;font-size:12.5px;font-weight:700}
+  .di-isk{height:14px;border-radius:8px;background:linear-gradient(90deg,#eef2f7 25%,#f8fafc 50%,#eef2f7 75%);background-size:200% 100%;animation:diIsk 1.2s linear infinite}
+  .di-isk-bas{width:45%;height:18px}.di-isk-satir{width:70%;margin-top:8px}.di-isk-gorsel{height:54px;width:72px}.di-isk-kisa{width:55%}.di-isk-dugme{height:48px;border-radius:12px;margin-top:4px}
+  @keyframes diIsk{from{background-position:200% 0}to{background-position:-200% 0}}
+  .di-panel{z-index:60;background:rgba(15,23,42,.45);display:flex;align-items:stretch;justify-content:center}
+  .di-panel.hidden{display:none}
+  .di-panel-ic{background:#fff;height:100dvh;max-height:100dvh;overflow-y:auto;border-radius:0;box-sizing:border-box;display:flex;flex-direction:column;outline:none;overscroll-behavior:contain}
+  @media(min-width:768px){.di-panel{align-items:center;padding:16px}.di-panel-ic{height:auto;max-height:94vh;border-radius:18px}}
+  body.di-panel-acik{overflow:hidden}
+  body.di-panel-acik #asBalon{display:none!important}
+  .di-panel-ust{position:sticky;top:0;z-index:3;background:#fff;padding:10px 14px 8px;border-bottom:1px solid #e2e8f0;box-shadow:0 4px 14px rgba(15,23,42,.05)}
+  .di-panel-bas{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .di-panel-bas h2{font-size:15px;font-weight:800;overflow-wrap:anywhere;margin:0;color:#0d1c2e;line-height:1.3;padding-top:10px;flex:1;min-width:0}
+  .di-kapat{flex:none;width:44px;height:44px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;display:grid;place-items:center;color:#475569;cursor:pointer}
+  .di-panel-govde{padding:12px 14px 16px;display:grid;gap:12px;flex:1;align-content:start}
+  @media(min-width:768px){.di-panel-ust{padding:14px 22px 10px}.di-panel-govde{padding:16px 22px 20px}}
+  .di-bolum{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:12px 14px;min-width:0}
+  .di-bolum-bas{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;color:#0d1c2e;margin:0 0 8px;font-family:'Manrope',sans-serif}
+  .di-bolum-bas .material-symbols-outlined{font-size:20px;color:#00236f;flex:none}
+  .di-bolum-bas small{font-weight:600;color:#64748b;font-size:12.5px;margin-left:auto;font-family:'Inter',sans-serif}
+  .di-bolum .lbl:first-child{margin-top:0}
+  @media(min-width:900px){.di-panel-iki{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}}
+  .di-kimlik{display:flex;align-items:center;gap:10px;margin-top:6px}
+  .di-kimlik-gorsel{width:64px;height:48px;object-fit:contain;border-radius:10px;background:#f8fafc;border:1px solid #e2e8f0;flex:none}
+  .rf-simge.di-kimlik-gorsel{display:grid;place-items:center}
+  .di-kimlik b{font-size:14.5px;color:#0f172a;overflow-wrap:anywhere;display:block;line-height:1.3}
+  .di-kimlik small{display:block;color:#64748b;font-size:12px;margin-top:2px;overflow-wrap:anywhere}
+  .di-kod-rozet{display:inline-block;padding:0 6px;border-radius:6px;background:#dce1ff;color:#00236f;font:800 12px/20px ui-monospace,Consolas,monospace;margin-right:5px;vertical-align:1px}
+  .di-adim-kap{margin-top:8px}
+  .di-adimlar{display:flex;gap:6px;overflow-x:auto;list-style:none;padding:0 0 2px;margin:0;position:relative;scrollbar-width:none}
+  .di-adimlar::-webkit-scrollbar{display:none}
+  .di-adimlar button{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;min-height:44px;padding:0 12px;border-radius:999px;border:1px solid #e2e8f0;background:#fff;font-size:12.5px;font-weight:700;color:#475569;cursor:pointer}
+  .di-adimlar small{font-weight:600;color:inherit;opacity:.8}
+  .di-adim-tamam button{border-color:#bbf7d0;background:#f0fdf4;color:#166534}
+  .di-adim-eksik button{border-color:#fde68a;background:#fffbeb;color:#92400e}
+  .di-adimlar .material-symbols-outlined{font-size:18px}
+  .di-kontrol,.di-bilesen{padding:10px 0;border-top:1px solid #f1f5f9;display:grid;gap:8px}
+  .di-kontrol:first-child,.di-bilesen:first-child{border-top:0;padding-top:4px}
+  .di-kontrol-ad,.di-bilesen-ad{font-size:14px;font-weight:600;color:#0f172a;overflow-wrap:anywhere}
+  .di-kritik{display:inline-block;margin-left:6px;padding:0 7px;border-radius:999px;background:#fde8e8;color:#ba1a1a;font-size:10.5px;font-weight:800;line-height:18px;vertical-align:2px;text-transform:uppercase;letter-spacing:.03em}
+  .di-secim{display:flex;flex-wrap:wrap;gap:6px}
+  .di-secim button{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:44px;padding:0 12px;border-radius:12px;border:1px solid #cbd5e1;background:#fff;font-weight:700;font-size:13.5px;color:#334155;cursor:pointer;flex:1 1 auto}
+  .di-secim button .material-symbols-outlined{font-size:18px}
+  .di-secim button[aria-pressed=true]{border-color:#00236f;background:#00236f;color:#fff}
+  .di-secim button[data-sec=uygun][aria-pressed=true],.di-secim button[data-agirlik="0"][aria-pressed=true]{background:#16a34a;border-color:#16a34a}
+  .di-secim button[data-sec=uygun_degil][aria-pressed=true],.di-secim button[data-agirlik="2"][aria-pressed=true]{background:#ba1a1a;border-color:#ba1a1a}
+  .di-secim button[data-agirlik="1"][aria-pressed=true]{background:#d97706;border-color:#d97706}
+  .di-secim button[data-sec=uygulanamaz][aria-pressed=true]{background:#475569;border-color:#475569}
+  .di-kontrol-not{min-height:44px;font-size:14px}
+  .di-kontrol[data-durum=uygun_degil] .di-kontrol-not{box-shadow:0 0 0 2px #ba1a1a66;background:#fff5f5}
+  @media(min-width:768px){.di-kontrol{grid-template-columns:minmax(0,2fr) auto minmax(0,2fr);align-items:center}.di-bilesen{grid-template-columns:minmax(0,1fr) auto;align-items:center}.di-secim button{flex:0 0 auto}}
+  .di-bilesen-ad small{display:block;color:#64748b;font-size:12px;font-weight:500}
+  .di-bilesen-ad b{display:inline-block;margin-left:6px;color:#b91c1c;font-size:12px}
+  .di-foto-izgara{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  @media(min-width:768px){.di-foto-izgara{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}}
+  .di-foto-izgara .rf-kutu{border-radius:16px}
+  .di-foto-izgara .rf-gorsel{aspect-ratio:1}
+  .di-diger-bas{margin:14px 0 8px;font-weight:700}
+  .di-foto{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;aspect-ratio:1;width:100%;max-width:220px;border:2px dashed #f59e0b;border-radius:16px;font-size:13px;font-weight:700;text-align:center;cursor:pointer;padding:10px;background:#fffbeb;color:#92400e;box-sizing:border-box}
+  .di-foto input{display:none}
+  .di-foto .material-symbols-outlined{font-size:36px}
+  .di-foto-tamam{border-color:#16a34a;border-style:solid;color:#166534;background:#f0fdf4}
+  .di-sayac{display:flex;align-items:center;gap:8px}
+  .di-sayac .inp{font-size:24px;font-weight:800;min-height:56px;font-family:ui-monospace,Consolas,monospace;letter-spacing:.02em}
+  .di-birim{font-size:14px;font-weight:700;color:#64748b;flex:none;min-width:40px}
+  .di-dugmeler{position:sticky;bottom:0;z-index:4;display:flex;gap:8px;flex-wrap:wrap;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #e2e8f0;box-shadow:0 -6px 20px rgba(15,23,42,.06);margin-top:auto}
+  .di-dugmeler .di-birincil{flex:2 1 180px}.di-dugmeler .di-ikincil{flex:1 1 140px}
+  @media(min-width:768px){.di-dugmeler{justify-content:flex-end;padding:12px 22px}.di-dugmeler .di-birincil,.di-dugmeler .di-ikincil{flex:0 0 auto}}
+  .dd-bekle{font-weight:700;color:#334155}.dd-gec{color:#ba1a1a}
+  .dd-uyari{color:#ba1a1a;font-weight:700}
+  .dd-saha{background:#f8fafc;border-radius:14px;padding:10px 12px;font-size:13.5px;display:grid;gap:6px}
+  .dd-saha p{margin:0}
+  .dd-baglantilar{display:flex;flex-wrap:wrap;gap:6px}
+  .dd-baglantilar a{display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 12px;border-radius:12px;border:1px solid #cbd5e1;background:#fff;font-size:13px;font-weight:700;color:#00236f;text-decoration:none}
+  .dd-baglantilar .material-symbols-outlined{font-size:17px}
+  .dd-kiyas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:10px 0;border-top:1px solid #f1f5f9}
+  .dd-kiyas:first-child{border-top:0;padding-top:0}
+  .dd-kiyas .dd-aci{grid-column:1/-1;font-weight:800;font-size:14px;color:#0d1c2e}
+  .dd-kiyas .dd-aci small{display:block;font-weight:500;color:#64748b;font-size:12px}
+  .dd-kiyas figure{margin:0;display:flex;flex-direction:column;gap:4px;min-width:0}
+  .dd-kiyas .dd-donus{grid-column:1/-1;order:3}
+  .dd-kiyas .dd-gidis{order:1}.dd-kiyas .dd-ornek{order:2}
+  .dd-kiyas img,.dd-kucuk img{width:100%;max-width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;background:#f1f5f9}
+  .dd-kiyas figcaption{font-size:11.5px;color:#64748b;text-align:center;font-weight:600}
+  .dd-yok{display:flex;align-items:center;justify-content:center;aspect-ratio:4/3;border-radius:12px;background:#f1f5f9;color:#64748b;font-size:12px;text-align:center;padding:6px}
+  .dd-foto{max-width:none;aspect-ratio:4/3;padding:6px;font-size:14px}
+  .dd-foto img{aspect-ratio:auto;flex:1;min-height:0;object-fit:cover;width:100%;border-radius:12px}
+  .dd-kucuk{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:6px;margin:6px 0}
+  .dd-buyut{all:unset;box-sizing:border-box;display:block;cursor:zoom-in;border-radius:12px}
+  .dd-buyut:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+  .dd-ornek .rf-ornek,.dd-ornek .rf-kroki{display:grid;place-items:center;width:100%;max-width:none;aspect-ratio:4/3;border-radius:12px;background:linear-gradient(#eef2f7,#e3e8ef)}
+  .dd-ornek .rf-kroki svg{width:40%}
+  .dd-kiyas .dd-ornek .rf-ornek img{aspect-ratio:auto;object-fit:contain;background:transparent}
+  @media(min-width:640px){.dd-kiyas{grid-template-columns:repeat(3,minmax(0,1fr))}.dd-kiyas .dd-donus{grid-column:auto;order:2}.dd-kiyas .dd-ornek{order:3}}
+  .dd-bulgu{display:grid;gap:8px;padding:12px;border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;margin-bottom:8px}
+  .dd-bulgu-bas{font-size:13px;font-weight:800;color:#0d1c2e}
+  @media(min-width:768px){.dd-bulgu-alan{display:grid;grid-template-columns:1fr 1fr;gap:8px}}
+  .dd-satir{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}
+  .dd-foto-kucuk{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:12px;border:1px dashed #f59e0b;background:#fffbeb;color:#92400e;font-weight:700;font-size:13.5px;cursor:pointer;flex:1 1 auto;justify-content:center}
+  .dd-foto-kucuk input{display:none}
+  .dd-foto-kucuk .material-symbols-outlined{font-size:20px}
+  .dd-ikincil{min-height:44px;padding:0 14px;border-radius:12px;border:1px solid #cbd5e1;background:#fff;font-weight:700;font-size:13.5px;color:#334155;cursor:pointer}
+  .dd-tablo-kap{overflow-x:auto;max-width:100%}
+  .dd-tablo{width:100%;font-size:13.5px;border-collapse:collapse}
+  .dd-tablo td,.dd-tablo th{padding:6px;text-align:left;vertical-align:middle}
+  .dd-tablo th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#64748b}
+  .dd-tablo .inp{min-height:44px;font-size:16px}
+  @media(max-width:639px){
+    .dd-tablo thead{display:none}
+    .dd-tablo tr{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;padding:10px 0;border-top:1px solid #f1f5f9}
+    .dd-tablo td{display:block;padding:0}
+    .dd-tablo td[data-etiket]::before{content:attr(data-etiket);display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#64748b;margin-bottom:2px}
+    .dd-tablo td.dd-td-ad,.dd-tablo td.dd-td-not{grid-column:1/-1}
+    .dd-tablo td.dd-td-ad{font-weight:700;font-size:14px}
+  }
+  #ddInImza{display:block;width:100%;height:140px;border:1px solid #cbd5e1;border-radius:14px;touch-action:none;background:#fff}
+  .di-kisi.hidden,.di-kartlar.hidden,.di-secim.hidden,.di-sayac.hidden{display:none}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased" data-di-oto="0">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto">
+    <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">dashboard</span><span>Dashboard</span></a>
+    <a href="personel.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">badge</span><span>Personel Yönetimi</span></a>
+    <a href="arac.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">directions_car</span><span>Araç Yönetimi</span></a>
+    <a href="manlift.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">precision_manufacturing</span><span>Makine Yönetimi</span></a>
+    <a href="finans.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">account_balance_wallet</span><span>Finans</span></a>
+    <a href="rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">summarize</span><span>Raporlar</span></a>
+    <a href="kiralama.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">menu_book</span><span>Kataloglar</span></a>
+    <a href="formlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt_long</span><span>Formlar</span></a>
+    <a href="ayarlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">settings</span><span>Ayarlar</span></a>
+  </nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Teknik Servis — Arıza & Bakım</h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <button data-on-click="disaAktar" class="px-3 py-2 text-green-700 hover:bg-green-50 text-sm font-bold rounded-xl flex items-center gap-1.5 transition" title="Excel/CSV'ye aktar"><span class="material-symbols-outlined text-lg">download</span><span class="hidden sm:inline">Excel</span></button>
+      <button id="yeniServisBtn" data-on-click="servisModalAc" class="px-3 sm:px-5 py-2 bg-primary text-white text-sm font-bold rounded-xl flex items-center gap-1.5 hover:opacity-90 transition" title="Atölyede ya da sahada yeni servis"><span class="material-symbols-outlined text-lg">add</span><span class="hidden sm:inline">Yeni Servis</span></button>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6" data-kpi-serit>
+      <div class="bg-white rounded-xl p-5 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Açık</p><p class="text-2xl font-black text-error font-headline" id="ozAcik">—</p></div>
+      <div class="bg-white rounded-xl p-5 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Devam Eden</p><p class="text-2xl font-black text-orange-600 font-headline" id="ozDevam">—</p></div>
+      <div class="bg-white rounded-xl p-5 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Tamamlanan</p><p class="text-2xl font-black text-green-700 font-headline" id="ozTamam">—</p></div>
+      <div data-maliyet class="bg-white rounded-xl p-5 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Toplam Maliyet</p><p class="text-2xl font-black text-blue-900 font-headline" id="ozMaliyet">—</p></div>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-1 mb-4 bg-white rounded-xl p-1 shadow-sm max-w-full w-max">
+      <button id="vwKayit" data-on-click="gorunum" data-args='["kayit"]' class="px-4 py-1.5 text-sm font-bold rounded-lg transition bg-primary text-white">Servis Kayıtları</button>
+      <button id="vwTalep" data-on-click="gorunum" data-args='["talep"]' class="px-4 py-1.5 text-sm font-bold rounded-lg transition text-slate-500 hover:bg-surface-container-low">Gelen talepler <span id="talepRozet" class="ml-1 text-[10px] px-1.5 py-0.5 rounded-full bg-error text-white hidden"></span></button>
+      <button id="vwFiyat" data-on-click="gorunum" data-args='["fiyat"]' class="hidden px-4 py-1.5 text-sm font-bold rounded-lg transition text-slate-500 hover:bg-surface-container-low">Fiyatlandırılacaklar <span id="fiyatRozet" class="ml-1 text-[10px] px-1.5 py-0.5 rounded-full bg-blue-50 text-blue-700 hidden"></span></button>
+      <button id="vwPlan" data-on-click="gorunum" data-args='["plan"]' class="px-4 py-1.5 text-sm font-bold rounded-lg transition text-slate-500 hover:bg-surface-container-low">Bakım ve Evrak Planı <span id="planRozet" class="ml-1 text-[10px] px-1.5 py-0.5 rounded-full bg-error-container text-error hidden"></span></button>
+      <button id="vwSablon" data-on-click="gorunum" data-args='["sablon"]' class="px-4 py-1.5 text-sm font-bold rounded-lg transition text-slate-500 hover:bg-surface-container-low">Kontrol Şablonları</button>
+      <button id="vwKontrol" data-on-click="gorunum" data-args='["kontrol"]' class="px-4 py-1.5 text-sm font-bold rounded-lg transition text-slate-500 hover:bg-surface-container-low">Makine Kontrolleri</button>
+    </div>
+
+    <div id="kayitWrap">
+    <div class="flex flex-wrap items-center gap-2 mb-4" data-suzgec>
+      <select id="fDurum" data-on-change="yukle" class="bg-white border-none rounded-xl px-3 py-2 text-sm shadow-sm outline-none focus:ring-2 focus:ring-primary/20"><option value="hepsi">Tüm Durumlar</option><option value="acik">Açık</option><option value="devam">Devam Eden</option><option value="tamamlandi">Tamamlanan</option></select>
+      <select id="fTip" data-on-change="yukle" class="bg-white border-none rounded-xl px-3 py-2 text-sm shadow-sm outline-none focus:ring-2 focus:ring-primary/20"><option value="">Tüm Tipler</option><option value="ariza">Arıza</option><option value="bakim">Bakım</option><option value="expertiz">Expertiz</option></select>
+      <select id="fSaha" data-on-change="yukle" title="Saha servisi süzgeci" class="bg-white border-none rounded-xl px-3 py-2 text-sm shadow-sm outline-none focus:ring-2 focus:ring-primary/20">
+        <option value="">Saha + atölye</option><option value="yer:saha">Yalnız saha işleri</option><option value="yer:atolye">Yalnız atölye</option>
+        <option value="saha_durum:atanmadi">Saha: teknisyen atanmadı</option><option value="saha_durum:atandi">Saha: atandı</option>
+        <option value="saha_durum:yolda">Saha: yolda</option><option value="saha_durum:sahada">Saha: sahada</option>
+        <option value="ofis_inceleme:1">Rapor geldi (bakılmadı)</option><option value="fiyat_durum:bekliyor">Fiyat bekliyor</option>
+      </select>
+      <div class="relative flex-1 min-w-[200px] max-w-xs">
+        <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-base">search</span>
+        <input data-sayfa-arama id="fAra" type="text" placeholder="Makine, müşteri, sipariş no, kiralama kodu, arıza…" data-on-input="araDebounce" class="w-full pl-8 pr-3 py-2 bg-white border-none rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary/20 shadow-sm"/>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+      <table class="w-full text-sm" style="min-width:1320px">
+        <thead><tr class="bg-surface-container-low text-left">
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest" style="min-width:280px">Makine</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest" style="min-width:180px">Müşteri / Sipariş</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Tip</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Tarih</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Arıza / Talep</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Teknisyen</th>
+          <th data-maliyet class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Maliyet</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-center">Durum</th>
+          <th class="px-4 py-3"></th>
+        </tr></thead>
+        <tbody id="tablo"><tr><td colspan="9" class="px-6 py-10 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+      </table>
+    </div>
+    </div>
+
+    <div id="talepWrap" class="hidden">
+      <p class="text-xs text-slate-500 mb-3 max-w-3xl">Telefonla ve müşteri portalından gelen servis istekleri. Talep servis sayılmaz, teknisyene görünmez ve makine durumunu değiştirmez; yetkili <b>Servis kaydına çevir</b> ile Yeni Servis penceresinde (yer, makine, teknisyen, tarih) kayda dönüştürür ya da gerekçeyle reddeder. Red gerekçesi müşterinin portalında görünür.</p>
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <select id="fTalep" data-on-change="talepYukle" class="bg-white border-none rounded-xl px-3 py-2 text-sm shadow-sm outline-none focus:ring-2 focus:ring-primary/20"><option value="bekliyor">Bekleyen talepler</option><option value="sonuc">Sonuçlananlar (son 90 gün)</option></select>
+        <button id="talepTelefonBtn" type="button" data-on-click="talepModalAc" class="hidden px-4 py-2 bg-primary text-white text-sm font-bold rounded-xl hover:opacity-90 inline-flex items-center gap-1"><span class="material-symbols-outlined text-base">call</span>Telefon talebi</button>
+      </div>
+      <div id="talepListe" class="space-y-3"><p class="text-slate-400 text-sm">Yükleniyor…</p></div>
+    </div>
+    <div id="fiyatWrap" class="hidden">
+      <p class="text-xs text-slate-500 mb-3 max-w-3xl">İşi bitmiş ve fiyatlandırılacak servisler: teknisyenin "fiyatlandırılacak" dediği işler, dönüş kontrolünden gelen onarımlar ve eksik parçalar, müşteri makineleri. Her kayıtta bedel kararını verin: ayrı servis faturası, hakedişe ekle ya da firma karşılar. "Fiyatlandır" kaydı açar; teknisyenin girdiği parça, işçilik süresi ve yol satırları öneri olarak gelir.</p>
+      <a id="eskiHasarLink" class="hidden text-xs font-bold text-primary mb-3 inline-block" href="hasar-degerlendirme.html">Eski hasar değerlendirme kayıtları (<span id="eskiHasarSayi">0</span>) →</a>
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <select id="fFiyat" data-on-change="fiyatYukle" class="bg-white border-none rounded-xl px-3 py-2 text-sm shadow-sm outline-none focus:ring-2 focus:ring-primary/20"><option value="bekliyor">Fiyat bekleyenler</option><option value="fiyatli">Fiyatlandırılmış / ücretsiz</option></select>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+        <table class="w-full text-sm" style="min-width:980px">
+          <thead><tr class="bg-surface-container-low text-left">
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest" style="min-width:260px">Makine</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest" style="min-width:220px">Müşteri / Sipariş</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Servis</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Teknisyen</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-center">Fiyat</th>
+            <th class="px-4 py-3"></th>
+          </tr></thead>
+          <tbody id="fiyatTablo"><tr><td colspan="6" class="px-6 py-10 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="planWrap" class="hidden">
+      <p class="text-xs text-slate-500 mb-3">Makine periyodik kontrol, araç muayene ve saat bazlı bakım tarihlerinden otomatik plan; tarihi gelen bakım/kontrolü tek tıkla bakım kaydına dönüştür. Sigorta ve evrak süreleri ayrı bölümde izlenir — bakım değildir, bakım kaydı açılmaz.</p>
+
+      <section class="mb-6">
+        <h3 class="flex items-center gap-2 text-sm font-bold text-on-surface mb-2"><span class="material-symbols-outlined text-base text-primary">build</span>Bakım ve Periyodik Kontrol <span id="planBakimSayi" class="text-[10px] px-1.5 py-0.5 rounded-full bg-surface-container-low text-slate-500 hidden"></span></h3>
+        <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+          <table class="w-full text-sm" style="min-width:680px">
+            <thead><tr class="bg-surface-container-low text-left">
+              <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Makine</th>
+              <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Kontrol</th>
+              <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Tarih</th>
+              <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-center">Durum</th>
+              <th class="px-4 py-3"></th>
+            </tr></thead>
+            <tbody id="planTablo"><tr><td colspan="5" class="px-6 py-10 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h3 class="flex items-center gap-2 text-sm font-bold text-on-surface mb-1"><span class="material-symbols-outlined text-base text-primary">shield</span>Sigorta ve Evrak <span class="font-normal text-slate-500">— bakım değildir</span> <span id="planEvrakSayi" class="text-[10px] px-1.5 py-0.5 rounded-full bg-surface-container-low text-slate-500 hidden"></span></h3>
+        <p class="text-xs text-slate-500 mb-2">Trafik sigortası, kasko ve makine kırılma poliçelerinin bitiş tarihleri. Bu satırlar için bakım kaydı açılmaz; yenileme tarihi araç kartındaki sigorta alanlarından güncellenir.</p>
+        <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+          <table class="w-full text-sm" style="min-width:680px">
+            <thead><tr class="bg-surface-container-low text-left">
+              <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Araç</th>
+              <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Evrak</th>
+              <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Bitiş Tarihi</th>
+              <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-center">Durum</th>
+              <th class="px-4 py-3"></th>
+            </tr></thead>
+            <tbody id="planEvrakTablo"><tr><td colspan="5" class="px-6 py-10 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <div id="sablonWrap" class="hidden">
+      <div class="flex flex-wrap items-start justify-between gap-3 mb-4">
+        <p class="text-sm text-slate-500 max-w-3xl">Periyodik bakım, arıza ve expertiz için madde bazlı kontrol listeleri. Servis kaydını açınca servis tipine ve makinenin kategorisine uyan şablon önerilir; "Uygula" deyince maddeler gelir. Başlangıç için genel şablonlar hazır geldi; maddeleri kendi makinelerinize ve üretici kılavuzuna göre düzenleyin. Pasife aldığınız şablon kendiliğinden geri gelmez.</p>
+        <button type="button" id="sbYeniBtn" data-on-click="sablonModalAc" class="hidden px-3 sm:px-5 py-2 bg-primary text-white text-sm font-bold rounded-xl flex items-center gap-1.5 hover:opacity-90 transition shrink-0"><span class="material-symbols-outlined text-lg">add</span>Yeni Şablon</button>
+      </div>
+      <div id="sbListe" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2"><p class="text-slate-400 text-sm">Yükleniyor…</p></div>
+    </div>
+
+    <div id="kontrolWrap" class="hidden">
+      <p class="text-sm text-slate-500 max-w-3xl mb-3">Kiraya çıkacak makinenin çıkış kontrolü ve sahadan dönen makinenin dönüş kontrolü. Sorun varsa arıza kaydı kendiliğinden açılır.</p>
+      <div class="di-ust">
+        <div class="di-ust-satir">
+          <div class="min-w-0"><h2 id="diBaslik">Kiraya çıkacak makineler</h2><p class="di-ozet" id="diOzet">İşler yükleniyor…</p></div>
+        </div>
+        <div class="di-gunler" id="diGunler" role="tablist" aria-label="Gün">
+          <button type="button" role="tab" data-gun="bugun">Bugün</button><button type="button" role="tab" data-gun="yarin">Yarın</button><button type="button" role="tab" data-gun="sonraki">Sonraki</button>
+        </div>
+        <div class="di-isler" id="diIsler" role="tablist" aria-label="Kontrol" data-varsayilan="hazirlik">
+          <button type="button" role="tab" data-is="hazirlik"><span class="material-symbols-outlined" aria-hidden="true">inventory_2</span><span class="di-is-ad">Hazırlanacaklar</span><span class="di-sayi" data-sayi="hazirlik" hidden>0</span></button>
+          <button type="button" role="tab" data-is="inceleme"><span class="material-symbols-outlined" aria-hidden="true">fact_check</span><span class="di-is-ad">İncelenecekler</span><span class="di-sayi" data-sayi="inceleme" hidden>0</span></button>
+        </div>
+      </div>
+      <p id="diSiparisFiltre" class="di-not di-ustbilgi hidden">Tek siparişin işleri gösteriliyor. <a href="teknik-servis.html?sekme=kontrol" class="text-primary font-bold">Bütün işler →</a></p>
+      <div id="diKisiIlerleme" class="di-kisi hidden"></div>
+      <div id="diListe" aria-live="polite"></div>
+    </div>
+  </div>
+</main>
+
+<div id="diHazirlik" class="di-panel fixed inset-0 hidden" role="dialog" aria-modal="true" aria-labelledby="diHzBaslik">
+  <div class="di-panel-ic pencere" tabindex="-1">
+    <div class="di-panel-ust">
+      <div class="di-panel-bas"><h2 id="diHzBaslik"></h2><button type="button" class="di-kapat" data-on-click="diPanelKapat" data-args='["diHazirlik"]' aria-label="Kapat"><span class="material-symbols-outlined" aria-hidden="true">close</span></button></div>
+      <div id="diHzKimlik"></div>
+      <div id="diHzAdimlar" class="di-adim-kap" aria-label="Hazırlık adımları"></div>
+    </div>
+    <div class="di-panel-govde">
+      <p id="diHzDurum" class="di-durum"></p>
+      <section class="di-bolum" aria-labelledby="diHzKontrolBaslik">
+        <h3 class="di-bolum-bas" id="diHzKontrolBaslik"><span class="material-symbols-outlined" aria-hidden="true">checklist</span>Kontrol listesi</h3>
+        <label class="lbl" for="diHzSablon">Kontrol şablonu</label>
+        <select id="diHzSablon" class="inp" data-on-change="diHzSablonSec"></select>
+        <p id="diHzSablonNot" class="di-not" hidden>Makinenin kategorisinden seçildi; gerekirse değiştirin.</p>
+        <div id="diHzKontroller"></div>
+      </section>
+      <section class="di-bolum" aria-labelledby="diHzFotoBaslik">
+        <h3 class="di-bolum-bas"><span class="material-symbols-outlined" aria-hidden="true">photo_camera</span><span id="diHzFotoBaslik">Zorunlu fotoğraflar</span></h3>
+        <p class="di-not" style="margin:-4px 0 10px">Makine araca yüklenmeden, her açı ve her teker (paletli makinede her palet) için bir fotoğraf.</p>
+        <div id="diHzFotolar" class="di-foto-izgara"></div>
+        <div id="diHzDigerFoto" hidden></div>
+      </section>
+      <div class="di-panel-iki">
+        <section class="di-bolum">
+          <label class="di-bolum-bas" for="diHzSayac"><span class="material-symbols-outlined" aria-hidden="true">speed</span><span id="diHzSayacEt">Sayaç *</span></label>
+          <div class="di-sayac"><input id="diHzSayac" type="number" min="0" step="0.1" inputmode="decimal" class="inp" placeholder="0"/><span class="di-birim" id="diHzBirim">saat</span></div>
+        </section>
+        <section class="di-bolum"><div id="hzSayimAlan"></div></section>
+      </div>
+      <section class="di-bolum" aria-labelledby="diHzBilesenBaslik">
+        <h3 class="di-bolum-bas" id="diHzBilesenBaslik"><span class="material-symbols-outlined" aria-hidden="true">build</span>Bileşen durumu</h3>
+        <p class="di-not" style="margin:-4px 0 6px">Çıkış kontrolü hâli (teslim tutanağındaki tablo; başta hepsi hasarsız).</p>
+        <div id="diHzBilesen"></div>
+      </section>
+      <p id="diHzHata" class="di-hata" role="alert" hidden></p>
+    </div>
+    <div class="di-dugmeler"><button type="button" class="di-ikincil" data-on-click="diHzKaydet" data-args='[false]'>Taslağı kaydet</button><button type="button" class="di-birincil" data-on-click="diHzKaydet" data-args='[true]'><span class="material-symbols-outlined" aria-hidden="true">check_circle</span><span>Yüklemeye hazır</span></button></div>
+  </div>
+</div>
+
+<div id="ddInceleme" class="di-panel fixed inset-0 hidden" role="dialog" aria-modal="true" aria-labelledby="ddInBaslik">
+  <div class="di-panel-ic pencere" tabindex="-1">
+    <div class="di-panel-ust">
+      <div class="di-panel-bas"><h2 id="ddInBaslik"></h2><button type="button" class="di-kapat" data-on-click="diPanelKapat" data-args='["ddInceleme"]' aria-label="Kapat"><span class="material-symbols-outlined" aria-hidden="true">close</span></button></div>
+      <div id="ddInKimlik"></div>
+      <div id="ddInAdimlar" class="di-adim-kap" aria-label="İnceleme adımları"></div>
+    </div>
+    <div class="di-panel-govde">
+      <div id="ddInSaha"></div>
+      <section class="di-bolum" aria-labelledby="ddInKontrolBaslik">
+        <h3 class="di-bolum-bas" id="ddInKontrolBaslik"><span class="material-symbols-outlined" aria-hidden="true">checklist</span>Kontrol listesi</h3>
+        <label class="lbl" for="ddInSablon">Kontrol listesi (gidiş şablonu)</label>
+        <select id="ddInSablon" class="inp" data-on-change="ddKontrolCiz" data-args='[null]'></select>
+        <div id="ddInKontroller"></div>
+      </section>
+      <section class="di-bolum" aria-labelledby="ddInFotoBaslik">
+        <h3 class="di-bolum-bas" id="ddInFotoBaslik"><span class="material-symbols-outlined" aria-hidden="true">photo_camera</span>Fotoğraflar <small>gidiş / dönüş</small></h3>
+        <div id="ddInAcilar"></div>
+      </section>
+      <div class="di-panel-iki">
+        <section class="di-bolum">
+          <label class="di-bolum-bas" for="ddInSayac"><span class="material-symbols-outlined" aria-hidden="true">speed</span><span id="ddInSayacEt">Sayaç *</span></label>
+          <div class="di-sayac"><input id="ddInSayac" type="number" min="0" step="0.1" inputmode="decimal" class="inp" placeholder="0" data-on-input="ddSayacGoster"/><span class="di-birim" id="ddInBirim">saat</span></div>
+          <p id="ddInSayacBilgi" class="di-not" style="margin-top:6px"></p>
+        </section>
+        <section class="di-bolum">
+          <h3 class="di-bolum-bas"><span class="material-symbols-outlined" aria-hidden="true">inventory</span>Aksesuar sayımı</h3>
+          <div id="ddInAksesuar"></div>
+        </section>
+      </div>
+      <section class="di-bolum" aria-labelledby="ddInBilesenBaslik">
+        <h3 class="di-bolum-bas" id="ddInBilesenBaslik"><span class="material-symbols-outlined" aria-hidden="true">build</span>Bileşen durumu <small>gidiş ↔ dönüş</small></h3>
+        <p class="di-not" style="margin:-4px 0 6px">Yalnız değişeni işaretleyin.</p>
+        <div id="ddInBilesen" data-on-change="ddInBilesenDegisti"></div>
+      </section>
+      <section class="di-bolum" aria-labelledby="ddInBulguBaslik">
+        <h3 class="di-bolum-bas" id="ddInBulguBaslik"><span class="material-symbols-outlined" aria-hidden="true">report</span>Bulgular <small>yalnız "Sorun var" için</small></h3>
+        <div id="ddInBulgular"></div>
+        <button type="button" class="di-ikincil" data-on-click="ddBulguEkle"><span class="material-symbols-outlined" aria-hidden="true">add</span><span>Bulgu ekle</span></button>
+      </section>
+      <section class="di-bolum" aria-labelledby="ddInImzaBaslik">
+        <h3 class="di-bolum-bas" id="ddInImzaBaslik"><span class="material-symbols-outlined" aria-hidden="true">draw</span>İnceleyenin imzası *</h3>
+        <canvas id="ddInImza" aria-label="İnceleyen imzası"></canvas>
+        <button type="button" class="di-ikincil mt-2" data-on-click="ddImzaTemizle">İmzayı temizle</button>
+      </section>
+      <p id="ddInBekleyen" class="di-not" role="status" hidden></p>
+      <p id="ddInHata" class="di-hata" role="alert" hidden></p>
+      <p id="ddInSonuc" class="di-not" role="status" hidden></p>
+    </div>
+    <div class="di-dugmeler">
+      <button type="button" class="di-ikincil" data-on-click="ddIncelemeKaydet" data-args='["taslak"]'>Taslağı kaydet</button>
+      <button type="button" class="di-ikincil di-tehlike" data-on-click="ddIncelemeKaydet" data-args='["sorunlu"]'>Sorun var, servise gönder</button>
+      <button type="button" class="di-birincil" data-islem="sorunsuz" data-on-click="ddIncelemeKaydet" data-args='["sorunsuz"]'><span class="material-symbols-outlined" aria-hidden="true">check_circle</span><span>Sorunsuz, müsaite al</span></button>
+    </div>
+  </div>
+</div>
+
+<div id="sablonModal" class="hidden fixed inset-0 z-[110] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-5 sm:px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100">
+      <h2 class="text-lg font-bold font-headline" id="sbBaslik">Yeni Şablon</h2>
+      <button data-on-click="kapat" data-args='["sablonModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-5 sm:px-7 py-5 space-y-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div><label class="lbl" for="sbAd">Şablon Adı *</label><input id="sbAd" class="inp" placeholder="ör: Makine 250 Saat Periyodik Bakım"/></div>
+        <div><label class="lbl" for="sbMakineTur">Makine Türü</label><select id="sbMakineTur" class="inp"><option value="">Her ikisi (araç + makine)</option><option value="arac">Araç</option><option value="manlift">Makine</option></select></div>
+        <div><label class="lbl" for="sbServisTipi">Servis tipi (öneri için)</label><select id="sbServisTipi" class="inp"><option value="">Her tip</option><option value="bakim">Periyodik Bakım</option><option value="ariza">Arıza</option><option value="expertiz">Expertiz</option></select></div>
+        <div><label class="lbl" for="sbKategoriEsle">Makine kategorisinde geçen kelimeler (öneri için)</label><input id="sbKategoriEsle" class="inp" maxlength="200" placeholder="ör: makaslı, dikey"/>
+          <p class="text-[11px] text-slate-400 mt-1">Virgülle ayırın. Boş bırakılırsa her kategoriye önerilir.</p></div>
+      </div>
+      <div>
+        <div class="flex items-center justify-between mb-1"><label class="lbl mb-0">Kontrol Maddeleri</label>
+          <button type="button" data-on-click="sbKalemEkle" class="text-xs font-bold text-primary hover:underline flex items-center gap-1"><span class="material-symbols-outlined text-sm">add</span>Madde Ekle</button>
+        </div>
+        <div id="sbKalemler" class="space-y-1.5"></div>
+      </div>
+    </div>
+    <div class="flex gap-3 px-5 sm:px-7 py-4 justify-end sticky bottom-0 bg-white border-t border-slate-100">
+      <button data-on-click="kapat" data-args='["sablonModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="sbKaydetBtn" data-on-click="sablonKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<div id="servisModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between gap-3 px-5 sm:px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100 z-10">
+      <div class="min-w-0"><h2 class="text-lg font-bold font-headline" id="mBaslik">Yeni Servis</h2><p id="mAltBaslik" class="hidden text-xs text-slate-500 break-words"></p></div>
+      <button data-on-click="kapat" data-args='["servisModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg shrink-0"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-5 sm:px-7 py-5 space-y-5">
+      <div id="mHata" class="hidden rounded-xl bg-error-container text-error px-4 py-3 text-sm font-semibold break-words"></div>
+
+      <div id="sYerSecim">
+        <p class="lbl">Servis nerede yapılacak? *</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <label data-yer-kart="atolye" class="ring-primary flex items-start gap-3 p-4 rounded-xl border border-slate-200 cursor-pointer hover:bg-surface-container-low transition">
+            <input type="radio" name="sYer" value="atolye" class="mt-1 shrink-0" data-on-change="ssoYerDegisti"/>
+            <span class="min-w-0"><span class="flex items-center gap-1.5 font-bold text-sm"><span class="material-symbols-outlined text-lg text-primary">build</span>Atölyede</span>
+              <span class="block text-xs text-slate-500 mt-0.5">Makine atölyede; servisi burada yapıyoruz.</span></span>
+          </label>
+          <label data-yer-kart="saha" class="ring-amber-500 flex items-start gap-3 p-4 rounded-xl border border-slate-200 cursor-pointer hover:bg-surface-container-low transition">
+            <input type="radio" name="sYer" value="saha" class="mt-1 shrink-0" data-on-change="ssoYerDegisti"/>
+            <span class="min-w-0"><span class="flex items-center gap-1.5 font-bold text-sm"><span class="material-symbols-outlined text-lg text-amber-600">engineering</span>Sahada</span>
+              <span class="block text-xs text-slate-500 mt-0.5">Teknisyen müşterinin adresine gider; işi kendi hesabından görür ve formu orada doldurur.</span></span>
+          </label>
+        </div>
+        <p id="sYerUyari" class="text-xs text-slate-500 mt-2">Önce servisin nerede yapılacağını seçin; form buna göre açılır.</p>
+      </div>
+
+      <div id="sFormGovde" class="hidden space-y-5">
+        <section class="space-y-3">
+          <h3 class="flex items-center gap-1.5 text-sm font-bold text-on-surface"><span class="material-symbols-outlined text-base text-primary">precision_manufacturing</span>Makine</h3>
+          <div id="sKaynak" class="rounded-xl bg-surface-container-low px-4 py-3 text-sm"></div>
+          <div id="sMakineKaynakAlan" class="hidden flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-4 text-sm">
+            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="ssMakineTur" value="filo" checked data-on-change="ssoMakineTurDegisti"/> Bizim makinemiz</label>
+            <label data-yalniz-saha class="flex items-center gap-2 cursor-pointer"><input type="radio" name="ssMakineTur" value="kiralama" data-on-change="ssoMakineTurDegisti"/> Sahadaki kiralamadan seç (birden çok makine)</label>
+            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="ssMakineTur" value="musteri" data-on-change="ssoMakineTurDegisti"/> Müşterinin kendi makinesi</label>
+          </div>
+          <div id="ssKiraAlan" class="hidden space-y-2">
+            <div id="ssKiraPanel" class="space-y-2">
+              <div><label class="lbl" for="ssKiraAra">Aktif kiralama ara</label>
+                <input id="ssKiraAra" type="text" class="inp" autocomplete="off" placeholder="Müşteri, sipariş no, kiralama kodu, makine kodu / adı, şantiye…" data-on-input="skKiraCiz"/></div>
+              <p id="ssKiraOzet" class="text-xs text-slate-600 break-words"></p>
+              <div id="ssKiraListe" class="space-y-2 overflow-y-auto"></div>
+            </div>
+            <div id="ssKiraSecim" class="space-y-2 yapisik-alt" aria-live="polite"></div>
+          </div>
+          <div id="sMusteriYerMakine"></div>
+          <div id="sFiloBlok" class="space-y-2">
+            <label class="lbl" for="sMakineArama">Makine</label>
+            <div id="sMakineOzet" class="hidden flex items-start justify-between gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2">
+              <div class="flex items-start gap-2 min-w-0">
+                <span id="sMakineOzetIkon" class="material-symbols-outlined text-lg shrink-0 text-slate-400">precision_manufacturing</span>
+                <div class="min-w-0"><p id="sMakineAd" class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm font-bold"></p>
+                  <p id="sMakineKunye" class="hidden text-[11px] text-slate-500 leading-snug break-words mt-0.5"></p></div>
+              </div>
+              <button type="button" id="sMakineDegistir" data-on-click="skMakineDegistir" class="shrink-0 min-h-[44px] px-3 rounded-xl bg-surface-container-low text-primary text-xs font-bold hover:bg-primary-fixed transition">Değiştir</button>
+            </div>
+            <div id="sMakinePanel" class="space-y-2">
+              <input id="sMakineArama" type="text" class="inp" placeholder="Kod, plaka, marka, model, seri no, stok kodu, kategori, metraj, şube…" autocomplete="off"
+                role="combobox" aria-controls="sMakineSonuc" aria-expanded="true" data-on-input="skMakineAra" data-on-keydown="skMakineTus" data-args-keydown='["$event"]'/>
+              <p id="sMakineNot" class="text-[11px] text-slate-500"></p>
+              <div id="sMakineSonuc" role="listbox" aria-label="Makineler" class="max-h-80 overflow-y-auto rounded-xl border border-slate-100 bg-white divide-y divide-slate-100"></div>
+              <div class="flex flex-wrap items-center justify-between gap-2 yapisik-alt">
+                <p id="sMakineSeciliMetin" class="text-xs text-slate-600 break-words min-w-0" style="flex:1 1 16rem"></p>
+                <div class="flex items-center gap-2 ml-auto">
+                  <button type="button" id="sMakineKaldir" data-on-click="makineKaldir" class="hidden min-h-[44px] px-3 rounded-xl text-xs font-bold text-slate-500 hover:bg-surface-container-low transition">Seçimi kaldır</button>
+                  <button type="button" id="sMakineTamam" data-on-click="skMakineTamam" class="min-h-[44px] px-4 rounded-xl bg-primary text-white text-xs font-bold hover:opacity-90 transition">✓ Tamam</button>
+                </div>
+              </div>
+            </div>
+            <input type="hidden" id="sMakine" value=""/>
+          </div>
+          <div id="ssMmAlan" class="hidden"><label class="lbl" for="ssMusteriMakine">Müşteri makinesi *</label>
+            <div class="flex gap-2"><select id="ssMusteriMakine" class="inp flex-1 min-w-0"><option value="">— Önce müşteri seçin —</option></select>
+              <button type="button" data-on-click="ssoYeniMakineAc" class="px-3 rounded-xl bg-surface-container-low text-primary text-xs font-bold shrink-0" title="Listede yoksa ekle">+ Yeni</button></div>
+          </div>
+          <div id="ssYeniMakine" class="hidden grid grid-cols-1 sm:grid-cols-4 gap-3 p-3 rounded-xl bg-surface-container-low">
+            <input id="ssYmMarka" class="inp" placeholder="Marka"/><input id="ssYmModel" class="inp" placeholder="Model"/>
+            <input id="ssYmSeri" class="inp" placeholder="Seri no"/>
+            <button type="button" data-on-click="ssoYeniMakineKaydet" class="px-3 py-2 rounded-xl bg-primary text-white text-xs font-bold">Makineyi ekle ve seç</button>
+          </div>
+        </section>
+
+        <section class="space-y-3 pt-4 border-t border-slate-100">
+          <h3 class="flex items-center gap-1.5 text-sm font-bold text-on-surface"><span class="material-symbols-outlined text-base text-primary">support_agent</span>Talep</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div><label class="lbl" for="sGerekce">Servis gerekçesi *</label>
+              <select id="sGerekce" class="inp" data-on-change="sGerekceDegisti" data-args='["$value"]'>
+                <option value="ariza">Arıza</option><option value="ana_bakim">Ana bakım</option><option value="ara_bakim">Ara bakım</option>
+                <option value="kontrol">Kontrol / ziyaret</option><option value="kesif">Keşif</option><option value="tanitim">Tanıtım / eğitim</option>
+              </select><input type="hidden" id="sTip" value="ariza"/><input type="hidden" id="sTalepId" value=""/></div>
+            <div><label class="lbl" for="sOncelik">Öncelik</label><select id="sOncelik" class="inp"><option value="dusuk">Düşük</option><option value="normal" selected>Normal</option><option value="yuksek">Yüksek</option><option value="acil">Acil</option></select></div>
+          </div>
+          <div><label class="lbl" for="sAriza">Müşteri talebi / şikâyet *</label><textarea id="sAriza" rows="2" class="inp resize-none" placeholder="Bildirilen arıza ya da yapılacak iş"></textarea></div>
+          <div><label class="lbl" for="sNotlar">Notlar (iç kullanım)</label><textarea id="sNotlar" rows="2" class="inp resize-none"></textarea></div>
+        </section>
+
+        <section class="space-y-3 pt-4 border-t border-slate-100">
+          <h3 class="flex items-center gap-1.5 text-sm font-bold text-on-surface"><span class="material-symbols-outlined text-base text-primary">event</span>Planlama</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div><label class="lbl" for="sTeknisyen">Teknisyen</label><select id="sTeknisyen" class="inp"><option value="">— Sonra atanacak —</option></select></div>
+            <div><label class="lbl" for="sPlan">Planlanan tarih</label><input id="sPlan" type="date" class="inp"/></div>
+            <div><label class="lbl" for="sTarih" id="sTarihEt">Servis tarihi</label><input id="sTarih" type="date" class="inp"/></div>
+          </div>
+        </section>
+
+        <section id="sSahaBolum" class="hidden space-y-3 pt-4 border-t border-slate-100">
+          <h3 class="flex items-center gap-1.5 text-sm font-bold text-on-surface"><span class="material-symbols-outlined text-base text-amber-600">location_on</span>Saha adresi</h3>
+          <p id="sSahaKilit" class="hidden text-xs text-slate-500">Teknisyen raporu gönderdi; saha adresi artık değiştirilemez.</p>
+          <div id="sMusteriYerSaha">
+            <div id="ssMusteriAlan"><label class="lbl" for="ssMusteri">Müşteri <span id="ssMusteriZorunlu" class="hidden">*</span></label>
+              <select id="ssMusteri" class="inp" data-on-change="ssoMusteriSecildi"><option value="">— Seçin —</option></select></div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div><label class="lbl" for="ssSantiye">Şantiye (isteğe bağlı)</label>
+              <select id="ssSantiye" class="inp" data-on-change="ssoSantiyeSecildi"><option value="">— Adresi elle yaz —</option></select></div>
+            <div><label class="lbl" for="ssAdres">Servis adresi *</label><input id="ssAdres" class="inp" placeholder="Mahalle, cadde, no"/></div>
+            <div><label class="lbl" for="ssIl">İl</label><input id="ssIl" class="inp"/></div>
+            <div><label class="lbl" for="ssIlce">İlçe</label><input id="ssIlce" class="inp"/></div>
+            <div><label class="lbl" for="ssIrtibatAd">Sahadaki irtibat</label><input id="ssIrtibatAd" class="inp" placeholder="Ad soyad"/></div>
+            <div><label class="lbl" for="ssIrtibatTel">İrtibat telefonu</label><input id="ssIrtibatTel" class="inp" inputmode="tel"/></div>
+          </div>
+        </section>
+
+        <div id="sDonusOzet" class="hidden rounded-xl bg-amber-50 text-amber-900 p-3 text-xs"></div>
+        <section id="sSonucBolum" class="hidden space-y-3 pt-4 border-t border-slate-100">
+          <h3 class="flex items-center gap-1.5 text-sm font-bold text-on-surface"><span class="material-symbols-outlined text-base text-green-700">task_alt</span>Servis sonucu</h3>
+          <div id="sSahaForm" class="hidden space-y-3"></div>
+          <div><label class="lbl" for="sYapilan">Yapılan işlem</label><textarea id="sYapilan" rows="2" class="inp resize-none" placeholder="Servis sırasında yapılanlar"></textarea></div>
+          <fieldset><legend class="lbl">Arıza sebebi</legend>
+            <div class="flex flex-wrap gap-4 text-sm"><label class="inline-flex items-center gap-1.5"><input type="radio" name="sArizaKaynak" value="makine"> Makine kaynaklı</label><label class="inline-flex items-center gap-1.5"><input type="radio" name="sArizaKaynak" value="musteri"> Müşteri kaynaklı</label></div>
+            <p class="text-[11px] text-slate-400">Bilgi notudur; bedel kararını fiyatlandırma yetkilisi verir.</p>
+          </fieldset>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div><label class="lbl" for="sDurum">Durum</label><select id="sDurum" class="inp"><option value="acik">Açık</option><option value="devam">Devam Ediyor</option><option value="tamamlandi">Tamamlandı</option></select></div>
+            <div><label class="lbl" for="sTamamlanma">Tamamlanma tarihi</label><input id="sTamamlanma" type="date" class="inp"/></div>
+          </div>
+          <div id="sSahaDurumAlan" class="hidden rounded-xl bg-amber-50 p-3 text-sm flex flex-wrap items-center gap-2"></div>
+        </section>
+
+        <section id="smAlan" class="hidden pt-4 border-t border-slate-100" aria-labelledby="smBaslik">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <h3 id="smBaslik" class="flex items-center gap-1.5 text-sm font-bold text-on-surface"><span class="material-symbols-outlined text-base text-primary">payments</span>Masraf ve fiyat</h3>
+            <div id="smDurum" class="flex flex-wrap items-center gap-1"></div>
+          </div>
+          <input type="hidden" id="sMaliyet" value=""/>
+          <div id="smYansitAlan" data-maliyet>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="sYansit" class="rounded" data-on-change="sYansitTazele" data-args='[true]'/>
+              <span class="text-xs font-semibold text-slate-600">Müşteriye yansıt — müşteri kaynaklı arıza, müşteriye faturalandırılacak</span>
+            </label>
+            <p id="sYansitBilgi" class="text-[11px] text-slate-400 mt-1"></p>
+          </div>
+          <div id="smGovde" class="space-y-2"></div>
+        </section>
+
+        <div id="kontrolAlan" class="hidden pt-4 border-t border-slate-100">
+          <div class="flex items-center justify-between mb-2">
+            <label class="lbl mb-0">Kontrol Listesi</label>
+            <div class="flex items-center justify-end gap-2 min-w-0 flex-1">
+              <select id="kSablonSec" class="inp text-xs" style="width:auto;min-width:0;flex:0 1 auto;max-width:100%" data-on-change="kontrolSablonSecildi"><option value="">— Şablon uygula —</option></select>
+              <a href="teknik-servis.html?sekme=sablon" target="_blank" class="text-xs font-bold text-primary hover:underline shrink-0" title="Kontrol Şablonları sekmesini yeni sekmede aç">Şablonlar</a>
+            </div>
+          </div>
+          <div id="kListe" class="space-y-2"></div>
+          <div id="kBos" class="text-xs text-slate-400 py-2">Bu kayıtta henüz bir kontrol listesi yok. Yukarıdan bir şablon seçin.</div>
+          <button type="button" id="kKaydetBtn" data-on-click="kontrolKaydet" class="hidden mt-2 px-4 py-1.5 bg-surface-container-low text-primary text-xs font-bold rounded-xl hover:bg-primary-fixed transition">Kontrol Listesini Kaydet</button>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 px-5 sm:px-7 py-4 justify-between items-center sticky bottom-0 bg-white border-t border-slate-100">
+      <div id="mIndirGrup" class="hidden flex flex-wrap items-center gap-1">
+        <button type="button" data-on-click="servisPdfIndirSecili" class="px-3 py-2 text-green-700 hover:bg-green-50 text-sm font-bold rounded-xl flex items-center gap-1.5 transition" title="Servis kaydını PDF olarak indir"><span class="material-symbols-outlined text-lg">picture_as_pdf</span><span class="hidden sm:inline">Servis kaydı PDF</span></button>
+        <a id="mFormPdf" href="#" class="hidden px-3 py-2 text-green-700 hover:bg-green-50 text-sm font-bold rounded-xl flex items-center gap-1.5 transition" title="Teknisyenin doldurduğu imzalı servis formu (fiyat yok)"><span class="material-symbols-outlined text-lg">assignment</span><span class="hidden sm:inline">Servis formu PDF</span></a>
+        <button type="button" id="mBedelPdf" data-on-click="sbBedelIndirSecili" data-args='["$this"]' class="hidden px-3 py-2 text-blue-700 hover:bg-blue-50 text-sm font-bold rounded-xl flex items-center gap-1.5 transition" title="Fiyatlandırma: kalemler, KDV, toplam"><span class="material-symbols-outlined text-lg">request_quote</span><span class="hidden sm:inline">Fiyatlandırma PDF</span></button>
+        <button type="button" data-on-click="servisExcelIndirSecili" class="px-3 py-2 text-green-700 hover:bg-green-50 text-sm font-bold rounded-xl flex items-center gap-1.5 transition" title="Bu kaydı Excel (CSV) olarak indir"><span class="material-symbols-outlined text-lg">table_view</span><span class="hidden sm:inline">Excel</span></button>
+      </div>
+      <div class="flex gap-3 ml-auto">
+        <button data-on-click="kapat" data-args='["servisModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+        <button id="mKaydetBtn" data-on-click="servisKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Kaydet</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="sahaFiyatModal" class="hidden fixed inset-0 z-[110] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-8 max-h-[92vh] overflow-y-auto p-6">
+    <div class="flex items-center justify-between mb-3"><div><h2 class="text-lg font-bold font-headline" id="sfBaslik">Fiyatlandır</h2><p id="sfKunye" class="hidden text-[11px] text-slate-500 leading-snug break-words"></p></div>
+      <button data-on-click="kapat" data-args='["sahaFiyatModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button></div>
+    <p id="sfOneri" class="hidden text-xs text-amber-700 mb-2">Satırlar öneridir: parça fiyatı yedek parça kartından, saat ve yol ücreti Ayarlar'dan geldi. Kontrol edip kaydedin.</p>
+    <div class="overflow-x-auto"><table class="w-full text-sm" style="min-width:640px"><thead><tr class="text-left text-[10px] text-slate-500 uppercase"><th>Tür</th><th>Açıklama</th><th>Miktar</th><th>Birim fiyat (₺)</th><th>KDV</th><th></th></tr></thead>
+      <tbody id="sfSatirlar"></tbody></table></div>
+    <button type="button" data-on-click="ssoFiyatSatirEkle" class="mt-2 text-xs font-bold text-primary">+ Satır ekle</button>
+    <label class="flex items-center gap-2 mt-3 text-sm"><input type="checkbox" id="sfUcretsiz" data-on-change="ssoFiyatToplamCiz"/> Ücretsiz (garanti / iyi niyet) — müşteriye fatura kesilmez</label>
+    <p id="sfToplam" class="mt-3 text-sm font-bold text-right"></p>
+    <div class="flex gap-3 justify-end mt-4">
+      <button data-on-click="kapat" data-args='["sahaFiyatModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button data-on-click="ssoFiyatKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<div id="sahaRaporModal" class="hidden fixed inset-0 z-[110] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta p-6">
+    <div class="flex items-center justify-between mb-3"><h2 class="text-lg font-bold font-headline">Saha Servis Raporları</h2>
+      <button data-on-click="kapat" data-args='["sahaRaporModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button></div>
+    <div id="ssRaporListe" class="divide-y divide-slate-100"></div>
+  </div>
+</div>
+
+<div id="parcaModal" class="hidden fixed inset-0 z-[110] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100">
+      <div><h2 class="text-lg font-bold font-headline">Kullanılan Parçalar</h2><p class="text-xs text-slate-500" id="pmBaslik">—</p><p id="pmKunye" class="hidden text-[11px] text-slate-500 leading-snug break-words"></p></div>
+      <button data-on-click="kapat" data-args='["parcaModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-7 py-4">
+      <div class="flex items-end gap-2 mb-4 bg-surface-container-low rounded-xl p-3">
+        <div class="flex-1"><label class="lbl">Parça (stoktan düşülür)</label><select id="pmParca" class="inp"></select></div>
+        <div class="w-20"><label class="lbl">Adet</label><input id="pmMiktar" type="number" min="1" value="1" class="inp text-right"/></div>
+        <button data-on-click="parcaEkle" class="px-4 py-2 bg-primary text-white text-sm font-bold rounded-xl hover:opacity-90 flex items-center gap-1"><span class="material-symbols-outlined text-base">add</span></button>
+      </div>
+      <div id="pmListe"></div>
+      <div class="flex justify-between items-center mt-3 pt-3 border-t border-slate-100 text-sm">
+        <span class="text-slate-500">Parça maliyeti (servise eklendi)</span>
+        <span class="font-black text-primary" id="pmToplam">—</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="skModal" class="hidden fixed inset-0 z-[110] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-5 sm:px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100 z-10">
+      <div><h2 class="text-lg font-bold font-headline">Yapılan iş</h2><p class="text-xs text-slate-500" id="skBaslik">—</p><p id="skKunye" class="hidden text-[11px] text-slate-500 leading-snug break-words"></p></div>
+      <button data-on-click="kapat" data-args='["skModal"]' aria-label="Kapat" class="kp-dugme p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-5 sm:px-7 py-4">
+      <div id="skBaglam" hidden></div>
+      <ul id="skListe" class="mb-4"></ul>
+      <p id="skKilit" class="text-xs text-slate-500" hidden>Servis tamamlandı; satırlar artık değiştirilemez.</p>
+      <div id="skForm" class="bg-surface-container-low rounded-xl p-3 grid gap-2">
+        <div class="grid grid-cols-2 gap-2"><label><span class="lbl">Tür</span><select id="skTur" class="inp" data-on-change="skTurDegisti"><option value="malzeme">Malzeme</option><option value="iscilik">İşçilik</option></select></label>
+          <div id="skMalzemeAlan"><span class="lbl">Kaynak</span><select id="skKaynak" class="inp" data-on-change="skTurDegisti"><option value="stok">Stoktan</option><option value="elle">Elle</option></select></div></div>
+        <label id="skParcaAlan"><span class="lbl">Parça (stoktan düşülür)</span><select id="skParca" class="inp"></select></label>
+        <label id="skAciklamaAlan"><span class="lbl" id="skAciklamaEt">Açıklama</span><input id="skAciklama" class="inp" maxlength="300"></label>
+        <div class="grid grid-cols-2 gap-2"><label><span class="lbl">Miktar</span><input id="skMiktar" class="inp" inputmode="decimal"></label>
+          <label id="skElleAlan"><span class="lbl">Birim</span><input id="skBirim" class="inp" maxlength="20" placeholder="adet"></label></div>
+        <div id="skIscilikAlan" class="grid grid-cols-2 gap-2" hidden><label><span class="lbl">Saat</span><input id="skSaat" class="inp" inputmode="decimal"></label><label><span class="lbl">Kişi</span><input id="skKisi" class="inp" type="number" min="1" max="50" value="1"></label></div>
+        <label id="skBulguAlan"><span class="lbl">Bulgu</span><select id="skBulgu" class="inp"></select></label>
+        <div id="skOnay" class="text-xs bg-amber-50 text-amber-800 rounded-lg p-2" hidden><p id="skOnayMetin"></p><button type="button" class="font-bold underline mt-1" data-on-click="skEkle" data-args='[true]'>Yine de ekle (stok eksiye düşer)</button></div>
+        <div class="flex flex-wrap gap-2 justify-between items-center"><label class="text-xs text-primary font-bold cursor-pointer">Tamir sonrası fotoğraf<input type="file" accept="image/*" capture="environment" class="hidden" data-on-change="skFoto" data-args='["$this"]'></label>
+          <button type="button" data-on-click="skEkle" data-args='[false]' class="kp-dugme px-4 py-2 bg-primary text-white text-sm font-bold rounded-xl">Satır ekle</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="talepModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between gap-3 px-5 sm:px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100 z-10">
+      <div class="min-w-0"><h2 class="text-lg font-bold font-headline">Telefon talebi</h2><p class="text-xs text-slate-500">Arayan müşterinin isteği Gelen talepler listesine düşer; servis kaydı buradan açılır.</p></div>
+      <button data-on-click="kapat" data-args='["talepModal"]' aria-label="Kapat" class="p-1.5 hover:bg-surface-container-low rounded-lg shrink-0"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-5 sm:px-7 py-4 space-y-3">
+      <div id="tHata" class="hidden rounded-xl bg-error-container text-error px-4 py-3 text-sm font-semibold break-words"></div>
+      <div class="grid sm:grid-cols-2 gap-3">
+        <label class="sm:col-span-2"><span class="lbl">Müşteri *</span><select id="tMusteri" class="inp" data-on-change="talepMusteriSecildi"><option value="">— Seçin —</option></select></label>
+        <div class="sm:col-span-2 flex flex-wrap gap-4 text-sm">
+          <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="tMakineTur" value="kiralama" checked data-on-change="talepMakineTurDegisti"/> Kiradaki makinemiz</label>
+          <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="tMakineTur" value="musteri" data-on-change="talepMakineTurDegisti"/> Müşterinin kendi makinesi</label>
+          <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="tMakineTur" value="metin" data-on-change="talepMakineTurDegisti"/> Makine belirsiz (tarif)</label>
+        </div>
+        <label id="tKiralamaAlan" class="sm:col-span-2"><span class="lbl">Aktif kiralama</span><select id="tKiralama" class="inp"><option value="">— Önce müşteri seçin —</option></select></label>
+        <label id="tMmAlan" class="sm:col-span-2 hidden"><span class="lbl">Müşteri makinesi</span><select id="tMusteriMakine" class="inp"><option value="">— Önce müşteri seçin —</option></select></label>
+        <label id="tMetinAlan" class="sm:col-span-2 hidden"><span class="lbl">Makine tarifi</span><input id="tMakineMetin" class="inp" maxlength="200" placeholder="Örn. sarı makaslı platform, seri no bilinmiyor"/></label>
+        <label class="sm:col-span-2"><span class="lbl">Şikâyet / istek *</span><textarea id="tSikayet" class="inp" rows="3" maxlength="2000" placeholder="Müşterinin anlattığı sorun"></textarea></label>
+        <label><span class="lbl">Arayan adı</span><input id="tArayanAd" class="inp" maxlength="120"/></label>
+        <label><span class="lbl">Arayan telefonu</span><input id="tArayanTel" class="inp" maxlength="40" inputmode="tel"/></label>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 px-5 sm:px-7 py-4 justify-end sticky bottom-0 bg-white border-t border-slate-100">
+      <button data-on-click="kapat" data-args='["talepModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="tKaydetBtn" data-on-click="talepKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Talebi kaydet</button>
+    </div>
+  </div>
+</div>
+<div id="talepRedModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta">
+    <div class="px-5 sm:px-7 pt-6 pb-3 border-b border-slate-100"><h2 class="text-lg font-bold font-headline">Talebi reddet</h2><p class="text-xs text-slate-500" id="tRedBaslik">—</p></div>
+    <div class="px-5 sm:px-7 py-4"><label><span class="lbl">Red gerekçesi (müşteri portalda görür) *</span><textarea id="tRedGerekce" class="inp" rows="3" maxlength="1000" placeholder="En az 5 karakter"></textarea></label></div>
+    <div class="flex flex-wrap gap-3 px-5 sm:px-7 py-4 justify-end border-t border-slate-100">
+      <button data-on-click="kapat" data-args='["talepRedModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="tRedBtn" data-on-click="talepReddet" class="px-6 py-2 bg-error text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Reddet</button>
+    </div>
+  </div>
+</div>
+<div id="kapatModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between gap-3 px-5 sm:px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100 z-10">
+      <div class="min-w-0"><h2 class="text-lg font-bold font-headline">Servisi tamamla</h2><p class="text-xs text-slate-500 break-words" id="kpBaslik">—</p><p id="kpKunye" class="hidden text-[11px] text-slate-500 leading-snug break-words"></p><p id="kpKira" class="hidden text-[11px] text-slate-600 leading-snug break-words mt-1"></p></div>
+      <button data-on-click="kapat" data-args='["kapatModal"]' aria-label="Kapat" class="kp-dugme p-1.5 hover:bg-surface-container-low rounded-lg shrink-0"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-5 sm:px-7 py-4 space-y-3">
+      <div id="kpHata" class="hidden rounded-xl bg-error-container text-error px-4 py-3 text-sm font-semibold break-words"></div>
+      <div id="kpGovde" class="space-y-3"></div>
+    </div>
+    <div class="flex flex-wrap gap-3 px-5 sm:px-7 py-4 justify-end sticky bottom-0 bg-white border-t border-slate-100">
+      <button data-on-click="kapat" data-args='["kapatModal"]' class="kp-dugme px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="kpDeneBtn" data-on-click="kapatDene" class="kp-dugme px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Tamamlandı olarak kapat</button>
+    </div>
+  </div>
+</div>
+
+<div id="parcaTalepModal" class="hidden fixed inset-0 z-[110] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100">
+      <div><h2 class="text-lg font-bold font-headline">Parça Talepleri (Satın Alma)</h2><p class="text-xs text-slate-500" id="ptBaslik">—</p><p id="ptKunye" class="hidden text-[11px] text-slate-500 leading-snug break-words"></p></div>
+      <button data-on-click="kapat" data-args='["parcaTalepModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-7 py-4">
+      <p class="text-xs text-slate-500 mb-3">Bu servis kaydı için satın alma sürecinden istenen parçalar. "Tamamlandı" işaretlemek, teslim alınmamış bir talep varken engellenir.</p>
+      <div id="ptListe"><p class="text-slate-400 text-sm">Yükleniyor…</p></div>
+      <a id="ptYeniLink" href="#" class="mt-4 inline-flex items-center gap-1.5 px-4 py-2 bg-primary text-white text-sm font-bold rounded-xl hover:opacity-90 transition">
+        <span class="material-symbols-outlined text-base">add</span> Yeni parça talebi oluştur
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/servis-kalem.js"></script>
+<script src="js/servis-maliyet.js"></script>
+<script src="js/servis-bedel.js"></script>
+<script src="js/saha-servis-ofis.js"></script>
+<script src="js/servis-kaynak.js"></script>
+<script src="js/referans-foto.js"></script>
+<script src="js/aksesuar-sayim.js"></script>
+<script src="js/depo-isleri.js"></script>
+<script src="js/depo-donus.js"></script>
+<script src="js/s-teknik-servis.js"></script>
+<script src="js/pwa.js"></script>
+<div id="hasarKanitModal" class="hidden fixed inset-0 z-[120] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl w-full pencere max-h-[88vh] overflow-y-auto shadow-xl">
+    <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between gap-3 sticky top-0 bg-white rounded-t-2xl">
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="material-symbols-outlined text-orange-600" id="hkIkon">assignment_late</span>
+        <div class="min-w-0">
+          <p class="text-xs text-slate-400" id="hkUst">Hasarlı iade kanıtı</p>
+          <p class="font-bold text-sm break-words" id="hkBaslik"></p>
+          <p id="hkKunye" class="hidden text-[11px] text-slate-500 leading-snug break-words"></p>
+        </div>
+      </div>
+      <button data-on-click="Eylem.gizle" data-args='["hasarKanitModal"]' class="p-1 hover:bg-surface-container-low rounded-lg transition shrink-0"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-6 py-5" id="hkGovde"></div>
+  </div>
+</div>
+
+<div id="indirMenu" class="hidden fixed w-44 bg-white rounded-xl shadow-lg border border-slate-100 py-1 text-sm" style="z-index:130" role="menu">
+  <button type="button" data-on-click="indirMenuSec" data-args='["pdf"]' class="w-full text-left px-3 py-2 hover:bg-surface-container-low flex items-center gap-2"><span class="material-symbols-outlined text-base text-green-700">picture_as_pdf</span>PDF indir</button>
+  <button type="button" data-on-click="indirMenuSec" data-args='["excel"]' class="w-full text-left px-3 py-2 hover:bg-surface-container-low flex items-center gap-2"><span class="material-symbols-outlined text-base text-green-700">table_view</span>Excel indir</button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Sahada Teslim — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/belge.css"/>
+<style>
+  [hidden]{display:none!important}
+  h1,h2,h3{font-family:'Manrope','Inter',system-ui,sans-serif}
+  body{font-family:'Inter',system-ui,sans-serif;background:#f8f9ff;color:#0d1c2e;margin:0}
+  .st-ana{max-width:640px;margin:0 auto;padding:16px}
+  h1{font-size:22px;font-weight:800;margin:4px 0 12px} h2{font-size:18px;font-weight:750;margin:6px 0 10px} h3{font-size:15px;font-weight:700;margin:6px 0}
+  .st-kart{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(15,23,42,.08);padding:16px;margin-bottom:12px}
+  .st-lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin:12px 0 4px}
+  .st-inp{width:100%;box-sizing:border-box;background:#eff4ff;border:none;border-radius:12px;padding:12px;font-size:16px}
+  .st-birincil{width:100%;min-height:48px;margin-top:14px;border:none;border-radius:12px;background:#00236f;color:#fff;font-weight:800;font-size:16px}
+  .st-birincil:disabled{opacity:.45}
+  button{min-height:44px;padding:0 14px;border-radius:12px;border:1px solid #cbd5e1;background:#fff;font-weight:700;margin-top:8px}
+  .st-sekmeler{display:flex;gap:6px;margin-bottom:10px} .st-sekmeler button{flex:1;margin:0}
+  .st-sekmeler button[aria-selected=true]{background:#00236f;color:#fff;border-color:#00236f}
+  .st-arac{border-top:1px solid #e2e8f0;padding-top:6px;margin-top:6px}
+  #stAraAlan>summary{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;margin:12px 0 0;padding:0 14px;border:1px solid #cbd5e1;border-radius:12px;background:#fff;color:#334155;cursor:pointer;list-style:none}
+  #stAraAlan>summary::-webkit-details-marker{display:none}
+  #stAraAlan>summary::after{content:"▾";font-size:14px;color:#64748b}
+  #stAraAlan[open]>summary::after{content:"▴"}
+  #stAraAlan[open]>summary{margin-bottom:8px}
+  .st-makine{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid #f1f5f9;font-size:14px;overflow-wrap:anywhere}
+  .st-makine input{width:24px;height:24px;flex:none;margin-top:2px}
+  .st-satir{border:1px solid #e2e8f0;border-radius:14px;padding:12px;margin-bottom:12px}
+  .st-acilar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:4px 0 8px}
+  @media(min-width:640px){.st-acilar{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  .st-evet-hayir{display:flex;gap:18px;font-size:16px} .st-evet-hayir input{width:22px;height:22px;vertical-align:middle}
+  .st-secim{display:block;padding:6px 0;font-size:15px} .st-secim input{width:22px;height:22px;vertical-align:middle}
+  .st-imza{display:block;width:100%;height:140px;touch-action:none;background:#fff;border:1px dashed #8a9caf;border-radius:12px}
+  .st-not{color:#64748b;font-size:13px} .st-mesaj{font-weight:700;color:#00236f;min-height:1.2em;margin:0 0 10px} .st-mesaj:empty{min-height:0;margin:0} .st-hata{color:#ba1a1a}
+  .st-cekince{background:#fff7e6;border-radius:12px;padding:10px;font-size:13px}
+  #planli{border-bottom:1px solid #e2e8f0;padding-bottom:8px;margin-bottom:10px}
+  .sp-is{border:1px solid #e2e8f0;border-radius:14px;padding:12px;margin-bottom:10px;font-size:14px;overflow-wrap:anywhere}
+  .sp-is p{margin:4px 0}
+  .sp-dugmeler{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+  .sp-dugme{display:inline-flex;align-items:center;justify-content:center;flex:1 1 120px;min-height:44px;padding:0 14px;border-radius:12px;background:#00236f;color:#fff;font-weight:800;text-decoration:none}
+  .sp-makineler{list-style:none;padding:0;margin:6px 0 0}
+  .sp-makine{padding:8px 0;border-top:1px solid #f1f5f9}
+  .st-protokol{border:1px solid #cbd5e1;border-radius:14px;padding:12px;margin:12px 0}
+  .st-protokol-belge{max-height:60vh;overflow-y:auto;border:1px solid #e2e8f0;border-radius:10px;padding:10px;margin:6px 0;background:#fff}
+  .st-protokol-imzali{background:#ecfdf3;color:#067647;border-radius:10px;padding:8px 10px;font-weight:700;font-size:14px}
+</style>
+</head>
+<body>
+<main class="st-ana">
+  <a id="stPanelDon" class="st-not" href="index.html" hidden>← Panele dön</a>
+  <h1>Sahada teslim</h1>
+  <p id="stMesaj" class="st-mesaj" role="status" aria-live="polite"></p>
+
+  <section id="stGiris" class="st-kart">
+    <div id="stPinAlan">
+      <p class="st-not">Bu ekran kendi kullanıcı hesabınızla çalışır.</p>
+      <a id="stGirisLink" class="st-birincil" href="login.html" target="_blank" rel="noopener">Yeni sekmede giriş yap</a>
+      <button id="stOturumBtn" type="button">Oturumumla devam et</button>
+    </div>
+  </section>
+
+  <section id="stListe" class="st-kart" hidden>
+    <p id="stBaglantiBilgi" class="st-not" hidden></p>
+    <div id="planli" hidden></div>
+    <div id="stSekmeler" class="st-sekmeler" role="tablist">
+      <button id="stSekTeslim" role="tab" aria-selected="true" type="button">Teslim et</button>
+      <button id="stSekAl" role="tab" aria-selected="false" type="button">Teslim al</button>
+    </div>
+    <h2 id="stListeBaslik">Taşıdığınız makineler</h2>
+    <div id="stAraclar"></div>
+    <details id="stAraAlan"><summary class="st-lbl">Başka makine ara</summary>
+      <input id="stAra" class="st-inp" placeholder="Makine kodu, kiralama kodu ya da müşteri"/>
+      <button id="stAraBtn" type="button">Ara</button>
+      <div id="stAraSonuc"></div>
+    </details>
+    <button id="stDevam" class="st-birincil" type="button" disabled>Makine seçin</button>
+    <button id="stKagitAc" type="button" hidden disabled>Kâğıt tutanak yükle (yedek)</button>
+  </section>
+
+  <section id="stForm" class="st-kart" hidden>
+    <h2 id="stFormBaslik"></h2>
+    <div id="stSatirlar"></div>
+    <div id="stKagitAlan" hidden>
+      <label class="st-lbl" for="stKagitTarih">Kâğıttaki tarih</label><input id="stKagitTarih" type="date" class="st-inp"/>
+      <p class="st-lbl">Kâğıt tutanağın fotoğrafı *</p><div id="stKagitFotolar" class="rf-kucukler"></div><div id="stKagitEkle" class="rf-dugmeler"></div>
+    </div>
+    <label class="st-lbl" for="stTeslimAlan">Teslim alan / veren kişinin adı</label><input id="stTeslimAlan" class="st-inp" maxlength="120"/>
+    <label class="st-lbl" for="stKabul">Sonuç</label>
+    <select id="stKabul" class="st-inp">
+      <option value="teslim_aldi">İmzaladı</option><option value="cekinceli">Çekinceyle imzaladı</option>
+      <option value="yetkili_yok">Yetkili yok</option><option value="imza_vermedi">İmza vermedi</option><option value="teslim_edilemedi">Teslim edilemedi</option>
+    </select>
+    <div id="stKabulNotAlan" hidden><label class="st-lbl" for="stKabulNot">Açıklama</label><textarea id="stKabulNot" class="st-inp" maxlength="3000"></textarea></div>
+    <div id="stCekinceAlan" hidden><label class="st-lbl" for="stCekince">Çekincenin ilgili olduğu parça / açı</label><input id="stCekince" class="st-inp" maxlength="500"/>
+      <div id="stCekinceMakineler" hidden></div></div>
+    <div id="stBirakildiAlan" hidden><label class="st-secim"><input id="stBirakildi" type="checkbox"/> Makine sahada bırakıldı</label></div>
+    <div id="stYerAlan" hidden><label class="st-lbl" for="stYer">Makine şu an nerede?</label><input id="stYer" class="st-inp" maxlength="500"/></div>
+    <div id="stPlanAlan" hidden><label class="st-lbl" for="stPlan">Sonraki plan</label><input id="stPlan" class="st-inp" maxlength="1000"/></div>
+    <p id="stCekinceBilgi" class="st-cekince" hidden>Tutanağa yazılacak: “Makine sahada gözle kontrol edilmiştir; ayrıntılı muayene dönüş kontrolünde yapılacak, tespit edilen hasar ayrıca bildirilecektir.”</p>
+    <fieldset id="stBirlikte" hidden><legend class="st-lbl">Birlikte bulunanlar</legend><div id="stBirlikteListe"></div></fieldset>
+    <section id="stProtokolAlan" class="st-protokol" hidden>
+      <h3>Kiralama protokolü</h3>
+      <div id="stProtokolIcerik"></div>
+      <div id="stProtokolOnayAlan" hidden>
+        <label class="st-lbl" for="stProtokolUnvan">İmzalayanın unvanı (isteğe bağlı)</label><input id="stProtokolUnvan" class="st-inp" maxlength="120"/>
+        <label class="st-secim"><input id="stProtokolOnay" type="checkbox"/> Kiralama protokolünü okudum, kabul ediyorum</label>
+        <p class="st-not">İşaretlenirse müşterinin aşağıdaki tek imzası hem tutanağa hem protokole işlenir; işaretlenmezse protokol imzasız kalır, ofis sonra bağlantıyla imzalatabilir.</p>
+      </div>
+    </section>
+    <div id="stMusteriImzaAlan">
+      <label class="st-lbl">Müşteri imzası (bütün makineler için bir kez)</label>
+      <canvas id="stImzaMusteri" class="st-imza"></canvas><button type="button" data-temizle="stImzaMusteri">Temizle</button>
+    </div>
+    <div id="stPersonelImzaAlan">
+      <p class="st-not">Şoför imzası gerekmez: tutanağa kiralamayı açan personelin imzası otomatik eklenir.</p>
+    </div>
+    <button id="stKaydet" class="st-birincil" type="button">Kaydet</button>
+    <button id="stGeri" type="button">Geri</button>
+  </section>
+
+  <section id="stSonuc" class="st-kart" hidden>
+    <h2>Kaydedildi</h2><p id="stSonucMesaj"></p><ul id="stSonucListe"></ul>
+    <button id="stYeni" class="st-birincil" type="button">Yeni teslim</button>
+  </section>
+</main>
+<script src="js/eylem.js"></script>
+<script src="js/app.js"></script>
+<script src="js/referans-foto.js"></script>
+<script src="js/saha-teslim.js"></script>
+</body>
+</html>

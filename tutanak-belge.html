@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Tutanak Belgesi — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.55rem 0.9rem;font-size:0.875rem;outline:none}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+  .tb-icerik{max-width:1200px}
+  .tb-card{background:#fff;border-radius:1rem;box-shadow:0 1px 2px 0 rgb(0 0 0 / .05);padding:1.25rem}
+  .tb-card h2{font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;color:#0f1f3d;margin:0 0 .6rem;display:flex;align-items:center;gap:.4rem}
+  .tb-card h3{font-weight:700;font-size:14px;margin:0 0 .25rem;color:#0f1f3d}
+  .tb-not{font-size:13px;color:#475569;margin:0 0 .6rem;line-height:1.5}
+  .tb-uyari{font-size:13px;color:#b3261e;font-weight:600;margin:0 0 .6rem}
+  .tb-pre{white-space:pre-wrap}
+  .tb-pre:empty,#tbMesaj:empty,#tbKimlik:empty,#tbDurum:empty{display:none}
+  #tbMesaj{position:sticky;top:64px;z-index:30;background:#eff6ff;color:#1e3a8a;border:1px solid #bfdbfe;border-radius:.75rem;padding:.6rem 1rem;font-size:14px;font-weight:600}
+  .tb-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .tb-card button,.tb-btn{display:inline-flex;align-items:center;gap:.35rem;padding:.5rem .9rem;border-radius:.75rem;font-size:13px;font-weight:700;color:#00236f;background:#eff4ff;border:0;cursor:pointer;transition:opacity .15s;margin:0}
+  .tb-card button:hover,.tb-btn:hover{opacity:.88}
+  .tb-card button:disabled{opacity:.5;cursor:default}
+  .tb-card button.tb-primary{background:#00236f;color:#fff}
+  .tb-card button.tb-tehlike{background:#fde8e6;color:#b3261e}
+  .tb-card > p a,.tb-card .tb-link,#tbTalepler a,#tbGonderimLink a{color:#00236f;font-weight:700;font-size:13px}
+  .tb-card label:not(.lbl){font-size:13px;color:#334155}
+  .tb-card textarea.inp{min-height:4.5rem;resize:vertical}
+  .tb-card select.inp{appearance:auto}
+  canvas{width:100%;height:160px;touch-action:none;background:#f7f9fb;border:1px dashed #94a3b8;border-radius:.75rem;display:block}
+  .tb-tablo{width:100%;border-collapse:collapse;font-size:13px}
+  .tb-tablo th{font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.06em;text-align:left;padding:.5rem .6rem;border-bottom:1px solid #e2e8f0;white-space:nowrap}
+  .tb-tablo td{padding:.6rem;border-bottom:1px solid #f1f5f9;vertical-align:top;overflow-wrap:anywhere}
+  #tbGonderimler td button{padding:.3rem .6rem;font-size:12px}
+  .tb-scroll{overflow:auto}
+  #tbTalepler table{min-width:500px;width:100%;border-collapse:collapse;font-size:13px}#tbTalepler td,#tbTalepler th{padding:.5rem .6rem;border-bottom:1px solid #f1f5f9;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+  #tbTalepler .tb-card{border:1px solid #e2e8f0;box-shadow:none;padding:.9rem;margin:0 0 .75rem}
+  #tbTalepler p{font-size:13px;color:#475569;margin:.2rem 0}
+  .zc-satir{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.zc-cip{display:inline-flex;flex-direction:column;margin:0;padding:6px 10px;border-radius:12px;font-size:12px;font-weight:700;border:1px solid #e2e8f0}.zc-cip small{font-weight:500;color:#64748b}.zc-tamam{background:#ecfdf5;color:#065f46;border-color:#a7f3d0}.zc-atlandi{background:#fffbeb;color:#92400e;border-color:#fde68a}.zc-bekliyor{background:#f8fafc;color:#94a3b8}.zc-ayrac{color:#94a3b8}
+  .tb-belge.avk-document{width:auto;max-width:100%;margin:14px 0 0;padding:16px;box-shadow:none;border:1px solid #e2e8f0;border-radius:12px;zoom:1}
+  .tb-belge.avk-document a,.tb-belge.avk-document button{margin:0}.tb-belge.avk-document .pa-sig img{height:60px}
+  @media(max-width:650px){.tb-grid{grid-template-columns:1fr}.tb-card{padding:.9rem}.tb-belge.avk-document{padding:10px}.tb-belge.avk-document .pa-info,.tb-belge.avk-document .pa-foto-grid,.tb-belge.avk-document .pa-sig{grid-template-columns:1fr}.tb-belge .pa-table{display:block;overflow-x:auto}}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+<script src="js/eylem.js"></script>
+<script src="js/aksesuar-sayim.js"></script></head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html" title="Dashboard"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto"></nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="no-print sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center gap-3">
+    <div class="flex items-center gap-3 min-w-0">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 id="tbBaslik" class="text-base font-bold text-blue-950 font-headline">Tutanak Belgesi</h1>
+    </div>
+    <div class="flex items-center gap-1 flex-wrap justify-end">
+      <a id="tbYazdir" target="_blank" class="px-3 py-2 text-slate-600 hover:bg-surface-container-low text-sm font-bold rounded-xl flex items-center gap-1.5 transition" title="Bu sürümü yazdır / PDF olarak kaydet"><span class="material-symbols-outlined text-lg">print</span><span class="hidden sm:inline">Yazdır / PDF</span></a>
+      <a id="tbDuzelt" class="px-3 py-2 text-slate-600 hover:bg-surface-container-low text-sm font-bold rounded-xl flex items-center gap-1.5 transition" title="Düzeltme talebi aç"><span class="material-symbols-outlined text-lg">edit_note</span><span class="hidden sm:inline">Düzeltme talebi</span></a>
+      <a href="iade-tutanaklari.html" class="px-3 py-2 text-slate-600 hover:bg-surface-container-low text-sm font-bold rounded-xl flex items-center gap-1.5 transition" title="Tutanak listesine dön"><span class="material-symbols-outlined text-lg">list_alt</span><span class="hidden sm:inline">İade Tutanakları</span></a>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8 space-y-4 tb-icerik">
+    <div id="tbMesaj" role="status"></div>
+
+    <section class="tb-card">
+      <p id="tbKimlik" class="text-sm text-slate-600"></p>
+      <p id="tbDurum" class="text-sm font-semibold text-blue-950 mt-1"></p>
+      <div class="mt-4 max-w-xl"><label class="lbl" for="tbSurum">Belge sürümü</label><select id="tbSurum" class="inp"></select></div>
+      <div id="tbBelge" class="avk-document tb-belge"></div>
+    </section>
+
+    <section id="tbZincir" class="tb-card" hidden></section>
+
+    <section id="tbGonderim" class="tb-card" hidden>
+      <h2><span class="material-symbols-outlined text-lg text-slate-400">send</span>Müşteriye gönderim</h2>
+      <p id="tbGonderimBicim" class="tb-pre tb-not"></p>
+      <p id="tbGonderimEngel" class="tb-pre tb-uyari"></p>
+      <div id="tbGonderimForm" class="space-y-3">
+        <button type="button" class="tb-primary" data-on-click="tbGonder" data-args='["otomatik"]'><span class="material-symbols-outlined text-base">autorenew</span>Yeniden gönder (otomatik)</button>
+        <div class="tb-grid">
+          <div class="space-y-2"><label class="lbl" for="tbGonTel">WhatsApp numarası</label><input id="tbGonTel" class="inp" maxlength="40" inputmode="tel"><button type="button" data-on-click="tbGonder" data-args='["whatsapp"]'><span class="material-symbols-outlined text-base">chat</span>WhatsApp'tan gönder</button></div>
+          <div class="space-y-2"><label class="lbl" for="tbGonEposta">E-posta adresi</label><input id="tbGonEposta" class="inp" maxlength="200" type="email"><button type="button" data-on-click="tbGonder" data-args='["eposta"]'><span class="material-symbols-outlined text-base">mail</span>E-posta ile gönder</button></div>
+        </div>
+      </div>
+      <div id="tbGonderimLink" class="mt-2"></div>
+      <div class="tb-scroll mt-3"><table class="tb-tablo"><thead><tr><th>Tarih</th><th>Kanal</th><th>Alıcı</th><th>Geçerlilik</th><th>Açılma</th><th></th></tr></thead><tbody id="tbGonderimler"></tbody></table></div>
+    </section>
+
+    <section class="tb-card">
+      <h2><span class="material-symbols-outlined text-lg text-slate-400">event_repeat</span>Tarih düzeltmesinin ticari etkisi</h2>
+      <p id="tbEtki" class="tb-pre tb-not"></p>
+    </section>
+
+    <section class="tb-card" id="hzSayimDuzelt" hidden>
+      <h2><span class="material-symbols-outlined text-lg text-slate-400">inventory_2</span>Adetli sayım düzeltme talebi</h2>
+      <div id="hzSayimAlan"></div>
+      <div class="mt-3"><label class="lbl" for="hzDuzeltGerekce">Sayım düzeltme gerekçesi</label><textarea id="hzDuzeltGerekce" class="inp" rows="3"></textarea></div>
+      <div class="mt-3"><button type="button" class="tb-primary" data-on-click="tbSayimTalep">Sayım düzeltmesi iste</button></div>
+    </section>
+
+    <section class="tb-card">
+      <h2><span class="material-symbols-outlined text-lg text-slate-400">rule</span>Düzeltme talepleri</h2>
+      <div id="tbTalepler"></div>
+      <div class="mt-3"><label class="lbl" for="tbRetNot">Talebi reddetmek için gerekçe</label><textarea id="tbRetNot" class="inp" rows="2" maxlength="3000"></textarea></div>
+    </section>
+
+    <section id="tbTakip" class="tb-card" hidden>
+      <h2><span class="material-symbols-outlined text-lg text-slate-400">assignment_ind</span>Belge inceleme / kabul takibini ata</h2>
+      <p id="tbTakipBilgi" class="tb-not"></p>
+      <div class="tb-grid">
+        <div><label class="lbl" for="tbTakipTuru">Takip işi</label><select id="tbTakipTuru" class="inp" data-on-change="tbTakipSec"></select></div>
+        <div><label class="lbl" for="tbSorumlu">Sorumlu</label><select id="tbSorumlu" class="inp"></select></div>
+        <div><label class="lbl" for="tbHedef">Hedef tarih</label><input id="tbHedef" class="inp" type="date"></div>
+        <div><label class="lbl" for="tbAtamaNot">Atama gerekçesi</label><textarea id="tbAtamaNot" class="inp" rows="2" maxlength="2000"></textarea></div>
+      </div>
+      <div class="mt-3"><button type="button" class="tb-primary" data-on-click="tbAta">Takibi ata</button></div>
+    </section>
+
+    <form id="tbKabulForm" class="tb-card" hidden>
+      <h2><span class="material-symbols-outlined text-lg text-slate-400">draw</span>Güncel sürüme yeniden imza ve kabul</h2>
+      <p class="tb-not">Yukarıdaki güncel alanlar ve fotoğraflar için imza alınır. Eski imzalar kopyalanmaz. Çekincenin giderildiğine ilişkin yeni kabul, yeni imzalarla kaydedilir.</p>
+      <fieldset id="tbKabulAlan" class="space-y-4">
+        <div class="tb-grid">
+          <div><label class="lbl" for="tbKabul">Kabul sonucu</label><select id="tbKabul" class="inp"><option value="teslim_aldi">İmzalı kabul</option><option value="cekinceli">Çekinceli kabul</option></select></div>
+          <div><label class="lbl" for="tbMusteri">Müşteri temsilcisinin adı soyadı</label><input id="tbMusteri" class="inp" required maxlength="120"></div>
+          <div><label class="lbl" for="tbKabulNot">Açıklama / çekince</label><textarea id="tbKabulNot" class="inp" rows="2" maxlength="3000"></textarea></div>
+          <div><label class="lbl" for="tbParca">Çekincenin ilgili olduğu parça / fotoğraf açısı</label><input id="tbParca" class="inp" maxlength="500"></div>
+        </div>
+        <div class="tb-grid">
+          <div><label class="lbl">Müşteri imzası</label><canvas id="tbSigMusteri" width="600" height="160"></canvas><div class="mt-2"><button type="button" data-on-click="tbTemizle" data-args='["tbSigMusteri"]'><span class="material-symbols-outlined text-base">ink_eraser</span>İmzayı temizle</button></div></div>
+          <p class="text-sm text-slate-600">Personel imzası gerekmez: belgenin sol altındaki kiraya veren imzası tutanak oluşurken sabitlendi.</p>
+        </div>
+        <label class="flex items-start gap-2 text-sm text-slate-700"><input type="checkbox" id="tbKabulOnay" class="mt-1"> <span>Görüntülenen sürümün alanları, fotoğrafları ve kabul sonucu imza sahiplerince kontrol edildi.</span></label>
+        <div><button type="submit" class="tb-primary"><span class="material-symbols-outlined text-base">check_circle</span>Güncel kabulü kaydet</button></div>
+      </fieldset>
+    </form>
+  </div>
+</main>
+<script src="js/app.js"></script><script src="js/app-panel.js"></script><script src="js/belge-zinciri.js"></script><script src="js/tutanak-sablon.js"></script><script src="js/tutanak-belge.js"></script><script src="js/pwa.js"></script></body></html>

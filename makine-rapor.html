@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Makine Raporu — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<script src="js/eylem.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.55rem 0.9rem;font-size:0.875rem;outline:none}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  @page { size:A4 landscape; margin:10mm; }
+  @media print {
+    aside, .no-print { display:none !important; }
+    main { margin-left:0 !important; padding:0 !important; }
+    body { background:white; height:auto !important; }
+    header { position:static !important; box-shadow:none !important; border:none !important; background:white !important; }
+    canvas { break-inside:avoid; page-break-inside:avoid; }
+    tr { page-break-inside:avoid; }
+    .rf-git { display:none !important; }
+    .kpi-kart, tfoot { break-inside:avoid; }
+  }
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+  .rf-cubuk{position:sticky;top:var(--ust,56px);z-index:30;background:#f8f9ff;padding:6px 0 10px;margin-bottom:16px;box-shadow:0 12px 12px -12px rgba(15,23,42,.12)}
+  .rf-cipler{display:flex;align-items:center;gap:6px;overflow-x:auto;padding-bottom:2px;margin-bottom:8px;scrollbar-width:none;max-width:100%}
+  .rf-cipler::-webkit-scrollbar{display:none}
+  .rf-cip{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid #d7e0e8;background:#fff;color:#334155;font:700 13px 'Inter',sans-serif;cursor:pointer;transition:background .15s}
+  .rf-cip:hover{background:#eff4ff}
+  .rf-cip[aria-pressed=true]{background:#00236f;border-color:#00236f;color:#fff}
+  .rf-guncel{font-size:11px;color:#94a3b8;white-space:nowrap;margin-left:auto}
+  #raporFiltre select,#raporFiltre input,#raporFiltre button{min-height:44px}
+  .rf-paylas{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:44px;padding:0 12px;border-radius:12px;background:#eff4ff;color:#00236f;font:700 12px 'Inter',sans-serif;cursor:pointer;border:0}
+  .rf-paylas .material-symbols-outlined{font-size:18px}
+  .rf-kiyas{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;border-radius:10px;padding:3px 8px;margin-top:6px;background:#f1f5f9;color:#475569;width:max-content;max-width:100%;line-height:1.35;white-space:normal}
+  .rf-kiyas.iyi{background:#e8f7ec;color:#166534}.rf-kiyas.kotu{background:#fde8e8;color:#ba1a1a}
+  .rf-git{display:block;margin-top:6px;font-size:11px;font-weight:700;color:#00236f}
+  .rf-iskelet{color:transparent!important;background:linear-gradient(90deg,#eef2f7 25%,#f8fafc 50%,#eef2f7 75%);background-size:200% 100%;animation:rfIsk 1.2s infinite linear;border-radius:8px;min-width:64px;min-height:1em}
+  @keyframes rfIsk{to{background-position:-200% 0}}
+  th[data-sirala]{cursor:pointer;user-select:none}
+  th[data-sirala]:hover{color:#00236f}
+  th[data-sirala][aria-sort=ascending]::after{content:' ▲';font-size:9px}
+  th[data-sirala][aria-sort=descending]::after{content:' ▼';font-size:9px}
+  tfoot th,tfoot td{font-weight:800;background:#eff4ff;color:#0d1c2e;border-top:1px solid #dbe4f0}
+  a.kpi-kart{display:block;text-decoration:none;color:inherit;transition:box-shadow .15s}
+  a.kpi-kart:hover{box-shadow:0 6px 18px rgba(15,23,42,.09)}
+  @media(max-width:767px){.rf-cipler{flex-wrap:wrap;overflow-x:visible}.rf-cipler .rf-cip{padding:0 11px}.rf-cipler .rf-guncel{flex-basis:100%}.rf-cubuk{position:static;box-shadow:none}.rf-cip,.rf-paylas,#raporFiltre select,#raporFiltre input,#raporFiltre button{min-height:44px!important}}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto">
+    <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">dashboard</span><span>Dashboard</span></a>
+    <a href="personel.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">badge</span><span>Personel Yönetimi</span></a>
+    <a href="arac.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">directions_car</span><span>Araç Yönetimi</span></a>
+    <a href="manlift.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">precision_manufacturing</span><span>Makine Yönetimi</span></a>
+    <a href="finans.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">account_balance_wallet</span><span>Finans</span></a>
+    <a href="rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">summarize</span><span>Raporlar</span></a>
+    <a href="kiralama.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">menu_book</span><span>Kataloglar</span></a>
+    <a href="kiralama-takip.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">assignment</span><span>Kiralama Takip</span></a>
+    <a href="musteriler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">groups</span><span>Müşteriler</span></a>
+    <a href="teklifler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">request_quote</span><span>Teklifler</span></a>
+    <a href="hakedisler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt</span><span>Hakedişler</span></a>
+    <a href="nakliye.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">local_shipping</span><span>Nakliye</span></a>
+    <a href="yedek-parca.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">build</span><span>Yedek Parça</span></a>
+    <a href="makine-rapor.html" class="flex items-center gap-3 px-3 py-2.5 bg-primary text-white rounded-xl text-sm font-bold shadow-sm"><span class="material-symbols-outlined text-xl">monitoring</span><span>Makine Raporu</span></a>
+    <a href="formlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt_long</span><span>Formlar</span></a>
+    <a href="ayarlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">settings</span><span>Ayarlar</span></a>
+  </nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Makine Raporu — Doluluk & Kârlılık</h1>
+    </div>
+    <div class="flex items-center gap-2 no-print">
+      <input id="ayInp" type="month" class="bg-surface-container-low border-none rounded-xl px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary/20"/>
+      <button data-on-click="disaAktar" title="Excel/CSV'ye aktar" class="px-3 py-2 text-green-700 hover:bg-green-50 text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">download</span><span class="hidden sm:inline">Excel</span></button>
+      <button data-on-click="App.sayfaYazdir" title="Yazdır" class="px-3 py-2 text-primary hover:bg-primary/10 text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">print</span><span class="hidden sm:inline">Yazdır</span></button>
+      <button data-on-click="giderModalAc" class="px-3 sm:px-4 py-2 bg-primary text-white text-sm font-bold rounded-xl flex items-center gap-1.5 hover:opacity-90 transition"><span class="material-symbols-outlined text-lg">add</span><span class="hidden sm:inline">Gider Ekle</span></button>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8">
+    <div class="rf-cubuk no-print" id="raporFiltre">
+    <div class="rf-cipler" role="group" aria-label="Dönem">
+      <button type="button" class="rf-cip" data-donem="bu-ay" aria-pressed="false" data-on-click="mrDonemSec" data-args='["bu-ay"]'>Bu ay</button>
+      <button type="button" class="rf-cip" data-donem="gecen-ay" aria-pressed="false" data-on-click="mrDonemSec" data-args='["gecen-ay"]'>Geçen ay</button>
+      <button type="button" class="rf-cip" data-donem="iki-ay" aria-pressed="false" data-on-click="mrDonemSec" data-args='["iki-ay"]'>2 ay önce</button>
+      <button type="button" class="rf-cip" data-donem="ozel" aria-pressed="false" data-on-click="mrDonemSec" data-args='["ozel"]'>Başka ay</button>
+      <span class="rf-guncel" id="mrDonemNot">Rapor ay bazında hesaplanır; kartlar önceki ayla kıyaslanır.</span>
+    </div>
+    <div class="bg-white rounded-xl p-4 shadow-sm flex flex-wrap items-end gap-3">
+      <div>
+        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Makine Tipi</label>
+        <select id="fTip" data-on-change="yukle" class="bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/20">
+          <option value="">Tümü</option><option value="arac">Araç</option><option value="manlift">Makine</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Marka</label>
+        <select id="fMarka" data-on-change="yukle" class="bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/20 min-w-[140px]"><option value="">Tüm Markalar</option></select>
+      </div>
+      <div>
+        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Metraj (min)</label>
+        <input id="fMetrajMin" type="number" min="0" step="1" placeholder="ör. 12" data-on-change="yukle" class="w-24 bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/20"/>
+      </div>
+      <div>
+        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Metraj (max)</label>
+        <input id="fMetrajMax" type="number" min="0" step="1" placeholder="ör. 22" data-on-change="yukle" class="w-24 bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/20"/>
+      </div>
+      <button data-on-click="filtreTemizle" class="px-3 py-2 text-slate-500 hover:bg-surface-container-low text-xs font-bold rounded-xl transition">Filtreyi Temizle</button>
+      <button type="button" class="rf-paylas" data-on-click="raporBaglantiKopyala" title="Seçili ay ve süzgeçlerle bu sayfanın bağlantısını kopyala"><span class="material-symbols-outlined">link</span>Bağlantıyı kopyala</button>
+      <p class="text-[11px] text-slate-400 ml-auto">Ölçü birimi makinenin kategorisine göredir (m ya da ton). Süzgeçler adres çubuğuna yazılır; bağlantı paylaşılabilir.</p>
+    </div>
+    </div>
+
+    <div id="giderYokUyari" class="hidden bg-amber-50 text-amber-800 text-xs rounded-xl p-3 mb-4 leading-relaxed">
+      <b>Bu dönemde hiç gider kaydı yok.</b> Aşağıdaki net kâr rakamları yakıt, bakım, sigorta, lastik gibi
+      işletme giderlerini <b>içermiyor</b> — makineler olduğundan kârlı görünür.
+      <b>Gider Ekle</b> ile girdiğinizde hesaba katılır. (Teknik servis maliyetleri zaten dahil.)
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+      <a href="manlift.html" class="kpi-kart bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Makine</p><p class="text-2xl font-black text-blue-900 font-headline rf-iskelet" id="ozMakine">—</p><span class="rf-kiyas" id="kyMakine" hidden></span><span class="rf-git">Makine listesi →</span></a>
+      <a href="musaitlik.html" class="kpi-kart bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Ort. Doluluk</p><p class="text-2xl font-black text-blue-700 font-headline rf-iskelet" id="ozDoluluk">—</p><span class="rf-kiyas" id="kyDoluluk" hidden></span><span class="rf-git">Müsaitlik takvimi →</span></a>
+      <a href="kiralama-takip.html" class="kpi-kart bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Toplam Gelir</p><p class="text-xl font-black text-green-700 font-headline rf-iskelet" id="ozGelir">—</p><span class="rf-kiyas" id="kyGelir" hidden></span><span class="rf-git">Kiralama takip →</span></a>
+      <a href="#tablo" class="kpi-kart bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1" title="Gider kayıtları + teknik servis maliyeti + amortisman">Gider + Servis + Amort.</p><p class="text-xl font-black text-error font-headline rf-iskelet" id="ozGider">—</p><span class="rf-kiyas" id="kyGider" hidden></span><span class="rf-git">Makine tablosu →</span></a>
+      <a href="#tablo" class="kpi-kart col-span-2 lg:col-span-1 bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Net Kâr</p><p class="text-xl font-black font-headline rf-iskelet" id="ozNet">—</p><span class="rf-kiyas" id="kyNet" hidden></span><span class="rf-git">Makine tablosu →</span></a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+      <div class="bg-white rounded-xl p-5 shadow-sm"><h3 class="text-sm font-bold mb-3">Doluluk Oranı (%) — en yüksek 12</h3><div style="height:300px"><canvas id="chDoluluk"></canvas></div></div>
+      <div class="bg-white rounded-xl p-5 shadow-sm"><h3 class="text-sm font-bold mb-3">Net Kâr (makine bazlı) — en yüksek 12</h3><div style="height:300px"><canvas id="chNet"></canvas></div></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5">
+      <div class="bg-white rounded-xl p-5 shadow-sm"><h3 class="text-sm font-bold mb-3">Gider Dağılımı (kategori)</h3><div style="height:260px"><canvas id="chGiderKat"></canvas><div id="chGiderKatBos" class="hidden h-full flex flex-col items-center justify-center gap-2 text-center text-sm text-slate-500"><span class="material-symbols-outlined text-4xl text-slate-300">donut_small</span><span>Bu dönemde gider kaydı yok.</span><span class="text-xs text-slate-400">“Gider Ekle” ile girilen giderler burada kategorilere göre görünür.</span></div></div></div>
+      <div class="bg-white rounded-xl p-5 shadow-sm lg:col-span-2"><h3 class="text-sm font-bold mb-3">Şube Bazlı Net Kâr</h3><div style="height:260px"><canvas id="chSube"></canvas></div></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+      <div class="bg-white rounded-xl p-5 shadow-sm"><h3 class="text-sm font-bold mb-3">Makine Tipi Bazlı Gelir/Gider</h3><div style="height:260px"><canvas id="chTip"></canvas></div></div>
+      <div class="bg-white rounded-xl p-5 shadow-sm"><h3 class="text-sm font-bold mb-3">6 Aylık Trend (Gelir / Gider / Net)</h3><div style="height:260px"><canvas id="chTrend"></canvas></div></div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+      <table class="w-full text-sm" style="min-width:980px">
+        <thead><tr class="bg-surface-container-low text-left">
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Makine</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Şube</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-center">Doluluk</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Gelir</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Gider</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right" title="Bu makine için kapatılan/açılan teknik servis kayıtlarındaki maliyet toplamı">Servis</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Amortisman</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Net Kâr</th>
+          <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">ROI</th>
+          <th class="px-4 py-3"></th>
+        </tr></thead>
+        <tbody id="tablo"><tr><td colspan="10" class="px-6 py-10 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<div id="giderModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere p-7">
+    <h2 class="text-lg font-bold font-headline mb-5">Makine Gideri Ekle</h2>
+    <div class="space-y-4">
+      <div><label class="lbl">Makine *</label><select id="gMakine" class="inp"><option value="">— Seçin —</option></select></div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="lbl">Kategori</label><select id="gKategori" class="inp">
+          <option value="yakit">Yakıt</option><option value="bakim">Bakım</option><option value="sigorta">Sigorta</option><option value="lastik">Lastik</option><option value="onarim">Onarım</option><option value="diger">Diğer</option>
+        </select></div>
+        <div><label class="lbl">Tarih</label><input id="gTarih" type="date" class="inp"/></div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="lbl">Tutar (₺) *</label><input id="gTutar" type="number" min="0" step="0.01" class="inp text-right" placeholder="0"/></div>
+        <div><label class="lbl">Açıklama</label><input id="gAciklama" type="text" class="inp"/></div>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-6 justify-end">
+      <button data-on-click="kapat" data-args='["giderModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="gKaydetBtn" data-on-click="giderKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<div id="giderListeModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere p-7 max-h-[85vh] flex flex-col">
+    <div class="flex items-start justify-between gap-4 mb-1">
+      <h2 class="text-lg font-bold font-headline" id="glBaslik">Gider Kayıtları</h2>
+      <button data-on-click="kapat" data-args='["giderListeModal"]' class="p-1 hover:bg-surface-container-low rounded-lg transition"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <p class="text-xs text-slate-500 mb-4" id="glAltBaslik">—</p>
+    <div class="overflow-y-auto flex-1 -mx-2 px-2">
+      <table class="w-full text-sm">
+        <thead><tr class="text-left text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-100">
+          <th class="py-2">Tarih</th><th class="py-2">Kategori</th><th class="py-2">Açıklama</th>
+          <th class="py-2 text-right">Tutar</th><th class="py-2"></th>
+        </tr></thead>
+        <tbody id="glBody"></tbody>
+      </table>
+    </div>
+    <div class="flex items-center justify-between gap-3 mt-5 pt-4 border-t border-slate-100">
+      <span class="text-sm font-bold" id="glToplam">—</span>
+      <button data-on-click="giderListeEkle" class="px-5 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Yeni Gider Ekle</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/s-makine-rapor.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

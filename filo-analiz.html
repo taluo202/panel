@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Filo Analizi — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.5rem 0.85rem;font-size:0.8125rem;outline:none}
+  #trHarita svg{width:100%;height:auto;display:block}
+  #hTip{position:fixed;z-index:300;pointer-events:none;display:none;background:#0f172a;color:#fff;
+        padding:8px 10px;border-radius:8px;font-size:12px;line-height:1.45;box-shadow:0 6px 20px rgba(0,0,0,.25);max-width:230px}
+  #hTip b{font-size:13px}
+  .lbl{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:4px}
+  .rf-cubuk{position:sticky;top:var(--ust,56px);z-index:30;background:#f8f9ff;padding:6px 0 10px;margin-bottom:12px;box-shadow:0 12px 12px -12px rgba(15,23,42,.12)}
+  .rf-ust{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+  .rf-cipler{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;max-width:100%}
+  .rf-cipler::-webkit-scrollbar{display:none}
+  .rf-cip{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid #d7e0e8;background:#fff;color:#334155;font:700 13px 'Inter',sans-serif;cursor:pointer;transition:background .15s}
+  .rf-cip:hover{background:#eff4ff}
+  .rf-cip[aria-pressed=true]{background:#00236f;border-color:#00236f;color:#fff}
+  .rf-guncel{font-size:11px;color:#94a3b8;white-space:nowrap}
+  .rf-alanlar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;align-items:end}
+  @media(min-width:768px){.rf-alanlar{grid-template-columns:repeat(6,minmax(0,1fr))}}
+  .rf-alan{display:block;min-width:0}
+  .rf-alanlar .inp{min-height:44px}
+  .rf-paylas{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:44px;padding:0 12px;border-radius:12px;background:#eff4ff;color:#00236f;font:700 12px 'Inter',sans-serif;cursor:pointer;border:0}
+  .rf-paylas .material-symbols-outlined{font-size:18px}
+  .rf-not{margin:8px 0 0}
+  .rf-kpi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:20px}
+  @media(min-width:640px){.rf-kpi{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media(min-width:1024px){.rf-kpi{grid-template-columns:repeat(4,minmax(0,1fr))}}
+  .rf-kart{display:flex;flex-direction:column;gap:6px;min-width:0;background:#fff;border:1px solid #e6edf7;border-radius:16px;padding:14px 16px;text-decoration:none;color:inherit;box-shadow:0 1px 2px rgba(15,23,42,.05);transition:box-shadow .15s}
+  a.rf-kart:hover{box-shadow:0 6px 18px rgba(15,23,42,.09)}
+  .rf-kart-ana{background:#00236f;border-color:#00236f;color:#fff}
+  .rf-etiket{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#64748b;overflow-wrap:anywhere;margin:0}
+  .rf-kart-ana .rf-etiket{color:rgba(255,255,255,.7)}
+  .rf-sayi{font-family:'Manrope',sans-serif;font-size:26px;font-weight:900;line-height:1.1;color:#0d2a63;overflow-wrap:anywhere;margin:0}
+  .rf-kart-ana .rf-sayi{color:#fff}
+  .rf-sayi-kucuk{font-size:18px}
+  .rf-sayi.rf-sayi-not{font-size:15px;font-weight:700;line-height:1.35;color:#475569!important}
+  .rf-alt{font-size:11px;color:#64748b;line-height:1.45;overflow-wrap:anywhere;margin:0}
+  .rf-kart-ana .rf-alt{color:rgba(255,255,255,.65)}
+  .rf-kiyas{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;border-radius:10px;padding:3px 8px;background:#f1f5f9;color:#475569;width:max-content;max-width:100%;overflow-wrap:anywhere;white-space:normal;line-height:1.4}
+  .rf-kiyas.artis{background:#e8f7ec;color:#166534}.rf-kiyas.azalis{background:#fde8e8;color:#ba1a1a}
+  .rf-git{margin-top:auto;font-size:11px;font-weight:700;color:#00236f;display:inline-flex;align-items:center;gap:2px}
+  .rf-kart-ana .rf-git{color:#fff}
+  .rf-iskelet{color:transparent!important;background:linear-gradient(90deg,#eef2f7 25%,#f8fafc 50%,#eef2f7 75%);background-size:200% 100%;animation:rfIsk 1.2s infinite linear;border-radius:8px;min-width:64px;min-height:1em}
+  @keyframes rfIsk{to{background-position:-200% 0}}
+  th[data-sirala]{cursor:pointer;user-select:none}
+  th[data-sirala]:hover{color:#00236f}
+  th[data-sirala][aria-sort=ascending]::after{content:' ▲';font-size:9px}
+  th[data-sirala][aria-sort=descending]::after{content:' ▼';font-size:9px}
+  tfoot th,tfoot td{font-weight:800;background:#eff4ff;color:#0d1c2e;border-top:1px solid #dbe4f0}
+  .rf-grafik{background:#fff;border:1px solid #e6edf7;border-radius:16px;padding:14px 16px;margin-bottom:20px;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+  .rf-grafik svg{width:100%;height:auto;display:block}
+  .rf-grafik-kaydir{overflow-x:auto}
+  .rf-grafik-bas{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline;margin-bottom:6px}
+  .rf-grafik h3{font-size:12px;font-weight:900;color:#00236f;text-transform:uppercase;letter-spacing:.1em;margin:0}
+  .rf-grafik p{font-size:11px;color:#64748b;margin:0}
+  @media(max-width:767px){.rf-cubuk{position:static;box-shadow:none}.rf-cip,.rf-paylas,.rf-alanlar .inp{min-height:44px!important}}
+  #hTip{max-width:260px}
+  .f3-hero{position:relative;overflow:hidden;border-radius:20px;padding:20px 20px 16px;margin-bottom:20px;color:#fff;background:radial-gradient(120% 140% at 85% -10%,var(--f3-h1,#1e3a8a) 0%,var(--f3-h2,#00236f) 48%,var(--f3-h3,#0d1c2e) 100%);box-shadow:0 28px 56px -30px rgba(0,35,111,.65)}
+  .f3-hero::before{content:'';position:absolute;right:-12%;top:-30%;width:62%;height:90%;background:radial-gradient(closest-side,rgba(182,196,255,.22),transparent);pointer-events:none}
+  .f3-hero-bas{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;position:relative;z-index:1}
+  .f3-hero-metin{min-width:0}
+  .f3-ust{display:inline-block;font:800 10px/1 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--f3-a1,#dce1ff);background:rgba(255,255,255,.1);padding:6px 10px;border-radius:999px;margin-bottom:8px}
+  .f3-hero h2{font:800 clamp(20px,2.6vw,28px)/1.15 'Manrope','Inter',sans-serif;margin:0;color:#fff;letter-spacing:-.01em;overflow-wrap:anywhere}
+  .f3-hero-bas p{margin:4px 0 0;font-size:12px;color:rgba(255,255,255,.75)}
+  .f3-mod{min-height:44px;padding:0 16px;border-radius:12px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;font:700 13px 'Inter',sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
+  .f3-mod:hover{background:rgba(255,255,255,.18)}
+  .f3-mod:focus-visible,.f3-cip:focus-visible{outline:3px solid var(--f3-a2,#b6c4ff);outline-offset:2px}
+  .f3-mod-acik{border-color:#d7e0e8;background:#fff;color:var(--f3-p,#00236f)}
+  .f3-mod-acik:hover{background:var(--f3-yuzey,#eff4ff)}
+  .f3-kutu{position:relative;width:100%;min-width:0}
+  .f3-hero-kutu{height:440px;z-index:1}
+  .f3-orta{height:340px}.f3-kisa{height:240px}.f3-uzun{height:460px}.f3-agac{height:360px}
+  .f3-halka{position:relative}.f3-halka-kutu{height:270px}
+  .f3-merkez{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;display:flex;flex-direction:column;line-height:1.1}
+  .f3-merkez b{font:800 26px 'Manrope','Inter',sans-serif;color:#0d1c2e}
+  .f3-merkez span{font-size:11px;color:#64748b;font-weight:600}
+  .f3-iskelet{position:absolute;inset:8px;border-radius:12px;background:linear-gradient(90deg,#eef2f7 25%,#f8fafc 50%,#eef2f7 75%);background-size:200% 100%;animation:rfIsk 1.2s infinite linear}
+  .f3-iskelet-koyu{background:linear-gradient(90deg,rgba(255,255,255,.05) 25%,rgba(255,255,255,.13) 50%,rgba(255,255,255,.05) 75%);background-size:200% 100%}
+  .f3-iskelet-halka{inset:22px calc(50% - 95px) 74px;border-radius:50%}
+  .f3-bos{display:flex;align-items:center;justify-content:center;height:100%;min-height:120px;text-align:center;font-size:13px;color:#64748b;padding:12px;margin:0}
+  .f3-hero .f3-bos{color:rgba(255,255,255,.85)}
+  .f3-lejant{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11px;color:#475569;margin-top:8px}
+  .f3-lejant i{display:inline-block;width:150px;max-width:42vw;height:10px;border-radius:999px}
+  .f3-lejant small{flex-basis:100%;font-size:11px}
+  .f3-lejant-koyu{color:rgba(255,255,255,.85);position:relative;z-index:1}
+  .f3-not-koyu{font-size:11px;color:rgba(255,255,255,.75);margin:6px 0 0;position:relative;z-index:1}
+  .f3-not-koyu:empty,.f3-not:empty{display:none}
+  .f3-ozet-koyu{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;line-height:1.5;color:rgba(255,255,255,.9);margin:10px 0 0;position:relative;z-index:1}
+  .f3-ozet-koyu b{color:#fff}
+  .f3-ne{font-size:12px;line-height:1.55;color:#475569;margin:12px 0 0;padding:10px 12px;background:var(--f3-yuzey,#eff4ff);border-radius:10px}
+  .f3-ne b{color:var(--f3-p,#00236f)}
+  .f3-ne-koyu{background:rgba(255,255,255,.08);color:rgba(255,255,255,.88);position:relative;z-index:1}
+  .f3-ne-koyu b{color:#fff}
+  .f3-kart{background:#fff;border:1px solid #e6edf7;border-radius:16px;padding:16px;margin-bottom:20px;box-shadow:0 1px 2px rgba(15,23,42,.05),0 14px 34px -26px rgba(0,35,111,.3);min-width:0}
+  .f3-kart-bas{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+  .f3-kart-bas>div{min-width:0}
+  .f3-kart h3{font:900 12px/1.35 'Manrope','Inter',sans-serif;color:var(--f3-p,#00236f);text-transform:uppercase;letter-spacing:.1em;margin:0}
+  .f3-kart-bas p{font-size:11px;color:#64748b;margin:3px 0 0;line-height:1.45}
+  .f3-izgara{display:grid;grid-template-columns:minmax(0,1fr);column-gap:20px;align-items:start}
+  .f3-anahtar{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:11px;color:#334155;font-weight:600}
+  .f3-anahtar i{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+  .f3-izgara>*{min-width:0}
+  @media(min-width:768px){.f3-izgara-2,.f3-izgara-3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(min-width:1024px){.f3-izgara-harita{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}.f3-izgara-3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  .f3-ic{column-gap:16px}
+  .f3-ara-baslik{font:800 11px 'Inter',sans-serif;color:#475569;text-transform:uppercase;letter-spacing:.08em;margin:6px 0 4px}
+  .f3-cipler{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:none;max-width:100%}
+  .f3-cipler::-webkit-scrollbar{display:none}
+  .f3-cip{flex-direction:column;align-items:flex-start;justify-content:center;line-height:1.15;padding:4px 14px}
+  .f3-cip small{font-size:10px;font-weight:600;opacity:.75}
+  .f3-ozet{font-size:13px;line-height:1.65;color:#0d1c2e;margin:6px 0 0}
+  .f3-soluk{color:#64748b}
+  .f3-renk{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--r);margin-right:4px;vertical-align:-1px}
+  .f3-kpi-satir{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
+  .f3-kpi-satir>div{background:var(--f3-yuzey,#eff4ff);border-radius:12px;padding:10px 12px;min-width:0}
+  .f3-kpi-satir span{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#64748b}
+  .f3-kpi-satir b{display:block;font:800 16px 'Manrope','Inter',sans-serif;color:#0d2a63;overflow-wrap:anywhere}
+  .f3-mavi{color:var(--f3-p,#00236f)!important}.f3-kirmizi{color:var(--f3-e,#ba1a1a)!important}
+  .f3-rozetler{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 8px}
+  .f3-rozet{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 12px;border-radius:999px;background:var(--f3-yuzey,#eff4ff);color:#0d1c2e;font-size:12px;text-decoration:none;max-width:100%;overflow-wrap:anywhere}
+  .f3-rozet .material-symbols-outlined{font-size:18px}
+  a.f3-rozet:hover{filter:brightness(.97)}
+  .f3-kritik{background:var(--f3-ec,#ffdad6);color:var(--f3-oec,#93000a)}
+  .f3-uyari{background:var(--f3-tf,#ffdbcb);color:var(--f3-otv,#773205)}
+  .f3-duz{background:#f1f5f9;color:#334155}
+  .f3-harita-lejant{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:10px;font-size:11px;color:#475569}
+  .f3-lj{display:inline-flex;align-items:center;gap:6px}
+  .f3-lj i{display:inline-block;width:16px;height:12px;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(15,23,42,.1)}
+  #trHarita svg{filter:drop-shadow(0 16px 18px rgba(0,35,111,.16)) drop-shadow(0 2px 2px rgba(0,35,111,.1))}
+  #trHarita path{stroke:#fff;stroke-width:.7;transition:fill .2s,transform .18s ease,filter .18s ease;cursor:default;transform-box:fill-box;transform-origin:center}
+  #trHarita path.veriVar{cursor:pointer}
+  #trHarita path.veriVar:hover,#trHarita path.veriVar:focus{transform:translateY(-3px) scale(1.05);filter:drop-shadow(0 6px 6px rgba(0,35,111,.35));stroke:var(--f3-p,#00236f);stroke-width:1.2;outline:none}
+  .rf-kart{transition:box-shadow .15s,transform .18s ease;will-change:transform}
+  .rf-kivilcim{display:block;width:100%;height:34px;margin-top:2px}
+  .f3-gizli{display:inline-block;font-size:11px;font-weight:700;color:#475569;background:#f1f5f9;border-radius:999px;padding:2px 8px}
+  .f3-alt-satir{display:block;font-size:10px;color:#94a3b8;margin-top:2px;white-space:normal;overflow-wrap:anywhere}
+  .f3-ay-ozet{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:10px 16px 0}
+  .f3-ay-baslik{font-size:11px;font-weight:700;color:#64748b}
+  .f3-not{font-size:11px;color:#64748b;margin:6px 0 0}
+  .f3-yenileniyor .f3-kutu{opacity:.55;transition:opacity .2s}
+  @media(max-width:767px){.f3-hero{padding:16px 14px 14px;border-radius:16px}.f3-hero-kutu{height:360px}.f3-agac{height:460px}.f3-uzun{height:340px}.f3-orta{height:300px}.f3-kart{padding:14px 12px}}
+  @media(max-width:480px){.f3-kpi-satir{grid-template-columns:minmax(0,1fr)}}
+  @media(prefers-reduced-motion:reduce){#trHarita path{transition:none}#trHarita path.veriVar:hover,#trHarita path.veriVar:focus{transform:none}.rf-kart{transition:none!important;transform:none!important}.f3-iskelet{animation:none}}
+  @media print{.f3-hero{background:#fff!important;color:#0d1c2e;box-shadow:none;border:1px solid #e6edf7}.f3-hero h2,.f3-hero-bas p,.f3-ozet-koyu,.f3-ozet-koyu b,.f3-ne-koyu,.f3-ne-koyu b,.f3-lejant-koyu,.f3-not-koyu{color:#0d1c2e!important}.f3-mod,.f3-cipler{display:none!important}.f3-kart,.f3-hero{break-inside:avoid}}
+  @media print{aside,.no-print,header{display:none!important}@page{margin:10mm;size:A4 landscape}.rf-kpi{grid-template-columns:repeat(4,minmax(0,1fr))}.rf-kart,.rf-grafik,tr{break-inside:avoid}.rf-git{display:none}.rf-grafik-kaydir{overflow:visible}}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+<link rel="stylesheet" href="css/analiz-panel.css"><link rel="stylesheet" href="css/filo-inceleme.css"></head>
+<body class="analysis-page bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html" title="Dashboard"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto"></nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<div id="hTip"></div>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="no-print sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Filo Analizi</h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="grafik-merkezi.html" class="px-3 py-2 text-slate-600 hover:bg-surface-container-low text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">insights</span><span class="hidden sm:inline">Grafik Merkezi</span></a>
+      <button data-on-click="disaAktar" class="px-3 py-2 text-green-700 hover:bg-green-50 text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">download</span><span class="hidden sm:inline">Excel</span></button>
+      <button data-on-click="App.sayfaYazdir" class="px-3 py-2 text-primary hover:bg-primary/10 text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">print</span><span class="hidden sm:inline">Yazdır</span></button>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8"><nav class="analysis-nav no-print" aria-label="Analiz sayfaları"><a href="aylik-durum.html">Aylık genel durum</a><a href="sube-prim.html">Şube primleri</a><a href="ciro-analiz.html">Ciro analizi</a><a href="filo-analiz.html" aria-current="page">Filo analizi</a><a href="cek-senet.html">Çek / senet</a><a href="kasa-defteri.html">Kasa defteri</a></nav>
+    <section id="ustBlok" aria-label="Süzgeçler ve özet">
+    <div class="rf-cubuk no-print" id="raporFiltre">
+      <div class="rf-ust">
+        <div class="rf-cipler" role="group" aria-label="Dönem">
+          <button type="button" class="rf-cip" data-donem="gun" aria-pressed="false" data-on-click="filoDonemSec" data-args='["gun"]'>Bugün</button>
+          <button type="button" class="rf-cip" data-donem="hafta" aria-pressed="false" data-on-click="filoDonemSec" data-args='["hafta"]'>Bu hafta</button>
+          <button type="button" class="rf-cip" data-donem="ay" aria-pressed="false" data-on-click="filoDonemSec" data-args='["ay"]'>Bu ay</button>
+          <button type="button" class="rf-cip" data-donem="ceyrek" aria-pressed="false" data-on-click="filoDonemSec" data-args='["ceyrek"]'>Çeyrek</button>
+          <button type="button" class="rf-cip" data-donem="yil" aria-pressed="false" data-on-click="filoDonemSec" data-args='["yil"]'>Bu yıl</button>
+          <button type="button" class="rf-cip" data-donem="ozel" aria-pressed="false" data-on-click="filoDonemSec" data-args='["ozel"]'>Özel aralık</button>
+        </div>
+        <span id="guncelleme" class="rf-guncel"></span>
+      </div>
+      <div class="rf-alanlar">
+        <label class="rf-alan"><span class="lbl">Analiz başlangıcı</span><input id="filoBas" type="date" class="inp" data-on-change="ozelDonemYukle"></label>
+        <label class="rf-alan"><span class="lbl">Analiz bitişi</span><input id="filoBit" type="date" class="inp" data-on-change="ozelDonemYukle"></label>
+        <label class="rf-alan"><span class="lbl">Şube</span><select id="fSube" class="inp" data-on-change="yukle"><option value="">Tüm Şubeler</option></select></label>
+        <label class="rf-alan"><span class="lbl">Temin Şekli</span><select id="fTemin" class="inp" data-on-change="yukle"><option value="">Hepsi</option><option value="stok">Stok (kendi filomuz)</option><option value="dis">Dış Kiralama</option></select></label>
+        <label class="rf-alan"><span class="lbl">Makine Türü</span><select id="fTur" class="inp" data-on-change="yukle"><option value="">Hepsi</option><option value="arac">Araç</option><option value="manlift">Makine</option></select></label>
+        <label class="rf-alan"><span class="lbl">Yakıt Tipi</span><select id="fYakit" class="inp" data-on-change="yukle"><option value="">Hepsi</option><option value="dizel">Dizel</option><option value="elektrik">Elektrik (akülü)</option><option value="hibrit">Hibrit</option><option value="lpg">LPG</option><option value="benzin">Benzin</option><option value="diger">Diğer</option><option value="belirtilmemis">Belirtilmemiş</option></select></label>
+        <label class="rf-alan"><span class="lbl">Ana Grup</span><select id="fAna" class="inp" data-on-change="anaGrupDegisti"><option value="">Tüm ana gruplar</option></select></label>
+        <label class="rf-alan"><span class="lbl">Alt Grup (kategori)</span><select id="fAlt" class="inp" data-on-change="yukle"><option value="">Tüm alt gruplar</option></select></label>
+        <button type="button" class="rf-paylas" data-on-click="raporBaglantiKopyala" title="Seçili süzgeçlerle bu sayfanın bağlantısını kopyala"><span class="material-symbols-outlined">link</span>Bağlantıyı kopyala</button>
+      </div>
+      <p class="analysis-caption rf-not">Tarih aralığı dönem doluluğu ve ortalama fiyat tablolarını değiştirir. Harita ve mevcut filo kartları bugünün durumunu gösterir. Süzgeçler adres çubuğuna yazılır; bağlantı paylaşılabilir.</p>
+    </div>
+
+    <div class="rf-kpi" id="kpiKartlar">
+      <a class="rf-kart rf-kart-ana" href="musaitlik.html"><p class="rf-etiket">Doluluk Oranı</p><p class="rf-sayi rf-iskelet" id="ozDoluluk">—</p><p class="rf-alt" id="ozDolulukAlt">—</p><svg id="ozDolulukKivilcim" class="rf-kivilcim" role="img" hidden></svg><span class="rf-git">Müsaitlik takvimi <span class="material-symbols-outlined" style="font-size:14px">arrow_forward</span></span></a>
+      <a class="rf-kart" href="manlift.html"><p class="rf-etiket">Toplam Makine</p><p class="rf-sayi rf-iskelet" id="ozToplam">—</p><p class="rf-alt" id="ozToplamAlt">Araç + makine, seçili süzgeçlerle</p><span class="rf-git">Makine listesi <span class="material-symbols-outlined" style="font-size:14px">arrow_forward</span></span></a>
+      <a class="rf-kart" href="musaitlik.html"><p class="rf-etiket">Müsait</p><p class="rf-sayi rf-iskelet" id="ozMusait" style="color:#15803d">—</p><p class="rf-alt" id="ozMusaitAlt">Bugün boşta</p><span class="rf-git">Müsaitlik <span class="material-symbols-outlined" style="font-size:14px">arrow_forward</span></span></a>
+      <a class="rf-kart" href="kiralama-takip.html"><p class="rf-etiket">Geciken İade</p><p class="rf-sayi rf-iskelet" id="ozGeciken" style="color:#ba1a1a">—</p><p class="rf-alt">Kira süresi dolmuş, makine dönmemiş</p><span class="rf-git">Kiralama takip <span class="material-symbols-outlined" style="font-size:14px">arrow_forward</span></span></a>
+      <a class="rf-kart" href="teknik-servis.html"><p class="rf-etiket">Bakım/Servis</p><p class="rf-sayi rf-iskelet" id="ozBakim" style="color:#c2410c">—</p><p class="rf-alt">Açık servis kaydı olan makine</p><span class="rf-git">Teknik servis <span class="material-symbols-outlined" style="font-size:14px">arrow_forward</span></span></a>
+      <a class="rf-kart" href="dis-kiralama.html"><p class="rf-etiket">Dış Kiralama Maliyeti</p><p class="rf-sayi rf-sayi-kucuk rf-iskelet" id="ozDis" style="color:#6d28d9">—</p><p class="rf-alt">aylık</p><span class="rf-git">Dış kiralamalar <span class="material-symbols-outlined" style="font-size:14px">arrow_forward</span></span></a>
+      <div class="rf-kart"><p class="rf-etiket">Yaş Ortalaması</p><p class="rf-sayi rf-sayi-kucuk rf-iskelet" id="ozYas">—</p><p class="rf-alt">makine türüne göre</p></div>
+      <div class="rf-kart"><p class="rf-etiket">Seçili Dönem Doluluğu</p><p class="rf-sayi rf-iskelet" id="ozDonemDoluluk" style="color:#4338ca">—</p><p class="rf-alt" id="ozDonemAralik">—</p><span class="rf-kiyas" id="ozDonemKiyas" hidden></span></div>
+    </div>
+
+    </section>
+    <section class="f3-hero" aria-labelledby="f3HeroBaslik">
+      <div class="f3-hero-bas">
+        <div class="f3-hero-metin">
+          <span class="f3-ust">Filo nabzı · seçili dönem</span>
+          <h2 id="f3HeroBaslik">Şube × ana grup doluluğu</h2>
+          <p id="f3HeroDonem">Yükleniyor…</p>
+        </div>
+        <button type="button" id="f3HeroMod" class="f3-mod no-print" aria-pressed="false" hidden>2D görünüm</button>
+      </div>
+      <div class="f3-kutu f3-hero-kutu f3-yukleniyor" id="f3Hero" role="img" aria-label="Şube ve ana makine grubu bazında seçili dönem doluluğu; değerler grafiğin altındaki özette ve model / metraj doluluk tablosunda da var."><div class="f3-iskelet f3-iskelet-koyu" aria-hidden="true"></div></div>
+      <div class="f3-lejant f3-lejant-koyu"><span>%0</span><i id="f3HeroLejant" aria-hidden="true"></i><span id="f3HeroUst">%100</span><small id="f3HeroLejantMetin">Sütun boyu ve renk = doluluk (kiralı gün ÷ kapasite gün)</small></div>
+      <p id="f3HeroNot" class="f3-not-koyu"></p>
+      <p id="f3HeroOzet" class="f3-ozet-koyu" aria-live="polite"></p>
+      <p class="f3-ne f3-ne-koyu"><b>Bu grafik ne anlatıyor?</b> <span id="f3HeroNe">Her sütun bir şubedeki bir ana makine grubudur. Sütun ne kadar yüksek ve rengi ne kadar açıksa, o makineler seçili dönemde o kadar çok gün kirada kalmıştır.</span></p>
+    </section>
+
+    <div class="f3-izgara f3-izgara-harita">
+      <section class="f3-kart f3-harita-kart" aria-labelledby="f3HaritaBaslik">
+        <div class="f3-kart-bas">
+          <div><h3 id="f3HaritaBaslik">İllere göre aktif kiralama</h3><p>Bugün sahada olan kiralamalar · ilin üzerine gelin veya dokunun</p></div>
+        </div>
+        <div id="trHarita"><p class="text-center text-slate-400 py-16 text-sm">Harita yükleniyor…</p></div>
+        <div id="haritaLejant" class="f3-harita-lejant" aria-label="Harita renk aralıkları"></div>
+        <p id="haritaUyari" class="hidden text-[11px] text-orange-700 bg-orange-50 rounded-lg px-3 py-2 mt-2"></p>
+        <div id="ilBosUyari" class="hidden text-[11px] text-blue-900 bg-blue-50 rounded-lg px-3 py-2 mt-2 flex items-center justify-between gap-3 flex-wrap">
+          <span id="ilBosMetin"></span>
+          <a href="il-doldur.html" class="shrink-0 px-2.5 py-1 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 transition">İl Toplu Doldurma</a>
+        </div>
+        <p class="f3-ne"><b>Bu grafik ne anlatıyor?</b> Renk koyulaştıkça o ilde şu an daha çok kiralama var; renk aralıkları haritanın altında yazılıdır. İpucunda kiralama sayısı, toplamdaki payı, makine sayısı ve en çok kiralama olan üç ilçe görünür.</p>
+      </section>
+      <div class="f3-sutun">
+        <section class="f3-kart" aria-labelledby="f3DurumBaslik">
+          <div class="f3-kart-bas"><div><h3 id="f3DurumBaslik">Makine durumu</h3><p>Bugün · seçili süzgeçlerle</p></div></div>
+          <div class="f3-halka"><div class="f3-kutu f3-halka-kutu f3-yukleniyor" id="f3Durum" role="img" aria-label="Makine durumu halka grafiği"><div class="f3-iskelet f3-iskelet-halka" aria-hidden="true"></div></div><div class="f3-merkez" aria-hidden="true"><b>—</b><span>makine</span></div></div>
+          <p class="f3-ne"><b>Bu grafik ne anlatıyor?</b> Filodaki makinelerin bugün ne durumda olduğunu gösterir; mavi kirada, turuncu boşta bekleyen makinedir.</p>
+        </section>
+        <section class="f3-kart" aria-labelledby="f3YakitBaslik">
+          <div class="f3-kart-bas"><div><h3 id="f3YakitBaslik">Yakıt / enerji tipi</h3><p>Makine kaydındaki yakıt tipine göre</p></div></div>
+          <div class="f3-halka"><div class="f3-kutu f3-halka-kutu f3-yukleniyor" id="f3Yakit" role="img" aria-label="Yakıt tipi halka grafiği"><div class="f3-iskelet f3-iskelet-halka" aria-hidden="true"></div></div><div class="f3-merkez" aria-hidden="true"><b>—</b><span>makine</span></div></div>
+          <p class="f3-ne"><b>Bu grafik ne anlatıyor?</b> Filonun hangi enerjiyle çalıştığını gösterir; kapalı alan (akülü) ve şantiye (dizel) talebine filonun hazır olup olmadığını okursunuz.</p>
+        </section>
+      </div>
+    </div>
+
+    <section class="f3-kart" aria-labelledby="f3KacakBaslik">
+      <div class="f3-kart-bas">
+        <div><h3 id="f3KacakBaslik">Gelir kaçağı · kapasiteden gerçekleşene</h3><p>Aylık eşdeğer · KDV hariç · bugün sahadaki kiralar · liste fiyatı kiranın tipine göre (günlük, haftalık, aylık)</p></div>
+      </div>
+      <div class="f3-kpi-satir">
+        <div><span>Kapasite (liste)</span><b id="kpKapasite">—</b></div>
+        <div><span>Gerçekleşen</span><b id="kpGerceklesen" class="f3-mavi">—</b></div>
+        <div><span>Fark (kaçak)</span><b id="kpFark" class="f3-kirmizi">—</b></div>
+      </div>
+      <div id="f3KacakSube" class="f3-cipler no-print" role="group" aria-label="Şube seçin"></div>
+      <div class="f3-kutu f3-orta f3-yukleniyor" id="f3Kacak" role="img" aria-label="Kapasite, boşta duran, iskonto farkı ve gerçekleşen gelir şelale grafiği"><div class="f3-iskelet" aria-hidden="true"></div></div>
+      <p id="f3KacakOzet" class="f3-ozet" aria-live="polite"></p>
+      <p id="kpUyari" class="hidden text-[11px] text-orange-700 bg-orange-50 rounded-lg px-3 py-2 mt-3"></p>
+      <p class="f3-ne"><b>Bu grafik ne anlatıyor?</b> Soldaki sütun, bütün makineler liste fiyatıyla kirada olsaydı ayda kazanılacak tutardır. Turuncu basamaklar boşta duran makinelerin ve verilen iskontoların götürdüğü parayı, en sağdaki koyu sütun bugün gerçekten kazanılanı gösterir. Şube düğmeleriyle tek şubeye bakabilirsiniz.</p>
+    </section>
+
+    <div class="f3-izgara f3-izgara-3">
+      <section class="f3-kart" aria-labelledby="f3TeminBaslik">
+        <div class="f3-kart-bas"><div><h3 id="f3TeminBaslik">Temin şekli</h3><p>Kendi filomuz ve dış kiralama</p></div></div>
+        <div class="f3-halka"><div class="f3-kutu f3-halka-kutu f3-yukleniyor" id="f3Temin" role="img" aria-label="Temin şekli halka grafiği"><div class="f3-iskelet f3-iskelet-halka" aria-hidden="true"></div></div><div class="f3-merkez" aria-hidden="true"><b>—</b><span>makine</span></div></div>
+        <p class="f3-ne"><b>Bu grafik ne anlatıyor?</b> Makinelerin ne kadarının bize ait, ne kadarının başka firmadan kiralanıp müşteriye verildiğini gösterir.</p>
+      </section>
+      <section class="f3-kart" aria-labelledby="f3DovizBaslik">
+        <div class="f3-kart-bas"><div><h3 id="f3DovizBaslik">Döviz</h3><p>Bugün aktif kiralamalar</p></div></div>
+        <div class="f3-halka"><div class="f3-kutu f3-halka-kutu f3-yukleniyor" id="f3Doviz" role="img" aria-label="Bugün aktif kiralamaların para birimine göre halka grafiği"><div class="f3-iskelet f3-iskelet-halka" aria-hidden="true"></div></div><div class="f3-merkez" aria-hidden="true"><b>—</b><span>kiralama</span></div></div>
+        <p class="f3-ne"><b>Bu grafik ne anlatıyor?</b> Sahadaki kiralamaların hangi para biriminde yapıldığını gösterir; dövizli kiralar kur bilgisi olmadan TL toplamlarına katılmaz.</p>
+      </section>
+      <section class="f3-kart" aria-labelledby="f3SubeBaslik">
+        <div class="f3-kart-bas"><div><h3 id="f3SubeBaslik">Şube dağılımı</h3><p>Makinenin kayıtlı şubesi</p></div></div>
+        <div class="f3-kutu f3-kisa f3-yukleniyor" id="f3Sube" role="img" aria-label="Şubelere göre makine sayısı çubuk grafiği"><div class="f3-iskelet" aria-hidden="true"></div></div>
+        <p class="f3-ne"><b>Bu grafik ne anlatıyor?</b> Hangi şubede kaç makine kayıtlı olduğunu gösterir; çubuk uzadıkça makine sayısı artar.</p>
+      </section>
+    </div>
+
+    <div class="f3-izgara f3-izgara-2">
+      <section class="f3-kart" aria-labelledby="f3AgacBaslik">
+        <div class="f3-kart-bas"><div><h3 id="f3AgacBaslik">Ana grup → alt grup (kategori)</h3><p>Kutu boyu makine sayısı · renk bugün kirada olanların payı</p></div></div>
+        <div class="f3-kutu f3-agac f3-yukleniyor" id="f3Agac" role="img" aria-label="Ana grup ve kategori ağaç haritası"><div class="f3-iskelet" aria-hidden="true"></div></div>
+        <div class="f3-lejant"><span>%0 kirada</span><i id="f3AgacLejant" aria-hidden="true"></i><span>%100 kirada</span></div>
+        <p class="f3-ne"><b>Bu grafik ne anlatıyor?</b> Filonun hangi ana gruplardan oluştuğunu, her grubun içinde hangi kategorilerin ne kadar yer tuttuğunu gösterir. Koyu kutular çoğu kirada olan, açık kutular boşta bekleyen kategorilerdir. Kategori adları katalogdaki gibidir.</p>
+      </section>
+      <section class="f3-kart" aria-labelledby="f3MarkaBaslik">
+        <div class="f3-kart-bas"><div><h3 id="f3MarkaBaslik">Marka dağılımı</h3><p>En çok makinesi olan markalar</p></div></div>
+        <div class="f3-kutu f3-orta f3-yukleniyor" id="f3Marka" role="img" aria-label="Markalara göre makine sayısı çubuk grafiği"><div class="f3-iskelet" aria-hidden="true"></div></div>
+        <p class="f3-ne"><b>Bu grafik ne anlatıyor?</b> Filoda hangi markadan kaç makine olduğunu gösterir; yedek parça ve servis anlaşmalarını planlarken kullanılır.</p>
+      </section>
+    </div>
+
+    <section class="f3-kart" aria-labelledby="f3SeriBaslik">
+      <div class="f3-kart-bas"><div><h3 id="f3SeriBaslik">Dönem doluluğu — zaman serisi</h3><p id="f3SeriNot"></p></div><div id="f3SeriAnahtar" class="f3-anahtar"></div></div>
+      <div class="f3-kutu f3-kisa f3-yukleniyor" id="f3Seri" role="img" aria-label="Seçili dönemin günlük veya aylık doluluk çubuk grafiği"><div class="f3-iskelet" aria-hidden="true"></div></div>
+      <p class="f3-ne"><b>Bu grafik ne anlatıyor?</b> Her çubuk bir gün ya da ayın doluluğudur (kiralı makine-gün ÷ kapasite makine-gün). Yatay çizgiler dönem ortalamasını ve önceki aynı uzunluktaki dönemi gösterir.</p>
+    </section>
+
+    <section class="f3-kart" aria-labelledby="f3NoktaBaslik">
+      <div class="f3-kart-bas">
+        <div><h3 id="f3NoktaBaslik">Yaş × liste fiyatı × gerçekleşen kira</h3><p>Üretim yılı bilinen aktif makineler · nokta büyüklüğü = seçili dönemde kirada geçen gün</p></div>
+        <button type="button" id="f3NoktaMod" class="f3-mod f3-mod-acik no-print" aria-pressed="false" hidden>2D görünüm</button>
+      </div>
+      <div class="f3-kutu f3-uzun f3-yukleniyor" id="f3Nokta" role="img" aria-label="Makine yaşı, aylık liste fiyatı ve gerçekleşen aylık kira nokta grafiği"><div class="f3-iskelet" aria-hidden="true"></div></div>
+      <p id="f3NoktaNot" class="f3-not"></p>
+      <p class="f3-ne"><b>Bu grafik ne anlatıyor?</b> Her nokta bir makinedir. Sağa gittikçe makine yaşlanır; 3D görünümde yükseklik gerçekleşen aylık kira, derinlik liste fiyatıdır. Düz görünümde dikey eksen kiranın liste fiyatına oranıdır: %100 çizgisinin altı iskontolu, sıfırdakiler boşta duran makinelerdir.</p>
+    </section>
+
+    <section class="f3-kart" aria-labelledby="f3BakimBaslik">
+      <div class="f3-kart-bas">
+        <div><h3 id="f3BakimBaslik">Bakım analizi · periyodik kontrol bitişleri</h3><p>Aktif makinelerin periyodik kontrol belgesi bitiş tarihleri</p></div>
+        <a class="f3-mod f3-mod-acik no-print" href="teknik-servis.html?sekme=plan">Bakım ve evrak planı →</a>
+      </div>
+      <div id="f3BakimOzet" class="f3-rozetler"></div>
+      <div class="f3-izgara f3-izgara-2 f3-ic">
+        <div>
+          <h4 class="f3-ara-baslik">Önümüzdeki 12 ay</h4>
+          <div class="f3-kutu f3-kisa f3-yukleniyor" id="f3BakimAy" role="img" aria-label="Önümüzdeki 12 ayda biten periyodik kontrol sayısı"><div class="f3-iskelet" aria-hidden="true"></div></div>
+        </div>
+        <div>
+          <h4 class="f3-ara-baslik">Takvim · ay × yıl</h4>
+          <div class="f3-kutu f3-kisa f3-yukleniyor" id="f3Takvim" role="img" aria-label="Periyodik kontrol bitişlerinin ay ve yıla göre takvim ısı haritası"><div class="f3-iskelet" aria-hidden="true"></div></div>
+        </div>
+      </div>
+      <p class="f3-ne"><b>Bu grafik ne anlatıyor?</b> Hangi ay kaç makinenin periyodik kontrol belgesinin bittiğini gösterir; koyu turuncu yoğun aydır. Kırmızı çerçeveli ve ⚠ işaretli kutular süresi geçmiş belgelerdir, lacivert çerçeve bu aydır.</p>
+    </section>
+
+    <div id="fiYer"></div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-auto mb-5"><div class="px-5 py-4 border-b border-slate-100"><h3 class="text-xs font-black text-primary uppercase tracking-widest">Güncel liste fiyatıyla karşılaştırma</h3><p class="text-[11px] text-slate-400">Seçilen dönemin aylık fiyat eşdeğeri bugünkü liste fiyatıyla karşılaştırılır; günlük kira günlük listeyle (×30), haftalık kira haftalık listeyle (×30/7) kıyaslanır, o tipin fiyatı yoksa aylık liste kullanılır. Geçmiş dönem hedefi değildir; aya ait hedefler aşağıdaki ayrı tabloda tutulur.</p></div><table class="w-full text-sm"><thead class="bg-surface-container-low"><tr><th class="px-4 py-2.5 text-left text-[10px] font-black text-slate-500 uppercase tracking-widest">Marka / Model</th><th class="px-4 py-2.5 text-left text-[10px] font-black text-slate-500 uppercase tracking-widest">Teknik değer</th><th class="px-4 py-2.5 text-right text-[10px] font-black text-slate-500 uppercase tracking-widest">Kayıt</th><th class="px-4 py-2.5 text-right text-[10px] font-black text-slate-500 uppercase tracking-widest">Gerçekleşen ort.</th><th class="px-4 py-2.5 text-right text-[10px] font-black text-slate-500 uppercase tracking-widest">Günlük liste</th><th class="px-4 py-2.5 text-right text-[10px] font-black text-slate-500 uppercase tracking-widest">Haftalık liste</th><th class="px-4 py-2.5 text-right text-[10px] font-black text-slate-500 uppercase tracking-widest">Aylık liste</th><th class="px-4 py-2.5 text-right text-[10px] font-black text-slate-500 uppercase tracking-widest" title="Her sözleşmenin kira tipine uyan liste fiyatının aylık karşılığı, gün ağırlıklı">Kira tipine uyan liste (aylık)</th><th class="px-4 py-2.5 text-right text-[10px] font-black text-slate-500 uppercase tracking-widest">Fark</th></tr></thead><tbody id="fiyatTablo"></tbody></table></div>
+
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-5">
+      <div class="px-6 py-4 border-b border-slate-50 flex items-center gap-2">
+        <span class="material-symbols-outlined text-error text-base">running_with_errors</span>
+        <h3 class="text-xs font-black text-error uppercase tracking-widest">Geciken İadeler</h3>
+        <span class="text-[11px] text-slate-400">— kira süresi dolmuş, makine hâlâ dönmemiş</span>
+      </div>
+      <div id="gecikenAyOzet" class="f3-ay-ozet" hidden></div>
+      <div class="overflow-x-auto"><table class="w-full text-sm" style="min-width:760px">
+        <thead><tr class="bg-surface-container-low text-left">
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Gecikme</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Kod</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Müşteri</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Ekipman</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Şube · İl / İlçe</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Bitiş</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest" title="Kiralamanın gecikmeye düştüğü ay (bitişin ertesi günü), YYYY-AA">Ay kovası</th>
+        </tr></thead>
+        <tbody id="gecikenTablo"><tr><td colspan="7" class="px-6 py-8 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+      </table></div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-5">
+      <div class="px-6 py-4 border-b border-slate-50 flex items-center gap-2">
+        <span class="material-symbols-outlined text-orange-600 text-base">build_circle</span>
+        <h3 class="text-xs font-black text-orange-700 uppercase tracking-widest">Bakım / Serviste Bekleyenler</h3>
+        <span class="text-[11px] text-slate-400">— kaç gündür takılı</span>
+      </div>
+      <div class="overflow-x-auto"><table class="w-full text-sm" style="min-width:760px">
+        <thead><tr class="bg-surface-container-low text-left">
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Süre</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Makine</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Şube</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Tip / Durum</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Arıza</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Teknisyen</th>
+        </tr></thead>
+        <tbody id="bakimTablo"><tr><td colspan="6" class="px-6 py-8 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+      </table></div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-50 flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-base">grid_on</span>
+        <h3 class="text-xs font-black text-primary uppercase tracking-widest">Şube × Makine Müsaitlik Matrisi</h3>
+        <span class="text-[11px] text-slate-400">— hangi şubede hangi makineden kaç tane boşta</span>
+      </div>
+      <div class="overflow-x-auto"><table class="w-full text-sm matris" id="matrisTablo"><tbody><tr><td class="px-6 py-8 text-center text-slate-400">Yükleniyor…</td></tr></tbody></table></div>
+    </div>
+  </div>
+</main>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/filo-inceleme.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/filo-seri.js"></script>
+<script src="js/filo-hedef-panel.js"></script>
+<script src="js/filo-detay.js"></script>
+<script src="js/theme-config.js"></script>
+<script src="js/filo-3d.js"></script>
+<script src="js/s-filo-analiz.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

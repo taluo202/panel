@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Makine Detay — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link rel="stylesheet" href="css/detay.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  @media print{ main{display:block!important} body *{visibility:hidden}
+    #qrModal, #qrModal *{visibility:visible}
+    #qrModal{position:static!important;background:#fff;padding:0}
+    #qrModal > div{box-shadow:none!important;max-width:none!important}
+    .no-print{visibility:hidden} }
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2">
+    <a href="index.html" title="Dashboard"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a>
+  </div>
+  <nav class="flex-1 flex flex-col gap-0.5">
+    <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">dashboard</span><span>Dashboard</span></a>
+    <a href="personel.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">badge</span><span>Personel Yönetimi</span></a>
+    <a href="arac.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">directions_car</span><span>Araç Yönetimi</span></a>
+    <a href="manlift.html" class="flex items-center gap-3 px-3 py-2.5 bg-primary text-white rounded-xl text-sm font-bold shadow-sm"><span class="material-symbols-outlined text-xl">precision_manufacturing</span><span>Makine Yönetimi</span></a>
+    <a href="finans.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">account_balance_wallet</span><span>Finans</span></a>
+    <a href="rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">summarize</span><span>Raporlar</span></a>
+    <a href="kiralama.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">menu_book</span><span>Kataloglar</span></a>
+    <a href="kiralama-takip.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">assignment</span><span>Kiralama Takip</span></a>
+    <a href="musteriler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">groups</span><span>M&#252;&#351;teriler</span></a>
+    <a href="teklifler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">request_quote</span><span>Teklifler</span></a>
+    <a href="hakedisler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt</span><span>Hakedi&#351;ler</span></a>
+    <a href="nakliye.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">local_shipping</span><span>Nakliye</span></a>
+    <a href="yedek-parca.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">build</span><span>Yedek Par&#231;a</span></a>
+    <a href="makine-rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">monitoring</span><span>Makine Raporu</span></a>
+    <a href="formlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt_long</span><span>Formlar</span></a>
+    <a href="ayarlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">settings</span><span>Ayarlar</span></a>
+  </nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all">
+      <span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<div id="paylasimModal" class="hidden fixed inset-0 z-[200] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta p-7">
+    <h2 class="text-lg font-bold font-headline mb-4">Belgeleri Paylaş</h2>
+    <div id="paylasimListe" class="mb-4 space-y-1 max-h-40 overflow-y-auto text-sm text-slate-600"></div>
+    <div class="space-y-3">
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">WhatsApp Numarası</label>
+        <input id="pWpNo" type="tel" placeholder="905551234567" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 font-mono"/>
+      </div>
+      <button data-on-click="wpPaylas" class="w-full py-2.5 bg-green-600 text-white font-bold rounded-xl text-sm hover:opacity-90 transition flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-base">chat</span> WhatsApp ile Gönder
+      </button>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">E-Posta</label>
+        <input id="pEmail" type="email" placeholder="ornek@firma.com" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+      </div>
+      <button data-on-click="emailPaylas" class="w-full py-2.5 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-base">mail</span> E-Posta ile Gönder
+      </button>
+    </div>
+    <button data-on-click="Eylem.gizle" data-args='["paylasimModal"]' class="mt-4 w-full py-2 text-slate-500 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Kapat</button>
+  </div>
+</div>
+
+<div id="belgeModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere p-7">
+    <h2 class="text-lg font-bold font-headline mb-5" id="bModalBaslik">Belge Ekle</h2>
+    <div class="space-y-4">
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Kategori *</label>
+        <select id="bKat" data-on-change="bKatDegisti" data-args='["$value"]' class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30">
+          <option value="CE Belgesi">CE Belgesi</option>
+          <option value="Periyodik Bakım Belgesi">Periyodik Bakım Belgesi</option>
+          <option value="Periyodik Kontrol Belgesi">Periyodik Kontrol Belgesi</option>
+          <option value="Muayene Sertifikası">Muayene Sertifikası</option>
+          <option value="Operatör Belgesi">Operatör Belgesi</option>
+          <option value="diger">Diğer…</option>
+        </select>
+        <input id="bKatManuel" class="hidden w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 mt-2" placeholder="Kategori adını girin…"/>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Belge Adı *</label>
+        <input id="bAd" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30" placeholder="Açıklayıcı belge adı…"/>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Belge No</label>
+          <input id="bBelgeNo" maxlength="100" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30" placeholder="Belge / sertifika no"/>
+        </div>
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Belge Tarihi</label>
+          <input id="bBelgeTarihi" type="date" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Geçerlilik / Bitiş Tarihi</label>
+          <input id="bBitisTarihi" type="date" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Dosya (PDF veya Resim)</label>
+        <input id="bDosya" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.webp" class="w-full text-sm text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-surface-container file:text-primary hover:file:opacity-80"/>
+        <p id="bDosyaNot" class="hidden text-[11px] text-slate-400">Yeni dosya seçmezseniz mevcut dosya kalır; seçerseniz eskisinin yerine geçer.</p>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-6 justify-end">
+      <button data-on-click="Eylem.gizle" data-args='["belgeModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="bYukleBtn" data-on-click="belgeyukleGonder" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Yükle</button>
+    </div>
+  </div>
+</div>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <a href="manlift.html" class="p-2 hover:bg-surface-container-low rounded-xl transition-colors text-slate-500">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </a>
+      <div>
+        <div class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Makine Yönetimi</div>
+        <h1 class="text-base font-bold text-blue-950 font-headline leading-tight" id="pageTitle">Yükleniyor…</h1>
+      </div>
+    </div>
+    <div class="flex items-center gap-1.5 flex-wrap justify-end">
+      <button data-on-click="yeniKiralamaAc" title="Yeni Kiralama" class="px-2.5 sm:px-4 py-2 bg-primary text-white font-bold text-sm rounded-xl hover:opacity-90 transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">add_circle</span><span class="hidden sm:inline">Yeni Kiralama</span>
+      </button>
+      <button data-on-click="qrGoster" title="QR Kod" class="px-2.5 sm:px-4 py-2 bg-surface-container-low text-slate-600 font-bold text-sm rounded-xl hover:bg-surface-container transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">qr_code_2</span><span class="hidden sm:inline">QR Kod</span>
+      </button>
+      <a id="iadeTutanagiBtn" href="#" target="_blank" title="Kimlikli/imzalı/fotoğraflı iade tutanağı — QR okutmuş gibi doğrudan açar" class="px-2.5 sm:px-4 py-2 bg-surface-container-low text-slate-600 font-bold text-sm rounded-xl hover:bg-surface-container transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">assignment_turned_in</span><span class="hidden sm:inline">İade Tutanağı</span>
+      </a>
+      <a id="maliyetHesabiBtn" href="#" title="Bu makine seçili olarak maliyet hesabı ekranını açar" class="px-2.5 sm:px-4 py-2 bg-surface-container-low text-slate-600 font-bold text-sm rounded-xl hover:bg-surface-container transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">local_gas_station</span><span class="hidden sm:inline">Maliyet Hesapla</span>
+      </a>
+      <button data-on-click="arizaBildir" title="Arıza Bildir" class="px-2.5 sm:px-4 py-2 bg-orange-50 text-orange-700 font-bold text-sm rounded-xl hover:bg-orange-100 transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">report</span><span class="hidden sm:inline">Arıza Bildir</span>
+      </button>
+      <button data-on-click="teslimTutanagiOlustur" title="Teslim/İade (elle) — Formlar'da elle doldurulan klasik tutanak (ofisten)" class="px-2.5 sm:px-4 py-2 bg-surface-container-low text-slate-600 font-bold text-sm rounded-xl hover:bg-surface-container transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">receipt_long</span><span class="hidden sm:inline">Teslim/İade (elle)</span>
+      </button>
+      <button id="transferBtn" data-on-click="transferModalAc" title="Şube Transfer" class="px-2.5 sm:px-4 py-2 bg-surface-container-low text-slate-600 font-bold text-sm rounded-xl hover:bg-surface-container transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">sync_alt</span><span class="hidden sm:inline">Şube Transfer</span>
+      </button>
+      <button id="satBtn" data-on-click="satisModalAc" title="Ekipmanı Sat" class="hidden px-2.5 sm:px-4 py-2 bg-error-container text-error font-bold text-sm rounded-xl hover:opacity-80 transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">sell</span><span class="hidden sm:inline">Ekipmanı Sat</span>
+      </button>
+      <button id="duzenleBtn" title="Düzenle" class="px-2.5 sm:px-4 py-2 bg-surface-container-low text-slate-600 font-bold text-sm rounded-xl hover:bg-surface-container transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">edit</span><span class="hidden sm:inline">Düzenle</span>
+      </button>
+    </div>
+  </header>
+
+  <div id="qrModal" class="hidden fixed inset-0 z-[220] bg-black/40 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta p-7 text-center">
+      <h2 class="text-lg font-bold font-headline mb-4" id="qrBaslik">QR Kod</h2>
+      <img id="qrImg" class="mx-auto rounded-xl border border-slate-100" width="220" height="220" alt="QR kod"/>
+      <p class="text-[11px] text-slate-400 mt-3">Sahada telefonla okutunca bu kayda ulaşılır.</p>
+      <a id="qrSayfayiAcLink" href="#" target="_blank" class="inline-flex items-center gap-1 mt-3 text-xs font-bold text-primary hover:underline no-print"><span class="material-symbols-outlined text-sm">open_in_new</span>QR okutamıyorsanız sayfayı buradan açın</a>
+      <div class="flex gap-3 mt-5 justify-center">
+        <button data-on-click="Eylem.gizle" data-args='["qrModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Kapat</button>
+        <button data-on-click="AvkBelge.document" data-args='["qrModal",{"title":"QR Etiket"}]' class="px-5 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Yazdır</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-4 md:p-8">
+    <div id="icerik" class="detay-duzen">
+      <div class="text-center py-20 text-slate-400">Yükleniyor…</div>
+    </div>
+    <div id="gecmisWrap" class="detay-duzen-2 mt-5"></div>
+    <div id="genelServisIskelet"></div>
+  </div>
+</main>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script><script src="js/makine-kategori.js"></script>
+<script src="js/detay-ortak.js"></script>
+<script src="js/s-manlift-detay.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Teslim / İade Tutanağı — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link rel="stylesheet" href="css/detay.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.55rem 0.9rem;font-size:0.875rem;outline:none}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+  .sig-canvas{touch-action:none;cursor:crosshair;display:block;border-radius:0.75rem;background:#fff}
+  .foto-slot{position:relative;aspect-ratio:1;border-radius:0.75rem;overflow:hidden;background:#eff4ff;border:2px dashed #cbd5e1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4px;cursor:pointer}
+  .foto-slot.dolu{border-style:solid;border-color:#16a34a}
+  .foto-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#f1f5f9}
+  .foto-slot .lbl-ac{font-size:9px;font-weight:700;color:#64748b;line-height:1.2;position:relative;z-index:2}
+  .foto-slot.dolu .lbl-ac{display:none}
+  .foto-slot.zorunlu{border-color:#f59e0b}
+  .foto-slot.zorunlu.dolu{border-color:#16a34a}
+  .foto-slot .zor{color:#d97706}
+  .foto-slot .sema{position:relative;z-index:2;width:64%;max-width:52px;margin-bottom:2px;opacity:.75}
+  .foto-slot .sema svg{width:100%;height:auto;fill:none;stroke:#64748b;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .foto-slot .ref-img{opacity:.20;filter:grayscale(1)}
+  .foto-slot .ref-rozet{position:absolute;bottom:2px;left:2px;right:2px;z-index:2;font-size:8px;font-weight:700;color:#0369a1;background:rgba(224,242,254,.9);border-radius:4px;padding:1px 2px}
+  .foto-slot .dolu-ac{position:absolute;bottom:0;left:0;right:0;z-index:2;font-size:9px;font-weight:700;color:#fff;background:rgba(22,163,74,.85);padding:1px 2px}
+  .foto-slot .sil-btn{position:absolute;top:2px;right:2px;background:#fff;border-radius:9999px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+  .foto-slot input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+  .foto-slot .it-galeri{position:absolute;right:4px;bottom:4px;z-index:3;width:28px;height:28px;
+     display:grid;place-items:center;border-radius:8px;background:rgba(255,255,255,.92);
+     box-shadow:0 1px 4px rgba(15,23,42,.25);cursor:pointer;color:#00236f}
+  .foto-slot .it-galeri input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+  .foto-slot .it-galeri .material-symbols-outlined{font-size:17px;pointer-events:none}
+  .sema-rehber{width:44px;display:block}
+  .sema-rehber svg{width:100%;height:auto;fill:none;stroke:#00236f;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .oncesi-foto{aspect-ratio:1;border-radius:0.5rem;overflow:hidden;background:#f1f5f9}
+  .oncesi-foto img{width:100%;height:100%;object-fit:contain;background:#f1f5f9}
+  #bzil, #garama { display:none !important; }
+  .it-isler{width:100%;max-width:1460px;margin-inline:auto}
+  .it-hero .sv-direction button{text-align:center;font-size:14px;padding:12px 14px}
+  .ti-ust{position:sticky;top:var(--ti-top,60px);z-index:30;background:rgba(246,248,252,.96);backdrop-filter:blur(8px);padding:6px 0 10px;margin:-6px 0 10px}
+  .ti-ust-satir{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .ti-eyebrow{display:block;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#557183}
+  .ti-ust h2{font-size:20px;font-weight:800;color:#0d1c2e;line-height:1.2;margin:0}
+  .ti-ozet{font-size:12.5px;color:#526477;margin-top:2px;overflow-wrap:anywhere}
+  .ti-qr{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:12px;background:#00236f;color:#fff;font-weight:800;font-size:13.5px;text-decoration:none}
+  .ti-qr .material-symbols-outlined{font-size:20px}
+  .ti-ara{position:relative;margin-top:10px}
+  .ti-ara .material-symbols-outlined{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#64748b;font-size:20px;pointer-events:none}
+  .ti-ara input{width:100%;min-height:44px;border:1px solid #d7e0e8;border-radius:12px;background:#fff;padding:0 12px 0 40px;font-size:15px;outline:none}
+  .ti-ara input:focus{box-shadow:0 0 0 2px #00236f33}
+  .ti-bolum{margin-bottom:18px}
+  .ti-bolum-bas{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+  .ti-bolum-bas h3{font-size:16px;font-weight:800;color:#0d1c2e;margin:0}
+  .ti-bolum-bas p{font-size:12px;color:#64748b;margin:0}
+  .ti-sayi{display:inline-block;min-width:22px;padding:0 7px;border-radius:999px;background:#dce1ff;color:#00236f;font-size:12px;line-height:20px;text-align:center;vertical-align:2px}
+  .ti-bos{background:#fff;border:1px dashed #cbd5e1;border-radius:14px;padding:14px;font-size:13.5px;color:#64748b}
+  .ti-kartlar{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+  @media(min-width:900px){.ti-kartlar{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(min-width:1280px){.ti-kartlar{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media(max-width:480px){.ti-cipler{gap:4px}.ti-cipler .ti-cip{padding:3px 7px;font-size:11.5px}}
+  .ti-kart{background:#fff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 1px 2px rgba(15,23,42,.05);padding:14px 16px;min-width:0;display:flex;flex-direction:column;gap:8px}
+  .ti-gecikti{border-left:4px solid #ba1a1a}
+  .ti-kart-bas{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+  .ti-kod{font-family:ui-monospace,Consolas,monospace;font-weight:800;font-size:18px;color:#00236f;overflow-wrap:anywhere}
+  .ti-rozet{display:inline-block;padding:2px 9px;border-radius:999px;font:800 11px/18px 'Inter',sans-serif;background:#eff4ff;color:#00236f;vertical-align:3px;margin-left:6px}
+  .ti-rozet-gecikti{background:#fde8e8;color:#ba1a1a}
+  .ti-rozet-yarin{background:#fff7e6;color:#92400e}
+  .ti-rozet-yukleme{background:#e8f7ec;color:#166534}
+  .ti-rozet-inceleme{background:#ede9fe;color:#5b21b6}
+  .ti-sahip{font-size:12px;color:#64748b}.ti-sahip.ti-ben{color:#00236f;font-weight:700}
+  .ti-kunye{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px;margin:0;padding:8px 0;border-top:1px solid #f1f5f9;border-bottom:1px solid #f1f5f9}
+  .ti-kunye div{min-width:0}
+  .ti-kunye dt{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#64748b}
+  .ti-kunye dd{margin:0;font-size:13.5px;font-weight:600;color:#0f172a;overflow-wrap:anywhere;white-space:normal}
+  .ti-satir{display:flex;align-items:flex-start;gap:6px;font-size:13.5px;color:#334155;overflow-wrap:anywhere;margin:0}
+  .ti-satir .material-symbols-outlined{font-size:18px;color:#64748b;flex:none;margin-top:1px}
+  .ti-cipler{display:flex;flex-wrap:wrap;gap:6px}
+  .ti-cip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#fff7e6;color:#92400e;border:1px solid #fde68a}
+  .ti-cip-tamam{background:#f0fdf4;color:#166534;border-color:#bbf7d0}
+  .ti-cip-notr{background:#f1f5f9;color:#475569;border-color:#e2e8f0}
+  .ti-cip .material-symbols-outlined{font-size:15px}
+  .ti-ana{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:0 16px;border-radius:12px;background:#00236f;color:#fff;font-weight:800;font-size:15px;text-decoration:none;margin-top:auto}
+  .ti-ana .material-symbols-outlined{font-size:20px}
+  .ti-izle{font-size:12.5px;color:#64748b;background:#f8fafc;border-radius:10px;padding:8px 10px;margin:0}
+  .ti-kisayol{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:14px}
+  .ti-kisayol p{font-size:14px;color:#334155;line-height:1.5;margin:0}
+  .ti-kisayol>.material-symbols-outlined{font-size:30px;color:#00236f}
+  .ti-kisayol-alt{font-size:12.5px !important;color:#64748b !important}
+  .ti-liste{display:flex;flex-direction:column;gap:6px;width:100%}
+  .ti-link{min-height:44px;align-items:center;padding:8px 10px;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;text-decoration:none;color:#0f172a}
+  .ti-ikincil{margin-top:8px;padding-top:12px;border-top:1px solid #e2e8f0;display:flex;flex-direction:column;gap:6px}
+  .ti-ikincil button{align-self:flex-start;min-height:44px;padding:0 14px;border-radius:12px;border:1px solid #cbd5e1;background:#fff;font-weight:700;font-size:13.5px;color:#334155}
+  .ti-ikincil button:disabled{opacity:.55}
+  .ti-ikincil p{font-size:12.5px;color:#64748b;margin:0}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+<link rel="stylesheet" href="css/teslim.css"/>
+<script src="js/eylem.js"></script>
+<script src="js/aksesuar-sayim.js"></script></head>
+<body class="it-prof bg-surface text-on-surface antialiased">
+
+<div id="itRehberModal" class="hidden fixed inset-0 z-[230] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta max-h-[88vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-6 pt-5 pb-3 sticky top-0 bg-white border-b border-slate-100">
+      <h2 class="text-base font-bold font-headline flex items-center gap-2"><span class="material-symbols-outlined text-primary">photo_camera</span>Fotoğraf Çekim Rehberi</h2>
+      <button data-on-click="Eylem.gizle" data-args='["itRehberModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-6 py-4">
+      <div class="bg-blue-50 text-blue-800 text-xs rounded-xl p-3 mb-3 leading-relaxed">
+        <b>Neden önemli?</b> Teslim ve iade fotoğrafları <b>aynı açı ve mesafeden</b> çekilirse, ortaya çıkan bir
+        makinenin teslim ve dönüş durumu daha kolay karşılaştırılır. Işık, açı ve mesafe farklarını
+        değerlendirirken dikkate alın; gözleminizi açıklama alanına yazın.
+      </div>
+      <div id="itRehberListe"></div>
+      <div class="bg-surface-container-low rounded-xl p-3 mt-3 text-xs text-slate-600 leading-relaxed">
+        <b>Genel kurallar:</b> Gündüz/aydınlık ortamda çekin · Telefonu <b>yatay değil dik</b> tutun ·
+        Makinenin tamamı kadraja sığsın (yakın çekim istenen açılar hariç) · Gölge/parlama olmasın ·
+        Hasar varsa ayrıca <b>yakın çekim</b> ekleyip Hasar/Eksik notuna yazın.
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="min-h-screen">
+  <header class="sticky top-0 z-40 bg-white border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <img src="img/logo.svg" alt="" class="firma-logo h-9 w-auto"/>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Teslim / İade Tutanağı</h1>
+    </div>
+    <a id="itPanelDonBtn" href="index.html" class="hidden text-xs font-bold text-primary hover:underline">← Panele Dön</a>
+  </header>
+
+  <div class="p-4 md:p-8">
+    <div class="it-hero"><div><span class="sv-eyebrow" style="color:#a6cad6">Teslim ve kabul kontrolü</span><h2 id="itHeroBaslik">Makine teslim / iade</h2><p id="itHeroAciklama"></p></div><div class="sv-direction" aria-label="Tutanak işlemi"><button id="itMod_teslim" type="button" data-on-click="itIslemSec" data-args='["teslim"]'>Makineyi teslim et</button><button id="itMod_iade" type="button" data-on-click="itIslemSec" data-args='["iade"]'>İade al</button></div></div>
+    <div id="itYukleniyor" class="it-dar bg-white rounded-2xl shadow-sm p-8 text-center text-slate-400 text-sm">Makine bilgisi yükleniyor…</div>
+    <div id="itHataKart" class="hidden it-dar bg-white rounded-2xl shadow-sm p-8 text-center">
+      <span class="material-symbols-outlined text-4xl text-slate-300">error</span>
+      <p class="text-sm text-slate-500 mt-2" id="itHataMetin"></p>
+      <p class="text-xs text-slate-400 mt-3" id="itHataIpucu"></p>
+    </div>
+
+    <section id="itIsler" class="hidden it-isler" aria-labelledby="itIslerBaslik">
+      <div class="ti-ust" id="itIslerUst">
+        <div class="ti-ust-satir">
+          <div class="min-w-0"><span class="ti-eyebrow">Kontrol işlerim</span><h2 id="itIslerBaslik">Bugün ne yapacağım?</h2><p class="ti-ozet" id="itIslerOzet">İşler yükleniyor…</p></div>
+          <a href="qr.html" class="ti-qr"><span class="material-symbols-outlined" aria-hidden="true">qr_code_scanner</span><span>QR okut</span></a>
+        </div>
+        <div class="ti-ara" id="itIslerAraKap">
+          <span class="material-symbols-outlined" aria-hidden="true">search</span>
+          <input id="itIslerAra" type="search" data-on-input="itIslerCiz" placeholder="Plaka, kod, müşteri, şantiye…" aria-label="Kontrol işlerinde ara" autocomplete="off"/>
+        </div>
+      </div>
+      <div id="itIslerKisayol" class="hidden"></div>
+      <div id="itIslerGovde"></div>
+      <div class="ti-ikincil">
+        <button type="button" id="itElleBtn" data-on-click="itElleTutanak">Elle tutanak doldur</button>
+        <p id="itElleNot"></p>
+      </div>
+    </section>
+
+    <div id="itSecimKart" class="hidden it-secim bg-white rounded-2xl shadow-sm overflow-hidden">
+      <div class="px-5 pt-5 pb-3">
+        <h2 class="text-base font-black font-headline">Hangi makine için tutanak?</h2>
+        <p class="text-xs text-slate-400 mt-0.5">Makinenin QR'ını okutmadan da başlatabilirsiniz. Kirada olanlar üstte listelenir.</p>
+        <div class="relative mt-3">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+          <input id="itSecimAra" type="search" data-on-input="itSecimCiz" placeholder="Plaka, kod, marka veya müşteri…" class="w-full bg-surface-container-low border-none rounded-xl pl-9 pr-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/20"/>
+        </div>
+      </div>
+      <div id="itSecimListe" class="max-h-[60vh] overflow-y-auto border-t border-slate-100"></div>
+    </div>
+
+    <div id="itIcerik" class="hidden it-duzen">
+     <div id="itSahaYonlendir" class="hidden bg-blue-50 border border-blue-200 rounded-2xl p-4">
+       <div class="flex items-start gap-3">
+         <span class="material-symbols-outlined text-blue-800">local_shipping</span>
+         <div class="flex-1 text-sm text-blue-800">
+           <p class="font-bold" id="itSahaBaslik"></p>
+           <p class="text-xs mt-0.5" id="itSahaAciklama"></p>
+           <a id="itSahaLink" href="saha-teslim.html" class="inline-flex items-center gap-1 mt-3 px-4 py-2.5 rounded-xl bg-primary text-white text-sm font-bold">Sahada Teslim ekranını aç<span class="material-symbols-outlined text-base">arrow_forward</span></a>
+           <button type="button" id="itSahaTam" class="block mt-3 text-xs text-slate-500 underline">Yine de tam tutanak doldur (bütün fotoğraflar yeniden istenir)</button>
+         </div>
+       </div>
+     </div>
+     <div id="itHazirlikEngel" class="hidden bg-amber-50 border border-amber-200 rounded-2xl p-4">
+       <div class="flex items-start gap-3">
+         <span class="material-symbols-outlined text-amber-800">warehouse</span>
+         <div class="flex-1 text-sm text-amber-900">
+           <p class="font-bold">Bu makine önce çıkış kontrolünden geçmeli.</p>
+           <p class="text-xs mt-0.5" id="itHazirlikMetin"></p>
+           <a id="itHazirlikLink" href="teknik-servis.html?sekme=kontrol&amp;is=hazirlik" class="hidden inline-flex items-center gap-1 mt-3 px-4 py-2.5 rounded-xl bg-primary text-white text-sm font-bold">Çıkış kontrolünü aç<span class="material-symbols-outlined text-base">arrow_forward</span></a>
+         </div>
+       </div>
+     </div>
+     <div class="it-yan">
+      <div class="bg-white rounded-2xl shadow-sm p-5">
+        <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1" id="itMakineTurEtiket">Makine</p>
+        <h2 class="text-lg font-black font-headline" id="itMakineAd">—</h2>
+        <p class="text-xs text-slate-400" id="itMakineDetay"></p>
+        <div id="itKiralamaKart" class="mt-3 pt-3 border-t border-slate-100 text-sm">
+          <p class="font-bold" id="itMusteriAd"></p>
+          <p class="text-xs text-slate-400" id="itKiralamaDetay"></p>
+        </div>
+      </div>
+
+      <div id="itOncekiKart" class="hidden bg-white rounded-2xl shadow-sm p-5">
+        <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Makinenin Bilinen Son Hâli</p>
+        <p class="text-xs text-slate-400 mb-3" id="itOncekiBilgi"></p>
+        <div class="grid grid-cols-3 sm:grid-cols-4 gap-2" id="itOncekiFotograflar"></div>
+      </div>
+     </div>
+
+     <div class="it-ana">
+      <div id="itTaslakBanner" class="hidden bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-4">
+        <div class="flex items-start gap-3">
+          <span class="material-symbols-outlined text-amber-600">history</span>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-bold text-amber-900">Yarım kalmış bir tutanak var</p>
+            <p class="text-xs text-amber-800 mt-0.5" id="itTaslakBilgi"></p>
+            <div class="flex flex-wrap gap-2 mt-3">
+              <button type="button" id="itTaslakDevamBtn" class="px-4 py-2 bg-amber-600 text-white text-xs font-bold rounded-xl hover:opacity-90 transition">Kaldığım yerden devam et</button>
+              <button type="button" data-on-click="itTaslakSil" class="px-4 py-2 border border-amber-300 text-amber-800 text-xs font-bold rounded-xl hover:bg-amber-100 transition">Sıfırdan başla</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="itFormKart" class="bg-white rounded-2xl shadow-sm p-6">
+        <div id="itAdimCubugu" class="mb-5">
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-[11px] font-black uppercase tracking-widest text-primary" id="itAdimBaslik">1. Kimlik</p>
+            <p class="text-[11px] font-bold text-slate-400"><span id="itAdimNo">1</span> / 5</p>
+          </div>
+          <div class="flex justify-end -mt-1 mb-1">
+            <span id="itTaslakNot" class="text-[10px] text-slate-300"></span>
+          </div>
+          <nav id="itAdimNoktalar" aria-label="Tutanak adımları"><button type="button" data-on-click="itAdimGit" data-args='[1]'>1. Kimlik</button><button type="button" data-on-click="itAdimGit" data-args='[2]'>2. Sevkiyat</button><button type="button" data-on-click="itAdimGit" data-args='[3]'>3. Kontrol</button><button type="button" data-on-click="itAdimGit" data-args='[4]'>4. Fotoğraf</button><button type="button" data-on-click="itAdimGit" data-args='[5]'>5. İmza</button></nav>
+          <p id="itDogrulamaHata" class="it-review-note" role="alert" hidden style="margin-top:12px"></p>
+        </div>
+        <section class="it-adim" data-adim="1">
+<div class="it-section-title"><h3>Kimlik ve kayıt sorumlusu</h3><p>Tutanak, giriş yaptığınız hesapla kaydedilir.</p></div>
+        <div id="itOfisRozet" class="hidden rounded-xl p-3 text-sm bg-blue-50 text-blue-800 border border-blue-200">
+          <div class="flex items-start gap-2">
+            <span class="material-symbols-outlined text-lg">badge</span>
+            <div>
+              <p class="font-bold"><span id="itOfisBaslik">Ofis modu</span> — <span id="itOfisKullanici"></span></p>
+              <p id="itOfisAciklama" class="text-xs mt-0.5 leading-snug"></p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="lbl">Personel</label>
+          <select id="itPersonel" class="inp"><option value="">— Personel seçin —</option></select>
+        </div>
+        </section>
+        <section class="it-adim hidden" data-adim="2">
+<div class="it-section-title"><h3>Sevkiyat bilgileri</h3><p>Tarafları, çalışma yerini, nakliye aracını ve tarihleri kontrol edin.</p></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl">Teslim Eden Firma</label><input id="itTeslimEden" class="inp" placeholder="firma adı"/></div>
+          <div><label class="lbl">Teslim Alan Firma</label><input id="itTeslimAlan" class="inp" placeholder="firma adı"/></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl">Makinenin Çalışma Yeri</label><input id="itCalismaYeri" class="inp" placeholder="şantiye / il"/></div>
+          <div><label class="lbl">Nakliye Araç Plakası</label><input id="itNakliyePlaka" class="inp" placeholder="34 ABC 123"/></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl">Makineyi Ekspertiz Eden</label><input id="itEkspertiz" class="inp" placeholder="ad soyad"/></div>
+          <div>
+            <label class="lbl">Yakıt Türü</label>
+            <select id="itYakitTuru" class="inp">
+              <option value="">— Seçin —</option><option value="dizel">Dizel</option><option value="akulu">Akülü</option><option value="lpg">LPG</option><option value="hibrit">Hibrit</option><option value="elektrik">Elektrik</option><option value="benzinli">Benzinli</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl">İş Başı Tarihi</label><input id="itIsBasiTarih" type="date" class="inp"/></div>
+          <div><label class="lbl">İş Başı Saati</label><input id="itIsBasiSaat" type="time" class="inp"/></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl">İş Sonu Tarihi</label><input id="itIsSonuTarih" type="date" class="inp"/></div>
+          <div><label class="lbl">İş Sonu Saati</label><input id="itIsSonuSaat" type="time" class="inp"/></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="lbl">İşlem</label>
+            <select id="itIslem" class="inp"><option value="iade">İade Alınıyor</option><option value="teslim">Teslim Ediliyor</option></select>
+          </div>
+          <div>
+            <label class="lbl">Tarih</label>
+            <input id="itTarih" type="date" class="inp"/>
+          </div>
+        </div>
+        </section>
+        <section class="it-adim hidden" data-adim="3">
+<div class="it-section-title"><h3>Makine ve aksesuar kontrolü</h3><p>Gözlemlediğiniz durumu kaydedin. Kontrol etmediğiniz parçayı hasarsız işaretlemeyin.</p></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl">Çalışma Saati (sayaç)</label><input id="itSaat" type="number" min="0" step="0.1" class="inp" placeholder="ör: 1240"/></div>
+          <div><label class="lbl">Kilometre (varsa)</label><input id="itKm" type="number" min="0" class="inp" placeholder="Araç için"/></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="lbl">Yakıt / Şarj Seviyesi</label>
+            <select id="itYakit" class="inp">
+              <option value="">— Seçin —</option>
+              <option value="Dolu">Dolu</option><option value="3/4">3/4</option><option value="1/2">1/2</option><option value="1/4">1/4</option><option value="Boş">Boş</option>
+            </select>
+          </div>
+          <div>
+            <label class="lbl">Genel Durum</label>
+            <select id="itDurum" data-on-change="itDurumDegisti" class="inp">
+              <option value="">— Kontrol sonucunu seçin —</option><option value="saglam">Sağlam / Eksiksiz</option>
+              <option value="hasarli">Hasarlı</option>
+              <option value="eksik_aksesuar">Eksik Aksesuar</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="lbl" id="itAksesuarBaslik">Teslim Edilen Aksesuarlar</label>
+          <div id="hzSayimAlan"></div><div class="flex flex-wrap gap-3 mt-1" id="itAksesuarlar">
+            <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Anahtar" class="rounded"/> Anahtar</label>
+            <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Kumanda" class="rounded"/> Kumanda</label>
+            <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Şarj Aleti" class="rounded"/> Şarj Aleti</label>
+            <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Ruhsat" class="rounded"/> Ruhsat</label>
+            <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Operatör El Kitabı" class="rounded"/> El Kitabı</label>
+            <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Stepne" class="rounded"/> Stepne</label>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <label class="lbl mb-0">Bileşen Durumu</label>
+            <button type="button" data-on-click="itHasarHepsiSaglam" class="text-[11px] font-bold text-primary hover:underline">Tümü hasarsız</button>
+          </div>
+          <div class="overflow-x-auto rounded-xl border border-slate-100">
+            <table class="w-full text-sm" id="itBilesenTablo">
+              <thead class="bg-surface-container-low text-[10px] uppercase tracking-widest text-slate-400 font-bold">
+                <tr>
+                  <th class="px-3 py-2 text-left">Bileşen</th>
+                  <th class="px-2 py-2 text-center">Hasarsız</th>
+                  <th class="px-2 py-2 text-center">Az Hasarlı</th>
+                  <th class="px-2 py-2 text-center">Çok Hasarlı</th>
+                </tr>
+              </thead>
+              <tbody id="itBilesenGovde"></tbody>
+            </table>
+          </div>
+          <p id="itBilesenOzet" class="text-[11px] text-slate-400 mt-1"></p>
+        </div>
+
+        <div id="itHasarAlan" class="hidden space-y-3">
+          <div>
+            <label class="lbl text-error">Hasar / Eksik Notu</label>
+            <textarea id="itHasarNotu" class="inp" rows="2" placeholder="Hangi parça? Nerede? Ne görüldü? Ör. sağ arka korkulukta eğilme, kumanda eksik…"></textarea>
+          </div>
+        </div>
+
+        <div>
+          <label class="lbl">Arıza Kodu <span class="normal-case font-normal text-slate-400">(makine ekranında kod çıktıysa — hasarsız iadede de olabilir)</span></label>
+          <div id="itArizaSecili" class="flex flex-wrap gap-1.5 mb-1.5"></div>
+          <div class="relative">
+            <input id="itArizaAra" type="text" class="inp pr-24" placeholder="Kod veya arıza adı yazın… (ör. F01 veya varyatör)" autocomplete="off" data-on-input="itArizaAraDebounce" data-on-focus="itArizaAra"/>
+            <button type="button" id="itArizaGozAtBtn" data-on-click="itArizaGozAt"
+                    class="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 text-[11px] font-bold text-primary bg-primary-fixed rounded-lg hover:opacity-80 transition">Listeyi aç</button>
+            <div id="itArizaSonuc" class="hidden absolute z-30 left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-xl shadow-lg max-h-56 overflow-y-auto"></div>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-1" id="itArizaBilgi"></p>
+          <p id="itArizaSaglamUyari" class="hidden text-[11px] text-amber-700 mt-1.5 bg-amber-50 rounded-lg px-2 py-1.5"></p>
+        </div>
+
+        <div>
+          <label class="lbl">Genel Notlar</label>
+          <textarea id="itGenelNot" class="inp" rows="2"></textarea>
+        </div>
+        </section>
+        <section class="it-adim hidden" data-adim="4">
+<div class="it-section-title"><h3>Fotoğrafla belgeleme</h3><p>Her açı için kamera ve galeri ayrı kullanılabilir. Büyük görüntüde inceleyin ve fotoğrafa özel not ekleyin.</p></div>
+        <div>
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <label class="lbl text-primary mb-0">Makine Fotoğrafları * <span class="normal-case font-normal text-slate-400">(<b class="text-orange-600">*</b> işaretliler zorunlu)</span></label>
+            <button type="button" data-on-click="itCekimRehberiAc" class="text-[11px] font-bold text-primary hover:underline flex items-center gap-0.5"><span class="material-symbols-outlined" style="font-size:14px">help</span>Nasıl çekilir?</button>
+          </div>
+          <div class="bg-blue-50 text-blue-800 text-[11px] rounded-xl px-3 py-2 mb-2 leading-relaxed">
+            Her kutucuktaki <b>kroki</b> o fotoğrafı hangi açıdan çekeceğinizi gösterir. Makinenin önceki tutanağı varsa
+            o açı için <b>Önceki kayıt / Karşılaştır</b> düğmesini kullanın. Aynı açıdan çekilen fotoğraflar değişiklikleri görmeyi kolaylaştırır.
+          </div>
+          <div class="grid grid-cols-3 sm:grid-cols-4 gap-2" id="itFotoGrid"></div>
+          <div id="itFotoDurum" class="sv-info"></div>
+        </div>
+        </section>
+        <section class="it-adim hidden" data-adim="5">
+        <div class="it-section-title"><h3>Kontrol özeti ve imzalar</h3><p>İmzadan önce bilgileri gözden geçirin. Düzenlemek için ilgili bölüme dönebilirsiniz.</p></div>
+        <div id="itOzetIcerik" class="it-review"></div>
+        <p id="itKontrolEksik" class="it-review-note" hidden></p>
+        <p id="itKayitEtki" class="sv-info"></p>
+<div class="rounded-xl border border-slate-200 p-4 space-y-3">
+<h3 class="font-bold">Fiili teslim ve müşteri kabulü</h3>
+<p class="text-xs text-slate-500">İade işleminde fiili teslim, makinenin geri alınmasıdır. Müşteri imzası olmadan müşteri adına kabul yazılmaz.</p>
+<label class="lbl" for="itFiili">Makine fiilen teslim edildi / geri alındı mı?</label><select id="itFiili" class="inp"><option value="">Seçin</option><option value="1">Evet</option><option value="0">Hayır</option></select>
+<label class="lbl" for="itKabul">Kabul sonucu</label><select id="itKabul" class="inp"><option value="">Seçin</option><option value="teslim_aldi">Teslim aldı / iadeyi imzaladı</option><option value="cekinceli">Çekinceyle imzaladı</option><option value="yetkili_yok">Yetkili bulunamadı</option><option value="imza_vermedi">İmza vermedi</option><option value="teslim_edilemedi">Teslim / iade gerçekleştirilemedi</option></select>
+<label class="lbl" for="itKabulNot">Açıklama / çekince / görüşülen kişi</label><textarea id="itKabulNot" class="inp" maxlength="3000"></textarea>
+<label class="lbl" for="itCekinceParca">Çekincenin ilgili olduğu parça / fotoğraf açısı</label><input id="itCekinceParca" class="inp" maxlength="500"/>
+<label class="lbl" for="itBulunduguYer">Makinenin bulunduğu yer</label><input id="itBulunduguYer" class="inp" maxlength="500"/>
+<label class="lbl" for="itSonrakiPlan">Teslim gerçekleşmediyse sonraki plan</label><textarea id="itSonrakiPlan" class="inp" maxlength="1000"></textarea>
+</div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl">Operatör Adı Soyadı</label><input id="itOperatorAd" data-imza-serbest class="inp" placeholder="kiraya veren firma"/></div>
+          <div><label class="lbl">Operatör İletişim</label><input id="itOperatorIletisim" inputmode="tel" autocomplete="tel" data-imza-serbest class="inp" placeholder="telefon"/></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl">Operatör Araç Plaka</label><input id="itOperatorPlaka" data-imza-serbest class="inp" placeholder="34 ABC 123"/></div>
+          <div><label class="lbl">Yetkili İletişim</label><input id="itYetkiliIletisim" inputmode="tel" autocomplete="tel" data-imza-serbest class="inp" placeholder="kiralayan firma telefonu"/></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl">Yetkili Araç Plaka</label><input id="itYetkiliPlaka" data-imza-serbest class="inp" placeholder="34 XYZ 456"/></div>
+          <div></div>
+        </div>
+
+        <div>
+          <label class="lbl">Müşteri Temsilcisi (imzalı kabulde zorunlu)</label>
+          <input id="itMusteriTemsilci" data-imza-serbest type="text" class="inp" placeholder="ad soyad"/>
+          <div class="relative border-2 border-dashed border-slate-300 rounded-xl bg-slate-50 mt-2">
+            <canvas id="itSigMusteri" class="sig-canvas w-full" height="140"></canvas>
+            <button type="button" data-on-click="sigClear" data-args='["itSigMusteri"]' class="absolute top-2 right-2 text-[11px] px-2 py-1 bg-white border border-slate-200 rounded-lg text-slate-500 hover:bg-slate-100">Temizle</button>
+          </div>
+        </div>
+        <p class="text-xs text-slate-500">Personel (şoför) imzası gerekmez: tutanağın sol altına kiralamayı açan personelin Ayarlar'daki imzası otomatik eklenir.</p>
+        <div id="itKonumKart" class="rounded-xl p-3 text-sm flex items-start gap-2 bg-surface-container-low text-slate-500">
+          <span class="material-symbols-outlined text-lg">my_location</span>
+          <span id="itKonumMetin">Konum henüz alınmadı — Kaydet'e bastığınızda otomatik istenecek.</span>
+        </div>
+        <label class="flex items-start gap-3 text-sm"><input id="itOzetOnay" type="checkbox" class="mt-1"/> Bilgileri, fotoğrafları ve seçtiğim işlem türünü kontrol ettim.</label>
+        <button id="itKaydetBtn" data-on-click="itKaydet" class="w-full py-4 bg-green-600 text-white font-bold rounded-xl text-sm hover:opacity-90 transition flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-xl">task_alt</span> TUTANAĞI KAYDET
+        </button>
+        </section>
+        <div class="it-navigation flex items-center gap-3">
+          <button type="button" id="itGeriBtn" data-on-click="itAdimGeri" class="hidden px-5 py-3 rounded-xl border border-slate-200 text-slate-600 font-bold text-sm hover:bg-surface-container-low transition flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-lg">arrow_back</span> Geri
+          </button>
+          <button type="button" id="itIleriBtn" data-on-click="itAdimIleri" class="flex-1 py-3.5 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition flex items-center justify-center gap-2">
+            İleri <span class="material-symbols-outlined text-lg">arrow_forward</span>
+          </button>
+        </div>
+      </div>
+     </div>
+    </div>
+
+    <div id="itSonIslemKart" class="hidden it-dar bg-white rounded-2xl shadow-sm p-5 mt-6"></div>
+  </div>
+</main>
+
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/cevrimdisi.js"></script>
+<script src="js/dikte.js"></script>
+<script src="js/saha-gorsel.js"></script>
+<script src="js/tutanak-taslak.js"></script>
+<script src="js/referans-foto.js"></script>
+<script src="js/teslim-kontrol.js"></script>
+<script src="js/s-iade-tutanagi.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

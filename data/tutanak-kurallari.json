@@ -1,0 +1,116 @@
+{
+  "surum": 1,
+  "alanlar": [
+    {
+      "alan": "teslim_eden_firma",
+      "id": "itTeslimEden",
+      "ad": "Teslim eden firma"
+    },
+    {
+      "alan": "teslim_alan_firma",
+      "id": "itTeslimAlan",
+      "ad": "Teslim alan firma"
+    },
+    {
+      "alan": "calisma_yeri",
+      "id": "itCalismaYeri",
+      "ad": "Çalışma yeri"
+    }
+  ],
+  "fotograflar": {
+    "arac": [
+      {
+        "ad": "Ön",
+        "zorunlu": 1,
+        "sema": "on",
+        "tarif": "Aracın tam KARŞISINDAN, ~3 adım geri. Plaka ve ön tampon net görünmeli."
+      },
+      {
+        "ad": "Arka",
+        "zorunlu": 1,
+        "sema": "arka",
+        "tarif": "Tam ARKASINDAN, ~3 adım geri. Arka tampon ve stop lambaları kadraja girsin."
+      },
+      {
+        "ad": "Sağ Yan",
+        "zorunlu": 1,
+        "sema": "sag",
+        "tarif": "Sağ tarafın ORTASINDAN, aracın tamamı kadraja sığacak mesafede."
+      },
+      {
+        "ad": "Sol Yan",
+        "zorunlu": 1,
+        "sema": "sol",
+        "tarif": "Sol tarafın ORTASINDAN, sağ yan ile aynı mesafeden."
+      },
+      {
+        "ad": "Lastikler",
+        "zorunlu": 0,
+        "sema": "lastik",
+        "tarif": "Diş derinliği görünecek şekilde yakın çekim."
+      },
+      {
+        "ad": "Gösterge / KM",
+        "zorunlu": 1,
+        "sema": "gosterge",
+        "tarif": "Kilometre RAKAMI okunacak netlikte. Kontak açık olmalı."
+      },
+      {
+        "ad": "Kabin İçi",
+        "zorunlu": 0,
+        "sema": "kabin",
+        "tarif": "Sürücü kapısından, koltuk ve konsol görünecek şekilde."
+      }
+    ],
+    "manlift": [
+      {
+        "ad": "Ön",
+        "zorunlu": 1,
+        "sema": "on",
+        "tarif": "Makinenin tam KARŞISINDAN, tamamı kadraja sığacak mesafede."
+      },
+      {
+        "ad": "Arka",
+        "zorunlu": 1,
+        "sema": "arka",
+        "tarif": "Tam ARKASINDAN, aynı mesafeden."
+      },
+      {
+        "ad": "Sağ",
+        "zorunlu": 1,
+        "sema": "sag",
+        "tarif": "Sağ yandan, bom/makas tamamen görünecek şekilde."
+      },
+      {
+        "ad": "Sol",
+        "zorunlu": 1,
+        "sema": "sol",
+        "tarif": "Sol yandan, sağ ile aynı mesafeden."
+      },
+      {
+        "ad": "Sepet / Platform",
+        "zorunlu": 1,
+        "sema": "sepet",
+        "tarif": "Sepetin İÇİNE bakacak şekilde; taban ve korkuluk görünsün."
+      },
+      {
+        "ad": "Kumanda Paneli",
+        "zorunlu": 0,
+        "sema": "kumanda",
+        "tarif": "Panel butonları okunacak netlikte yakın çekim."
+      },
+      {
+        "ad": "Lastik / Palet",
+        "zorunlu": 0,
+        "sema": "lastik",
+        "tarif": "Tekerlek/palet durumu görünecek şekilde."
+      },
+      {
+        "ad": "Çalışma Saati",
+        "zorunlu": 0,
+        "sema": "saat",
+        "tarif": "Saat RAKAMI okunacak netlikte. Makine açık olmalı."
+      }
+    ]
+  }
+}

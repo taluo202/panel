@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="referrer" content="no-referrer"/>
+<title>Kiralama Protokolü</title>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link rel="stylesheet" href="css/belge.css"/>
+<style>
+  [hidden]{display:none!important}
+  body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#f1f5f9;margin:0;padding:12px;color:#172b42}
+  .pi-ana{max-width:900px;margin:0 auto}
+  .pi-ust{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .pi-ust strong{font-size:17px}
+  .pi-kart{background:#fff;border-radius:12px;padding:16px;margin-bottom:12px}
+  .pi-kart h2{font-size:18px;font-weight:800;margin:0 0 6px}
+  .pi-btn{min-height:44px;padding:0 16px;border-radius:10px;border:0;background:#00236f;color:#fff;font-weight:700;font-size:15px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer}
+  .pi-btn:disabled{opacity:.5}
+  .pi-btn2{background:#fff;color:#00236f;border:1px solid #cbd5e1}
+  .pi-tam{width:100%;margin-top:12px}
+  .pi-lbl{display:block;font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin:12px 0 4px}
+  .pi-inp{width:100%;box-sizing:border-box;min-height:44px;background:#eff4ff;border:0;border-radius:10px;padding:10px 12px;font-size:16px}
+  .pi-imza{display:block;width:100%;height:180px;touch-action:none;background:#fff;border:1px dashed #8a9caf;border-radius:12px}
+  .pi-onay{display:flex;gap:10px;align-items:flex-start;font-size:15px;margin:14px 0 4px;font-weight:600;cursor:pointer}
+  .pi-onay input{width:24px;height:24px;flex:none;margin-top:1px}
+  .pi-not{color:#526477;font-size:13px}
+  .pi-mesaj{font-weight:700;min-height:1.2em;color:#00236f;max-width:900px;margin:0 auto 10px}
+  .pi-hata{color:#ba1a1a}
+  @media print{.pi-ust,.pi-mesaj,#piImzaKart{display:none!important}body{background:#fff;padding:0}.pi-kart{padding:0}}
+</style>
+</head>
+<body>
+<main class="pi-ana">
+  <div class="pi-ust">
+    <strong id="piBaslik">Kiralama protokolü</strong>
+    <span><a id="piGuncel" class="pi-btn pi-btn2" hidden>Güncel sürümü aç</a> <a id="piPdf" class="pi-btn pi-btn2" hidden>PDF indir</a></span>
+  </div>
+  <p id="piBilgi" class="pi-mesaj" role="status" aria-live="polite"></p>
+  <div id="piAlan" class="pi-kart">Yükleniyor…</div>
+  <section id="piImzaKart" class="pi-kart" hidden>
+    <h2>İmza</h2>
+    <p class="pi-not">Yukarıdaki protokolün tamamını okuyun. İmzanız protokolün bu hâline işlenir; makine, fiyat ya da tarih sonradan değişirse yeni sürüm ayrıca imzanıza gelir.</p>
+    <label class="pi-lbl" for="piAd">Ad soyad *</label><input id="piAd" class="pi-inp" maxlength="120" autocomplete="name"/>
+    <label class="pi-lbl" for="piUnvan" id="piUnvanLbl">Unvan / görev</label><input id="piUnvan" class="pi-inp" maxlength="120" autocomplete="organization-title"/>
+    <label class="pi-onay"><input id="piOnay" type="checkbox"/> <span>Kiralama protokolünü okudum, kabul ediyorum</span></label>
+    <span class="pi-lbl">İmza *</span>
+    <canvas id="piImza" class="pi-imza" aria-label="İmza alanı"></canvas>
+    <button type="button" id="piTemizle" class="pi-btn pi-btn2 pi-tam">İmzayı temizle</button>
+    <button type="button" id="piImzala" class="pi-btn pi-tam">Protokolü imzala</button>
+  </section>
+</main>
+<script src="js/eylem.js"></script>
+<script src="js/app.js"></script>
+<script src="js/s-protokol-imza.js"></script>
+</body>
+</html>

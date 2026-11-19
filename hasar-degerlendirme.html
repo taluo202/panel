@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Hasar / Eksik Değerlendirme — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  [hidden]{display:none!important}
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:.75rem;padding:.6rem .9rem;font-size:15px;outline:none;min-height:44px;color:#0f172a}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  textarea.inp{min-height:88px;line-height:1.45}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin:0 0 4px}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  fieldset{border:0;padding:0;margin:0;min-width:0}
+  fieldset:disabled .inp,fieldset:disabled .hd-karar-sec button,fieldset:disabled .hd-onay{opacity:.6}
+  .hd-kap{max-width:1400px;margin-inline:auto}
+  @media(max-width:767px){.hd-kap{padding-bottom:84px}}
+  .hd-eyebrow{display:block;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#557183}
+  .hd-ust-satir{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .hd-ust h2{font-size:20px;font-weight:800;color:#0d1c2e;line-height:1.2;margin:0}
+  .hd-ozet{font-size:12.5px;color:#526477;margin-top:2px;overflow-wrap:anywhere;text-wrap:pretty}
+  #hdArsivBant{margin-top:12px}
+  .hd-yenile{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:12px;border:1px solid #cbd5e1;background:#fff;color:#334155;font:700 13px 'Inter',sans-serif;cursor:pointer}
+  .hd-yenile .material-symbols-outlined{font-size:20px}
+  .hd-ust-dugme{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:12px;background:#eff4ff;color:#00236f;font-weight:800;font-size:13.5px;text-decoration:none;white-space:nowrap}
+  .hd-ust-dugme .material-symbols-outlined{font-size:20px}
+  .hd-kpi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+  @media(min-width:900px){.hd-kpi{grid-template-columns:repeat(4,minmax(0,1fr))}}
+  .hd-kart{display:flex;flex-direction:column;gap:6px;min-width:0;background:#fff;border:1px solid #e6edf7;border-radius:16px;padding:12px 14px;text-align:left;cursor:pointer;box-shadow:0 1px 2px rgba(15,23,42,.05);transition:box-shadow .15s,border-color .15s;font-family:inherit;color:inherit}
+  .hd-kart:hover{box-shadow:0 6px 18px rgba(15,23,42,.09)}
+  .hd-kart[aria-pressed=true]{border-color:#00236f;box-shadow:0 0 0 2px #00236f22}
+  .hd-kart-ust{display:flex;align-items:center;gap:8px;min-width:0}
+  .hd-ikon{flex:none;width:32px;height:32px;border-radius:10px;display:inline-grid;place-items:center}
+  .hd-ikon .material-symbols-outlined{font-size:19px}
+  .hd-ikon-mavi{background:#eff4ff;color:#00236f}.hd-ikon-turuncu{background:#fff7e6;color:#92400e}.hd-ikon-kirmizi{background:#fde8e8;color:#ba1a1a}.hd-ikon-yesil{background:#e8f7ec;color:#166534}
+  .hd-etiket{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#64748b;line-height:1.3;overflow-wrap:anywhere}
+  .hd-sayi{font-family:'Manrope',sans-serif;font-size:26px;font-weight:900;line-height:1;color:#0d2a63}
+  .hd-araclar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .hd-ara{flex:1 1 240px;display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:0 10px;min-height:44px;min-width:0}
+  .hd-ara .material-symbols-outlined{color:#64748b;font-size:20px;flex:none}
+  .hd-ara input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:14px;min-height:42px;color:#0f172a}
+  .hd-sec{flex:0 1 220px;background:#fff;border:1px solid #e2e8f0;min-height:44px;font-weight:600;font-size:13.5px;width:auto}
+  @media(max-width:639px){.hd-sec{flex:1 1 100%}}
+  .hd-cipler{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .hd-cip{display:inline-flex;align-items:center;gap:5px;min-height:44px;padding:0 12px;border-radius:999px;border:1px solid #e2e8f0;background:#fff;font-size:12.5px;font-weight:700;color:#475569;cursor:pointer;font-family:inherit}
+  .hd-cip .material-symbols-outlined{font-size:17px}
+  .hd-cip[aria-pressed=true]{background:#00236f;border-color:#00236f;color:#fff}
+  .hd-cip-sayi{min-width:20px;padding:0 6px;border-radius:999px;background:#eff4ff;color:#00236f;font-size:11px;line-height:18px;text-align:center}
+  .hd-cip[aria-pressed=true] .hd-cip-sayi{background:#fff}
+  .hd-mesaj{min-height:20px;margin:8px 0 0;font-size:13.5px;color:#334155;overflow-wrap:anywhere}
+  .hd-mesaj[data-error=true]{color:#ba1a1a;font-weight:700}
+  .hd-mesaj a{text-decoration:underline;font-weight:700;color:#00236f}
+  .hd-liste{display:grid;gap:10px;margin-top:12px}
+  .hd-satir{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:12px 14px;box-shadow:0 1px 2px rgba(15,23,42,.05);min-width:0;cursor:pointer;transition:box-shadow .15s}
+  .hd-satir:hover{box-shadow:0 6px 18px rgba(15,23,42,.09)}
+  .hd-satir.hd-gecikti{border-left:4px solid #ba1a1a}
+  .hd-satir.hd-kapandi{background:#fbfcff}
+  @media(min-width:1024px){.hd-satir{grid-template-columns:172px minmax(0,1fr) 236px auto;align-items:start}}
+  .hd-rozetler{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+  .hd-rozet{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:800;line-height:16px;background:#f1f5f9;color:#475569;overflow-wrap:anywhere}
+  .hd-rozet .material-symbols-outlined{font-size:14px}
+  .hd-rozet-acik{background:#eff4ff;color:#00236f}.hd-rozet-inceleme{background:#ede9fe;color:#5b21b6}.hd-rozet-karar{background:#e0f2fe;color:#075985}
+  .hd-rozet-fiyat{background:#fff7e6;color:#92400e}.hd-rozet-kapandi{background:#e8f7ec;color:#166534}
+  .hd-rozet-yuksek{background:#fff7e6;color:#92400e}.hd-rozet-kritik{background:#fde8e8;color:#ba1a1a}
+  .hd-rozet-sla{background:#f1f5f9;color:#334155}.hd-rozet-sla-az{background:#fff7e6;color:#92400e}.hd-rozet-sla-gec{background:#fde8e8;color:#ba1a1a}
+  .hd-satir-no{font-size:12px;font-weight:800;color:#64748b;margin-bottom:2px}
+  .hd-kod{display:inline-block;padding:0 7px;border-radius:6px;background:#dce1ff;color:#00236f;font:800 12.5px/20px ui-monospace,Consolas,monospace;margin-right:6px;vertical-align:1px}
+  .hd-ad{font-size:15px;font-weight:800;color:#0f172a;overflow-wrap:anywhere;line-height:1.3}
+  .hd-kunye{display:flex;flex-wrap:wrap;gap:3px 10px;font-size:12.5px;color:#475569;margin-top:3px;overflow-wrap:anywhere}
+  .hd-kunye b{color:#0f172a;font-weight:600}
+  .hd-musteri{display:flex;align-items:flex-start;gap:6px;font-size:13.5px;color:#334155;margin-top:6px;overflow-wrap:anywhere}
+  .hd-musteri .material-symbols-outlined{font-size:18px;color:#64748b;flex:none;margin-top:1px}
+  .hd-bulgu{font-size:13px;color:#526477;margin:6px 0 0;overflow-wrap:anywhere;line-height:1.45}
+  .hd-satir-sag{display:grid;gap:6px;font-size:13px;color:#334155;align-content:start;min-width:0}
+  .hd-kisi{display:flex;align-items:flex-start;gap:6px;overflow-wrap:anywhere;min-width:0}
+  .hd-kisi .material-symbols-outlined{font-size:18px;color:#64748b;flex:none}
+  .hd-kisi b{font-weight:700;color:#0f172a}
+  .hd-kisi small{display:block;color:#64748b;font-size:12px}
+  .hd-ac{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:44px;padding:0 14px;border-radius:12px;border:0;background:#eff4ff;color:#00236f;font-weight:800;font-size:13.5px;cursor:pointer;font-family:inherit;white-space:nowrap;align-self:start}
+  .hd-ac .material-symbols-outlined{font-size:18px}
+  @media(max-width:1023px){.hd-ac{width:100%}}
+  .hd-bos{background:#fff;border:1px dashed #cbd5e1;border-radius:16px;padding:18px 16px;font-size:14px;color:#475569;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+  .hd-bos .material-symbols-outlined{font-size:32px;color:#94a3b8}
+  .hd-bos b{color:#0f172a;display:block}
+  .hd-isk{height:14px;border-radius:8px;background:linear-gradient(90deg,#eef2f7 25%,#f8fafc 50%,#eef2f7 75%);background-size:200% 100%;animation:hdIsk 1.2s linear infinite}
+  .hd-isk-bas{width:45%;height:18px}.hd-isk-satir{width:70%;margin-top:8px}.hd-isk-kisa{width:35%;margin-top:8px}
+  @keyframes hdIsk{from{background-position:200% 0}to{background-position:-200% 0}}
+  .hd-panel{z-index:60;background:rgba(15,23,42,.45);display:flex;align-items:stretch;justify-content:center}
+  .hd-panel.hidden{display:none}
+  .hd-panel-ic{background:#f8f9ff;height:100dvh;max-height:100dvh;overflow-y:auto;border-radius:0;box-sizing:border-box;display:flex;flex-direction:column;outline:none;overscroll-behavior:contain}
+  @media(min-width:768px){.hd-panel{align-items:center;padding:16px}.hd-panel-ic{height:auto;max-height:94vh;border-radius:18px}}
+  body.hd-panel-acik{overflow:hidden}
+  body.hd-panel-acik #asBalon{display:none!important}
+  .hd-panel-ust{position:sticky;top:0;z-index:3;background:#fff;padding:10px 14px 8px;border-bottom:1px solid #e2e8f0;box-shadow:0 4px 14px rgba(15,23,42,.05)}
+  .hd-panel-bas{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .hd-panel-bas h2{font-size:16px;font-weight:800;overflow-wrap:anywhere;margin:0;color:#0d1c2e;line-height:1.3;flex:1;min-width:0}
+  .hd-kapat{flex:none;width:44px;height:44px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;display:grid;place-items:center;color:#475569;cursor:pointer}
+  .hd-kimlik{display:flex;gap:10px;align-items:flex-start;margin-top:6px;min-width:0}
+  .hd-kimlik-ikon{flex:none;width:44px;height:44px;border-radius:12px;background:#eff4ff;color:#00236f;display:grid;place-items:center}
+  .hd-kimlik-ikon .material-symbols-outlined{font-size:24px}
+  .hd-kimlik-metin{min-width:0;flex:1}
+  .hd-ozet-cipler{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .hd-adimlar{display:flex;gap:6px;overflow-x:auto;list-style:none;padding:0 0 2px;margin:8px 0 0;scrollbar-width:none}
+  .hd-adimlar::-webkit-scrollbar{display:none}
+  .hd-adimlar li{flex:none}
+  .hd-adimlar button{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;min-height:44px;padding:0 12px;border-radius:999px;border:1px solid #e2e8f0;background:#fff;font-size:12.5px;font-weight:700;color:#475569;cursor:pointer;font-family:inherit}
+  .hd-adimlar .material-symbols-outlined{font-size:18px}
+  .hd-adimlar small{font-weight:600;opacity:.8}
+  .hd-adim-tamam button{border-color:#bbf7d0;background:#f0fdf4;color:#166534}
+  .hd-adim-simdi button{border-color:#00236f;background:#00236f;color:#fff}
+  .hd-adim-yok button{opacity:.55}
+  .hd-panel-govde button,.hd-panel-govde .inp,.hd-panel-govde summary,.hd-panel-govde a,.hd-panel-govde .hd-onay{scroll-margin-top:300px;scroll-margin-bottom:120px}
+  @media(max-width:767px){
+    .hd-panel-bas h2{font-size:15px}
+    .hd-kimlik{margin-top:4px}.hd-kimlik-ikon{display:none}
+    .hd-kimlik .hd-kunye{font-size:12px;gap:2px 8px}.hd-kimlik .hd-musteri{font-size:12.5px;margin-top:4px}
+    .hd-ozet-cipler{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.hd-ozet-cipler::-webkit-scrollbar{display:none}.hd-ozet-cipler .hd-rozet{flex:none;white-space:nowrap}
+    .hd-dugmeler-not{display:none}
+    .hd-panel-govde button,.hd-panel-govde .inp,.hd-panel-govde summary,.hd-panel-govde a,.hd-panel-govde .hd-onay{scroll-margin-top:230px}
+    main>header>div:first-child{flex:1 1 auto;min-width:0}
+    main>header h1{flex:1 1 0;min-width:0;font-size:15px;line-height:1.2;overflow-wrap:anywhere}
+    .hd-ust-dugme{flex:none;padding:0 10px}
+  }
+  @media(max-width:639px){.hd-ozet{display:none}}
+  .hd-panel-govde{padding:12px 14px 16px;display:grid;gap:12px;flex:1;align-content:start}
+  @media(min-width:768px){.hd-panel-ust{padding:14px 22px 10px}.hd-panel-govde{padding:16px 22px 20px}}
+  @media(min-width:1000px){.hd-panel-iki{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}}
+  .hd-bolum{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:12px 14px;min-width:0}
+  .hd-bolum-bas{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;color:#0d1c2e;margin:0 0 8px;font-family:'Manrope',sans-serif;flex-wrap:wrap}
+  .hd-bolum-bas .material-symbols-outlined{font-size:20px;color:#00236f;flex:none}
+  .hd-bolum-bas small{font-weight:600;color:#64748b;font-size:12.5px;margin-left:auto;font-family:'Inter',sans-serif}
+  .hd-salt{display:flex;gap:8px;align-items:flex-start;background:#fff7e6;border:1px solid #fde68a;color:#92400e;border-radius:14px;padding:10px 12px;font-size:13.5px;font-weight:700;margin:0}
+  .hd-salt .material-symbols-outlined{font-size:20px;flex:none}
+  .hd-kaynak{font-size:14px;color:#0f172a;overflow-wrap:anywhere;margin:0 0 8px;line-height:1.45}
+  .hd-baglar{display:flex;flex-wrap:wrap;gap:6px}
+  .hd-baglar a,.hd-baglar .hd-bag{display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 12px;border-radius:12px;border:1px solid #cbd5e1;background:#fff;font-size:13px;font-weight:700;color:#00236f;text-decoration:none;overflow-wrap:anywhere}
+  .hd-baglar .material-symbols-outlined{font-size:17px}
+  .hd-baglar .hd-bag{color:#334155;border-style:dashed}
+  .hd-detay{margin-top:8px}
+  .hd-detay summary{cursor:pointer;font-size:13px;font-weight:700;color:#00236f;min-height:44px;display:flex;align-items:center;gap:4px}
+  #hdBulgu{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12.5px;background:#f8fafc;border-radius:12px;padding:10px;margin:0;font-family:ui-monospace,Consolas,monospace;line-height:1.5}
+  .hd-ariza-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px 16px;font-size:13.5px}
+  .hd-ariza-grid div{overflow-wrap:anywhere}
+  .hd-ariza-grid b{display:block;font-size:11px;text-transform:uppercase;color:#64748b;letter-spacing:.05em;font-weight:700}
+  .hd-ariza-grid small{display:block;color:#637489;font-size:12px}
+  .hd-ariza-bag{margin-top:8px}
+  .hd-not{color:#64748b;font-size:13px;margin:0}
+  .hd-fotolar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  @media(min-width:768px){.hd-fotolar{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}}
+  .hd-foto{margin:0;display:flex;flex-direction:column;gap:4px;min-width:0}
+  .hd-foto button,.hd-foto>a{display:block;width:100%;padding:0;border:0;background:#f1f5f9;border-radius:14px;overflow:hidden;cursor:pointer;aspect-ratio:4/3}
+  .hd-foto img{width:100%;height:100%;object-fit:cover;display:block}
+  .hd-foto figcaption{font-size:12px;color:#334155;overflow-wrap:anywhere}
+  .hd-foto figcaption b{display:block;font-weight:700;color:#0f172a}
+  .hd-kiyas-liste{display:grid;gap:0}
+  .hd-kiyas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:10px 0;border-top:1px solid #f1f5f9}
+  .hd-kiyas:first-child{border-top:0;padding-top:0}
+  .hd-kiyas .hd-aci{grid-column:1/-1;font-weight:800;font-size:14px;color:#0d1c2e;overflow-wrap:anywhere}
+  .hd-kiyas .hd-aci small{display:block;font-weight:500;color:#64748b;font-size:12px}
+  .hd-kiyas .hd-foto figcaption{text-align:center;font-weight:600;font-size:11.5px;color:#64748b}
+  .hd-yok{display:flex;align-items:center;justify-content:center;aspect-ratio:4/3;border-radius:14px;background:#f8fafc;color:#94a3b8;font-size:12px;text-align:center;padding:6px;border:1px dashed #e2e8f0}
+  @media(min-width:768px){.hd-kiyas{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}.hd-kiyas .hd-aci{grid-column:1/-1}}
+  .hd-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:10px 14px}
+  @media(min-width:768px){.hd-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .hd-grid label{display:block;min-width:0}
+  .hd-wide{grid-column:1/-1}
+  .hd-onay{display:flex;align-items:flex-start;gap:10px;min-height:44px;padding:8px 10px;border-radius:12px;border:1px solid #e2e8f0;font-size:13.5px;color:#334155;cursor:pointer}
+  .hd-onay input{width:22px;height:22px;flex:none;margin-top:1px}
+  .hd-karar-sec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  @media(min-width:768px){.hd-karar-sec{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  .hd-karar-sec button{display:flex;align-items:center;gap:8px;min-height:52px;padding:8px 12px;border-radius:14px;border:1px solid #cbd5e1;background:#fff;font-weight:700;font-size:13.5px;color:#334155;text-align:left;cursor:pointer;font-family:inherit;overflow-wrap:anywhere;min-width:0}
+  .hd-karar-sec button span:last-child{min-width:0}
+  .hd-karar-sec button .material-symbols-outlined{font-size:22px;color:#64748b;flex:none}
+  .hd-karar-sec button[aria-pressed=true]{border-color:#00236f;background:#00236f;color:#fff}
+  .hd-karar-sec button[aria-pressed=true] .material-symbols-outlined{color:#fff}
+  .hd-karar-sec button:disabled{cursor:default}
+  .hd-etki{background:#f3f6fb;border-radius:12px;padding:10px 12px;font-size:13px;color:#334155;margin:10px 0 0;display:flex;gap:8px;align-items:flex-start;overflow-wrap:anywhere}
+  .hd-etki .material-symbols-outlined{font-size:18px;color:#00236f;flex:none}
+  .hd-ara-baslik{font-size:13.5px;font-weight:800;color:#0d1c2e;margin:14px 0 8px;font-family:'Manrope',sans-serif}
+  .hf-tablo{width:100%;border-collapse:collapse;font-size:13.5px}
+  .hf-tablo th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#64748b;text-align:left;padding:6px}
+  .hf-tablo td{padding:6px;vertical-align:middle}
+  .hf-tablo .inp{min-height:44px}
+  .hi-satir{border:1px solid #e2e8f0;border-radius:14px;padding:12px;margin:10px 0 0;font-size:13.5px;background:#f8fafc}
+  .hi-satir p{margin:6px 0}
+  .hd-danger{color:#ba1a1a!important}
+  .hd-zaman{list-style:none;margin:0;padding:0;display:grid}
+  .hd-olay{display:grid;grid-template-columns:18px minmax(0,1fr);gap:10px;padding:8px 0;position:relative}
+  .hd-olay::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:#e2e8f0}
+  .hd-olay:first-child::before{top:14px}.hd-olay:last-child::before{bottom:calc(100% - 14px)}
+  .hd-olay:only-child::before{display:none}
+  .hd-nokta{position:relative;z-index:1;width:18px;height:18px;border-radius:50%;background:#fff;border:2px solid #00236f;margin-top:4px;box-sizing:border-box}
+  .hd-olay b{display:block;font-size:13.5px;color:#0f172a;overflow-wrap:anywhere}
+  .hd-olay small{display:block;color:#64748b;font-size:12px}
+  .hd-olay p{margin:4px 0 0;font-size:13px;color:#334155;overflow-wrap:anywhere;white-space:pre-wrap}
+  .hd-dugmeler{position:sticky;bottom:0;z-index:4;display:flex;gap:8px;flex-wrap:wrap;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #e2e8f0;box-shadow:0 -6px 20px rgba(15,23,42,.06);margin-top:auto;align-items:center}
+  .hd-dugmeler .hd-birincil{flex:2 1 180px}.hd-dugmeler .hd-ikincil{flex:1 1 120px}
+  .hd-dugmeler-not{flex:1 1 100%;font-size:12.5px;color:#64748b;margin:0;overflow-wrap:anywhere}
+  @media(min-width:768px){.hd-dugmeler{justify-content:flex-end;padding:12px 22px}.hd-dugmeler .hd-birincil,.hd-dugmeler .hd-ikincil{flex:0 0 auto}.hd-dugmeler-not{flex:1 1 auto}}
+  .hd-birincil{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:0 16px;border-radius:12px;border:0;background:#00236f;color:#fff;font-weight:800;font-size:15px;text-decoration:none;cursor:pointer;font-family:inherit}
+  .hd-birincil .material-symbols-outlined{font-size:20px}
+  .hd-birincil:disabled{opacity:.55;cursor:default}
+  .hd-ikincil{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 14px;border-radius:12px;border:1px solid #cbd5e1;background:#fff;font-weight:700;font-size:13.5px;color:#334155;cursor:pointer;text-decoration:none;font-family:inherit}
+  .hd-ikincil:disabled{opacity:.55;cursor:default}
+  .hd-isik{z-index:70;background:rgba(2,6,23,.88);display:flex;align-items:center;justify-content:center;padding:12px}
+  .hd-isik.hidden{display:none}
+  .hd-isik-ic{background:#0f172a;border-radius:18px;padding:10px;display:flex;flex-direction:column;gap:8px;max-height:96vh;color:#fff;outline:none;box-sizing:border-box}
+  .hd-isik-ic img{width:100%;max-height:74vh;object-fit:contain;border-radius:12px;background:#000;flex:1;min-height:0}
+  .hd-isik-ic p{margin:0;font-size:13px;color:#cbd5e1;text-align:center;overflow-wrap:anywhere}
+  .hd-isik-dugmeler{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .hd-isik-dugmeler button{min-height:44px;min-width:44px;padding:0 14px;border-radius:12px;border:1px solid #475569;background:#1e293b;color:#fff;font-weight:700;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:4px}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html" title="Panel"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto"></nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" type="button" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600" aria-label="Menü"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Hasar / Eksik Değerlendirme</h1>
+    </div>
+    <a href="gorevler.html" class="hd-ust-dugme"><span class="material-symbols-outlined" aria-hidden="true">checklist</span><span>Görevler</span></a>
+  </header>
+  <div class="p-4 md:p-8">
+    <div class="hd-kap">
+      <div class="hd-ust">
+        <div class="hd-ust-satir">
+          <div class="min-w-0"><span class="hd-eyebrow">Hasar / eksik değerlendirme · Arşiv</span><h2>Eski kayıtlar ve bağlı belgeler</h2><p class="hd-ozet">Yeni bulgular dönüş kontrolünden doğrudan servis kaydına gider (Teknik Servis). Burada yalnız eski değerlendirme kayıtları okunur; bedeli bağlı olanlar kapatılır ya da servis kaydına taşınır.</p></div>
+          <button type="button" class="hd-yenile" data-on-click="hdYukle"><span class="material-symbols-outlined" aria-hidden="true">refresh</span><span>Yenile</span></button>
+        </div>
+        <p class="hd-salt" id="hdArsivBant"><span class="material-symbols-outlined" aria-hidden="true">inventory_2</span><span>Arşiv: Hasar / eksik değerlendirme kayıtları artık yeni kayıt almıyor. Onarım ve bedel Teknik Servis'te; burada eski kayıtlar ve bağlı belgeler okunur.</span></p>
+        <div class="hd-kpi" id="hdKpi" aria-label="Özet sayılar">
+          <button type="button" class="hd-kart" data-kpi="acik" aria-pressed="true" data-on-click="hdKpiSec" data-args='["acik"]'><span class="hd-kart-ust"><span class="hd-ikon hd-ikon-mavi"><span class="material-symbols-outlined" aria-hidden="true">pending_actions</span></span><span class="hd-etiket">Açık işler</span></span><b class="hd-sayi" id="hd_acik">—</b></button>
+          <button type="button" class="hd-kart" data-kpi="atanmamis" aria-pressed="false" data-on-click="hdKpiSec" data-args='["atanmamis"]'><span class="hd-kart-ust"><span class="hd-ikon hd-ikon-turuncu"><span class="material-symbols-outlined" aria-hidden="true">person_search</span></span><span class="hd-etiket">Atama bekleyen</span></span><b class="hd-sayi" id="hd_atanmamis">—</b></button>
+          <button type="button" class="hd-kart" data-kpi="geciken" aria-pressed="false" data-on-click="hdKpiSec" data-args='["geciken"]'><span class="hd-kart-ust"><span class="hd-ikon hd-ikon-kirmizi"><span class="material-symbols-outlined" aria-hidden="true">alarm</span></span><span class="hd-etiket">Süresi geçen</span></span><b class="hd-sayi" id="hd_geciken">—</b></button>
+          <button type="button" class="hd-kart" data-kpi="sonuclanan" aria-pressed="false" data-on-click="hdKpiSec" data-args='["sonuclanan"]'><span class="hd-kart-ust"><span class="hd-ikon hd-ikon-yesil"><span class="material-symbols-outlined" aria-hidden="true">task_alt</span></span><span class="hd-etiket">Sonuçlanan</span></span><b class="hd-sayi" id="hd_sonuclanan">—</b></button>
+        </div>
+      </div>
+      <div class="hd-araclar">
+        <label class="hd-ara"><span class="material-symbols-outlined" aria-hidden="true">search</span><input data-sayfa-arama id="hdAra" aria-label="Değerlendirmelerde ara" placeholder="Makine, kod, müşteri, şantiye, kişi veya şube ara"></label>
+        <select id="hdFiltre" class="inp hd-sec" aria-label="Değerlendirme filtresi"><option value="acik">Açık işler</option><option value="atanmamis">Atama bekleyen</option><option value="geciken">Süresi geçen</option><option value="sonuclanan">Sonuçlanan</option><option value="fiyat">Fiyatlandırılmamış</option><option value="hepsi">Tümü</option></select>
+      </div>
+      <div class="hd-cipler" id="hdCipler" role="group" aria-label="Hızlı süzgeç">
+        <button type="button" class="hd-cip" data-cip="benim" aria-pressed="false"><span class="material-symbols-outlined" aria-hidden="true">person</span><span>Bana atananlar</span><span class="hd-cip-sayi" data-sayi="benim">0</span></button>
+        <button type="button" class="hd-cip" data-cip="geciken" aria-pressed="false"><span class="material-symbols-outlined" aria-hidden="true">alarm</span><span>Geciken</span><span class="hd-cip-sayi" data-sayi="geciken">0</span></button>
+        <button type="button" class="hd-cip" data-cip="karar" aria-pressed="false"><span class="material-symbols-outlined" aria-hidden="true">gavel</span><span>Karar bekleyen</span><span class="hd-cip-sayi" data-sayi="karar">0</span></button>
+        <button type="button" class="hd-cip" data-cip="hafta" aria-pressed="false"><span class="material-symbols-outlined" aria-hidden="true">date_range</span><span>Bu hafta</span><span class="hd-cip-sayi" data-sayi="hafta">0</span></button>
+      </div>
+      <p id="hdMesaj" class="hd-mesaj" role="status" aria-live="polite"></p>
+      <div id="hdSatirlar" class="hd-liste" aria-live="polite" aria-busy="true">
+        <div class="hd-satir" aria-hidden="true"><div><div class="hd-isk hd-isk-bas"></div><div class="hd-isk hd-isk-satir"></div><div class="hd-isk hd-isk-kisa"></div></div></div>
+        <div class="hd-satir" aria-hidden="true"><div><div class="hd-isk hd-isk-bas"></div><div class="hd-isk hd-isk-satir"></div><div class="hd-isk hd-isk-kisa"></div></div></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="hdDetay" class="hd-panel fixed inset-0 hidden" role="dialog" aria-modal="true" aria-labelledby="hdBaslik">
+  <div class="hd-panel-ic pencere" tabindex="-1">
+    <div class="hd-panel-ust">
+      <div class="hd-panel-bas"><div class="min-w-0" style="flex:1"><span class="hd-eyebrow" id="hdKaynakTur">Değerlendirme</span><h2 id="hdBaslik"></h2></div><button type="button" class="hd-kapat" data-on-click="hdKapat" aria-label="Kapat"><span class="material-symbols-outlined" aria-hidden="true">close</span></button></div>
+      <div id="hdKimlik" class="hd-kimlik"></div>
+      <div class="hd-ozet-cipler" id="hdOzetCipler"><span id="hdDurum" class="hd-rozet hd-rozet-acik"></span><span id="hdOzetEk" style="display:contents"></span></div>
+      <ol id="hdAdimlar" class="hd-adimlar" aria-label="Süreç adımları"></ol>
+    </div>
+    <div class="hd-panel-govde">
+      <p id="hdPanelMesaj" class="hd-mesaj" role="status" aria-live="polite" hidden></p>
+      <p id="hdSalt" class="hd-salt" hidden><span class="material-symbols-outlined" aria-hidden="true">lock</span><span>Bu kayıt sonuçlanmış veya hesabınız salt okunur. Karar geçmişi aşağıda korunur.</span></p>
+      <section class="hd-bolum" id="hdKaynakBolum" aria-labelledby="hdKaynakBaslik">
+        <h3 class="hd-bolum-bas" id="hdKaynakBaslik"><span class="material-symbols-outlined" aria-hidden="true">fact_check</span>Kaynak bulgu<small id="hdKaynakSurum"></small></h3>
+        <p id="hdKaynak" class="hd-kaynak"></p>
+        <div id="hdBaglar" class="hd-baglar"></div>
+        <details class="hd-detay"><summary><span class="material-symbols-outlined" aria-hidden="true">expand_more</span>Kaynak kontrol bilgileri</summary><pre id="hdBulgu"></pre></details>
+      </section>
+      <section id="hdAriza" class="hd-bolum" hidden></section>
+      <section class="hd-bolum" aria-labelledby="hdFotoBaslik">
+        <h3 class="hd-bolum-bas" id="hdFotoBaslik"><span class="material-symbols-outlined" aria-hidden="true">photo_library</span>Kaynak fotoğrafları<small id="hdFotoSayi"></small></h3>
+        <p class="hd-not" id="hdFotoNot" hidden></p>
+        <div id="hdFotolar" class="hd-fotolar"></div>
+      </section>
+      <section class="hd-bolum" aria-labelledby="hdAiBaslik">
+        <h3 class="hd-bolum-bas" id="hdAiBaslik"><span class="material-symbols-outlined" aria-hidden="true">auto_awesome</span>Yapay zekâ hasar raporu</h3>
+        <div id="hdAi"></div>
+      </section>
+      <form id="hdForm" class="hd-bolum" aria-labelledby="hdFormBaslik">
+        <h3 class="hd-bolum-bas" id="hdFormBaslik"><span class="material-symbols-outlined" aria-hidden="true">assignment_ind</span>Atama ve değerlendirme</h3>
+        <fieldset id="hdAlanlar">
+          <div class="hd-grid">
+            <label><span class="lbl">Sorumlu ekip</span><select id="hdEkip" class="inp"><option value="teknik_servis">Teknik servis</option><option value="operasyon">Operasyon</option><option value="satinalma">Satın alma</option></select></label>
+            <label><span class="lbl">Sorumlu kişi</span><select id="hdAtanan" class="inp"><option value="">Atama bekliyor</option></select></label>
+            <label><span class="lbl">Hedef zaman (Türkiye saati)</span><input type="datetime-local" id="hdHedef" class="inp" required></label>
+            <label><span class="lbl">Öncelik</span><select id="hdOncelik" class="inp"><option value="normal">Normal</option><option value="yuksek">Yüksek</option></select></label>
+          </div>
+          <h3 class="hd-ara-baslik" id="hdKararBaslik">İşlem / karar</h3>
+          <div id="hdKararSec" class="hd-karar-sec" role="group" aria-labelledby="hdKararBaslik"></div>
+          <select id="hdKarar" class="sr-only" aria-label="İşlem / karar" tabindex="-1"></select>
+          <p id="hdEtki" class="hd-etki"></p>
+          <div class="hd-grid" style="margin-top:10px">
+            <label class="hd-wide" id="hdOncekiAlan" hidden><span class="lbl">Önceki tutanak kanıtı</span><select id="hdOnceki" class="inp"></select><div id="hdOncekiFotolar" class="hd-fotolar" style="margin-top:8px"></div></label>
+            <div id="hdAksesuarAlan" class="hd-wide hd-grid" hidden><label><span class="lbl">Aksesuar adı</span><input id="hdAksesuar" class="inp" maxlength="160"></label><label><span class="lbl">Miktar</span><input id="hdMiktar" class="inp" type="number" min="0.001" step="0.001" inputmode="decimal"></label></div>
+            <label class="hd-wide" id="hdKusurAlan" hidden><span class="lbl">Kusur sahibi</span><select id="hdKusur" class="inp"><option value="firma">Firma — müşteriye bedel yansımaz, maliyet iç kayıtta kalır</option><option value="musteri">Müşteri — onarım bedeli (parça + işçilik) Hasar Bedeli Bildirimi'ne girer, kira indirimi önerilmez</option><option value="belirsiz">Belirsiz — karar sonra verilir</option></select></label>
+            <label class="hd-wide" id="hdSahaAlan" hidden><span class="lbl">Servis adresi (şantiye)</span><input id="hdSahaAdres" class="inp" maxlength="300" placeholder="Boş bırakılırsa kiralamadaki şantiye adresi kullanılır"></label>
+            <label class="hd-wide hd-onay" id="hdGeriAlAlan" hidden><input type="checkbox" id="hdKapansin"><span>Kiralama da kapanacak (makine iade alınır; kapatma Kiralama Takip → İade ile yapılır). İşaretsizse kiralama açık kalır, arıza süresi kira indirimi önerisine yansır.</span></label>
+            <label class="hd-wide"><span class="lbl">Gerekçe / yapılan kontrol</span><textarea id="hdGerekce" class="inp" rows="3" maxlength="3000" required placeholder="Neyi incelediniz, neden bu kararı verdiniz? Aksesuar tamamlandıysa teslim/tedarik bilgisini yazın."></textarea></label>
+            <label><span class="lbl">İç değerlendirme notu</span><textarea id="hdIcNot" class="inp" rows="3" maxlength="4000" placeholder="Yalnız ekip görür."></textarea></label>
+            <label><span class="lbl">Müşteriyle paylaşılabilecek açıklama</span><textarea id="hdMusteriNot" class="inp" rows="3" maxlength="1000" placeholder="Yalnız hazırlık alanı; bu etapta otomatik gönderilmez."></textarea></label>
+          </div>
+        </fieldset>
+      </form>
+      <section id="hdArsivBolum" class="hd-bolum" hidden aria-labelledby="hdArsivBaslik">
+        <h3 class="hd-bolum-bas" id="hdArsivBaslik"><span class="material-symbols-outlined" aria-hidden="true">inventory_2</span>Arşiv kapanışı</h3>
+        <p class="hd-not">Bu kayıt arşivde; yeni karar verilmez. Bedel bağlıysa uygun kapanışı seçin; onarım gerekiyorsa kaydı servis kaydına taşıyın.</p>
+        <label class="hd-wide" id="hdArsivGerekceAlan"><span class="lbl">Kapatma gerekçesi</span><textarea id="hdArsivGerekce" class="inp" rows="2" maxlength="3000" placeholder="En az 5 karakter"></textarea></label>
+        <div id="hdKapanis" class="hd-baglar" style="margin-top:8px"></div>
+      </section>
+      <section id="hfPanel" class="hd-bolum" hidden aria-labelledby="hfBaslik">
+        <h3 class="hd-bolum-bas" id="hfBaslik"><span class="material-symbols-outlined" aria-hidden="true">payments</span>Fiyatlandırma<small id="hfDurum"></small></h3>
+        <div class="hd-baglar" style="margin-bottom:8px"><a id="hfDosyaLink" hidden><span class="material-symbols-outlined" aria-hidden="true">folder_open</span><span>Hasar dosyası (belgeler, gönder)</span></a></div>
+        <p id="hfEngel" class="hd-salt" hidden></p>
+        <details class="hd-detay" open><summary><span class="material-symbols-outlined" aria-hidden="true">expand_more</span>Servis dökümü (rehber)</summary><ul id="hfRehber" class="text-sm list-disc pl-5"></ul></details>
+        <form id="hfForm"><fieldset id="hfAlanlar"><div class="overflow-x-auto"><table class="hf-tablo"><thead><tr><th>Bulgu kalemi</th><th>Tutar</th><th>KDV</th></tr></thead><tbody id="hfKalemler"></tbody></table></div>
+          <p id="hfToplam" class="text-sm font-bold my-2"></p>
+          <div class="hd-grid"><label><span class="lbl">Fatura yöntemi</span><select id="hfYontem" class="inp"><option value="ayri">Ayrı fatura</option><option value="hakedis">Hakedişe ekle</option><option value="yok">Ücret yansıtılmaz</option></select></label>
+            <label id="hfHakedisAlan" hidden><span class="lbl">Hakediş</span><select id="hfHakedis" class="inp"></select></label>
+            <label id="hfGerekceAlan" class="hd-wide" hidden><span class="lbl">Gerekçe</span><textarea id="hfGerekce" class="inp" rows="2" maxlength="1000"></textarea></label></div>
+          </fieldset></form>
+      </section>
+      <section id="hiPanel" class="hd-bolum" hidden aria-labelledby="hiBaslik">
+        <h3 class="hd-bolum-bas" id="hiBaslik"><span class="material-symbols-outlined" aria-hidden="true">percent</span>Kira indirimi önerisi</h3>
+        <p class="hd-not">Arıza bildiriminden çözüme kadar geçen süre Ayarlar'daki eşiği aşarsa sistem bekleyen hakediş için indirim önerir (gün × günlük ücret × oran). Onaylanan indirim hakedişe ayrı negatif satır olarak işlenir; faturası kesilmiş hakedişe dokunulmaz. Müşteri kusurunda öneri üretilmez.</p>
+        <div id="hiListe"></div>
+      </section>
+      <div class="hd-panel-iki">
+        <section class="hd-bolum" aria-labelledby="hdBagliBaslik">
+          <h3 class="hd-bolum-bas" id="hdBagliBaslik"><span class="material-symbols-outlined" aria-hidden="true">link</span>Bağlı kayıtlar</h3>
+          <div id="hdBagliKayitlar" class="hd-baglar"></div>
+        </section>
+        <section class="hd-bolum" aria-labelledby="hdGecmisBaslik">
+          <h3 class="hd-bolum-bas" id="hdGecmisBaslik"><span class="material-symbols-outlined" aria-hidden="true">history</span>Değerlendirme geçmişi<small id="hdGecmisSayi"></small></h3>
+          <ol id="hdGecmis" class="hd-zaman"></ol>
+        </section>
+      </div>
+    </div>
+    <div class="hd-dugmeler" id="hdDugmeler">
+      <p class="hd-dugmeler-not" id="hdDugmeNot"></p>
+      <button type="button" class="hd-ikincil" data-on-click="hdKapat">Kapat</button>
+      <button type="submit" form="hdForm" id="hdKaydetBtn" class="hd-birincil"><span class="material-symbols-outlined" aria-hidden="true">save</span><span id="hdKaydetYazi">İşlemi kaydet</span></button>
+    </div>
+  </div>
+</div>
+
+<div id="hdIsik" class="hd-isik fixed inset-0 hidden" role="dialog" aria-modal="true" aria-label="Fotoğraf" data-on-click="hdIsikArkaplan" data-args='["$event"]'>
+  <div class="hd-isik-ic pencere" tabindex="-1">
+    <img id="hdIsikImg" alt="">
+    <p id="hdIsikNot"></p>
+    <div class="hd-isik-dugmeler"><button type="button" data-on-click="hdIsikGez" data-args='[-1]' aria-label="Önceki fotoğraf"><span class="material-symbols-outlined" aria-hidden="true">chevron_left</span><span>Önceki</span></button><button type="button" data-on-click="hdIsikKapat"><span class="material-symbols-outlined" aria-hidden="true">close</span><span>Kapat</span></button><button type="button" data-on-click="hdIsikGez" data-args='[1]' aria-label="Sonraki fotoğraf"><span>Sonraki</span><span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></button></div>
+  </div>
+</div>
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script><script src="js/app.js"></script><script src="js/app-panel.js"></script><script src="js/hasar-ai.js"></script><script src="js/hasar-degerlendirme.js"></script><script src="js/hasar-fiyat.js"></script><script src="js/pwa.js"></script></body></html>

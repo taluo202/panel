@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Dış Kiralama — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.55rem 0.9rem;font-size:0.875rem;outline:none}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+  .dk{display:inline-block;padding:1px 6px;border-radius:5px;background:#fef3c7;color:#92400e;font-size:10px;font-weight:900;vertical-align:middle}
+  .dk-durum{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700}
+  .dk-aktif{background:#dcfce7;color:#166534}.dk-gelecek{background:#dbeafe;color:#1e40af}.dk-bitti{background:#fee2e2;color:#991b1b}.dk-kapali{background:#e2e8f0;color:#475569}
+  .bolum{border:1px solid #e2e8f0;border-radius:1rem;padding:1rem}
+  .bolum>h3{font-size:13px;font-weight:800;color:#00236f;margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem}
+  .foto-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.5rem}
+  .foto-grid a{display:block;aspect-ratio:4/3;border-radius:.6rem;overflow:hidden;background:#eff4ff}
+  .foto-grid img{width:100%;height:100%;object-fit:cover}
+  .space-y-4>:not([hidden])~:not([hidden]){margin-top:1rem}.space-y-5>:not([hidden])~:not([hidden]){margin-top:1.25rem}
+  .my-6{margin-top:1.5rem;margin-bottom:1.5rem}.pb-6{padding-bottom:1.5rem}.min-w-\[220px\]{min-width:220px}
+  .divide-y>:not([hidden])~:not([hidden]){border-top:1px solid #f1f5f9}.text-red-800{color:#991b1b}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto">
+    <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">dashboard</span><span>Dashboard</span></a>
+    <a href="personel.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">badge</span><span>Personel Yönetimi</span></a>
+    <a href="arac.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">directions_car</span><span>Araç Yönetimi</span></a>
+    <a href="manlift.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">precision_manufacturing</span><span>Makine Yönetimi</span></a>
+    <a href="finans.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">account_balance_wallet</span><span>Finans</span></a>
+    <a href="rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">summarize</span><span>Raporlar</span></a>
+    <a href="kiralama.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">menu_book</span><span>Kataloglar</span></a>
+    <a href="kiralama-takip.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">assignment</span><span>Kiralama Takip</span></a>
+    <a href="musteriler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">groups</span><span>Müşteriler</span></a>
+    <a href="teklifler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">request_quote</span><span>Teklifler</span></a>
+    <a href="hakedisler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt</span><span>Hakedişler</span></a>
+    <a href="nakliye.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">local_shipping</span><span>Nakliye</span></a>
+    <a href="yedek-parca.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">build</span><span>Yedek Parça</span></a>
+    <a href="tedarikciler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">local_shipping</span><span>Tedarikçiler</span></a>
+    <a href="makine-rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">monitoring</span><span>Makine Raporu</span></a>
+    <a href="formlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt_long</span><span>Formlar</span></a>
+    <a href="ayarlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">settings</span><span>Ayarlar</span></a>
+  </nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Dış Kiralama <span class="dk">DK</span></h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="musaitlik.html" class="px-3 py-2 text-slate-600 hover:bg-surface-container-low text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">calendar_month</span><span class="hidden sm:inline">Müsaitlik</span></a>
+      <button data-on-click="dkYeniAc" class="px-3 sm:px-5 py-2 bg-primary text-white text-sm font-bold rounded-xl flex items-center gap-1.5 hover:opacity-90 transition">
+        <span class="material-symbols-outlined text-lg">add</span><span class="hidden sm:inline">Yeni DK Makine</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="px-4 md:px-8 py-6 space-y-5">
+    <p class="text-sm text-slate-500">Başka firmadan kiralayıp kendi müşterimize sunduğumuz makineler. Temin süresi biten makinenin bilgileri ve evrakı burada kalır;
+      yalnızca yeni bir temin dönemi açılana kadar kiralamaya açılamaz.</p>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div class="bg-white rounded-2xl p-4 shadow-sm"><p class="lbl">Aktif temin</p><p id="kAktif" class="text-2xl font-black text-green-700">—</p></div>
+      <div class="bg-white rounded-2xl p-4 shadow-sm"><p class="lbl">Şu an müşteride</p><p id="kMusteride" class="text-2xl font-black text-primary">—</p></div>
+      <div class="bg-white rounded-2xl p-4 shadow-sm"><p class="lbl">Süresi biten</p><p id="kBitti" class="text-2xl font-black text-red-700">—</p></div>
+      <div class="bg-white rounded-2xl p-4 shadow-sm"><p class="lbl">Aylık tedarik maliyeti (aktif, TL)</p><p id="kMaliyet" class="text-2xl font-black text-slate-700">—</p></div>
+    </div>
+
+    <div class="flex flex-wrap gap-2 items-center">
+      <div class="relative flex-1 min-w-[200px] max-w-sm">
+        <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-base">search</span>
+        <input data-sayfa-arama id="dkAra" type="text" placeholder="Kod, plaka, marka, tedarikçi…" data-on-input="dkCiz" class="inp !pl-10 bg-white shadow-sm"/>
+      </div>
+      <select id="dkDurumFiltre" data-on-change="dkCiz" class="inp bg-white shadow-sm" style="width:auto">
+        <option value="">Tüm dönemler</option><option value="aktif">Aktif</option><option value="gelecek">Başlamamış</option>
+        <option value="bitti">Süresi bitti</option><option value="kapali">Kapatıldı / iade edildi</option>
+      </select>
+      <select id="dkTurFiltre" data-on-change="dkCiz" class="inp bg-white shadow-sm" style="width:auto">
+        <option value="">Araç + Makine</option><option value="arac">Araç</option><option value="manlift">Makine</option>
+      </select>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="bg-surface-container-low text-left text-[11px] uppercase tracking-wider text-slate-500">
+          <tr><th class="px-4 py-3">Makine</th><th class="px-4 py-3">Tedarikçi</th><th class="px-4 py-3">Temin dönemi</th>
+              <th class="px-4 py-3">Geliş maliyeti</th><th class="px-4 py-3">Bizim fiyat (liste / min)</th><th class="px-4 py-3">Kiralama</th><th class="px-4 py-3"></th></tr>
+        </thead>
+        <tbody id="dkListe"><tr><td colspan="7" class="px-4 py-8 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<div id="dkModal" class="hidden fixed inset-0 z-[210] bg-black/40 flex items-start justify-center p-4 overflow-y-auto">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-6">
+    <div class="flex items-center justify-between px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100 rounded-t-2xl z-10">
+      <h2 class="text-lg font-bold font-headline" id="dkModalBaslik">Yeni DK Makine</h2>
+      <button data-on-click="kapat" data-args='["dkModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg" aria-label="Kapat"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <form id="dkForm" class="px-7 py-5 space-y-4" data-on-submit="dkKaydet" data-prevent>
+
+      <section class="bolum" id="dkMakineBolum">
+        <h3><span class="material-symbols-outlined text-base">precision_manufacturing</span> 1. Makine</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+          <div><label class="lbl">Makine türü *</label>
+            <select id="dkTur" class="inp" data-on-change="dkTurDegisti"><option value="">Seçin</option><option value="manlift">Makine / platform</option><option value="arac">Araç / vinç</option></select></div>
+          <div class="md:col-span-2"><label class="lbl">Makine</label>
+            <div class="flex gap-4 text-sm pt-2">
+              <label class="flex items-center gap-1.5"><input type="radio" name="dkMakineKaynak" value="yeni" checked data-on-change="dkKaynakDegisti"/> Yeni makine kartı</label>
+              <label class="flex items-center gap-1.5"><input type="radio" name="dkMakineKaynak" value="kayitli" data-on-change="dkKaynakDegisti"/> Sistemdeki makine (tekrar temin)</label>
+            </div></div>
+        </div>
+        <div id="dkKayitliKutu" class="hidden"><label class="lbl">Kayıtlı makine *</label><select id="dkMakineId" class="inp"></select>
+          <p class="text-xs text-slate-500 mt-1">Daha önce dışarıdan kiraladığımız makineyi yeniden getirdiyseniz buradan seçip yeni tarihlerini girin; eski bilgileri ve evrakı korunur.</p></div>
+        <div id="dkYeniKutu" class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div><label class="lbl">Kod / Plaka *</label><input data-m="kimlik" class="inp"/></div>
+          <div><label class="lbl">Şube *</label><select data-m="sube" class="inp" id="dkSube"></select></div>
+          <div><label class="lbl">Marka</label><input data-m="marka" class="inp"/></div>
+          <div><label class="lbl">Model</label><input data-m="model" class="inp"/></div>
+          <div><label class="lbl">Stok kodu</label><input data-m="makine_kodu" class="inp"/></div>
+          <div><label class="lbl">Ruhsat no</label><input data-m="ruhsat_no" class="inp"/></div>
+          <div><label class="lbl">Tescil tarihi</label><input data-m="tescil_tarihi" type="date" class="inp"/></div>
+          <div><label class="lbl">Garanti bitişi</label><input data-m="garanti_bitis" type="date" class="inp"/></div>
+          <div data-tur="manlift"><label class="lbl">Seri no</label><input data-m="seri_no" class="inp"/></div>
+          <div id="dkKategoriAlan" class="col-span-2 md:col-span-4"></div>
+          <div data-tur="manlift"><label class="lbl">İmal yılı</label><input data-m="imal_yili" type="number" min="1900" class="inp"/></div>
+          <div data-tur="manlift"><label class="lbl">Periyodik kontrol bitişi</label><input data-m="periyodik_bitis" type="date" class="inp"/></div>
+          <div data-tur="arac"><label class="lbl">Trafik sig. başlangıç</label><input data-m="trafik_baslangic" type="date" class="inp"/></div>
+          <div data-tur="arac"><label class="lbl">Trafik sig. bitiş</label><input data-m="trafik_bitis" type="date" class="inp"/></div>
+          <div data-tur="arac"><label class="lbl">Trafik sig. tutarı</label><input data-m="trafik_sigorta_tutar" type="number" min="0" step="0.01" class="inp"/></div>
+          <div data-tur="arac"><label class="lbl">Kasko başlangıç</label><input data-m="kasko_baslangic" type="date" class="inp"/></div>
+          <div data-tur="arac"><label class="lbl">Kasko bitiş</label><input data-m="kasko_bitis" type="date" class="inp"/></div>
+          <div data-tur="arac"><label class="lbl">Kasko tutarı</label><input data-m="kasko_tutar" type="number" min="0" step="0.01" class="inp"/></div>
+          <div data-tur="arac"><label class="lbl">Makine kırılma başl.</label><input data-m="makine_kirilma_baslangic" type="date" class="inp"/></div>
+          <div data-tur="arac"><label class="lbl">Makine kırılma bitiş</label><input data-m="makine_kirilma_bitis" type="date" class="inp"/></div>
+          <div data-tur="arac"><label class="lbl">TÜV / muayene bitişi</label><input data-m="tuv_muayene_bitis" type="date" class="inp"/></div>
+          <div data-tur="arac"><label class="lbl">Periyodik kontrol bitişi</label><input data-m="periyodik_kontrol_bitis" type="date" class="inp"/></div>
+          <div><label class="lbl">Çalışma saati (sayaç)</label><input data-m="calisma_saati" type="number" min="0" step="0.1" class="inp"/></div>
+          <div><label class="lbl">Son bakım saati</label><input data-m="son_bakim_saat" type="number" min="0" step="0.1" class="inp"/></div>
+          <div><label class="lbl">Bakım aralığı (saat)</label><input data-m="bakim_araligi_saat" type="number" min="0" step="1" class="inp"/></div>
+          <div><label class="lbl">Aylık liste fiyatı</label><input data-m="liste_fiyat_aylik" type="number" min="0" step="0.01" class="inp"/></div>
+          <div class="col-span-2 md:col-span-4"><label class="lbl">Makine notu</label><textarea data-m="notlar" rows="2" class="inp resize-none"></textarea></div>
+        </div>
+      </section>
+
+      <section class="bolum">
+        <h3><span class="material-symbols-outlined text-base">local_shipping</span> 2. Tedarikçi firma</h3>
+        <div class="flex flex-wrap items-end gap-3">
+          <div class="flex-1 min-w-[220px]"><label class="lbl">Tedarikçi *</label><select id="dkTedarikci" class="inp"></select></div>
+          <label class="flex items-center gap-1.5 text-sm pb-2"><input type="checkbox" id="dkYeniTed" data-on-change="dkYeniTedDegisti"/> Yeni tedarikçi ekle</label>
+        </div>
+        <div id="dkYeniTedKutu" class="hidden grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
+          <div><label class="lbl">Ünvan *</label><input data-t="unvan" class="inp"/></div>
+          <div><label class="lbl">Yetkili</label><input data-t="yetkili" class="inp"/></div>
+          <div><label class="lbl">Telefon</label><input data-t="telefon" class="inp"/></div>
+          <div><label class="lbl">E-posta</label><input data-t="email" type="email" class="inp"/></div>
+          <div><label class="lbl">Vergi dairesi</label><input data-t="vergi_dairesi" class="inp"/></div>
+          <div><label class="lbl">Vergi no</label><input data-t="vergi_no" class="inp"/></div>
+          <div class="md:col-span-2"><label class="lbl">Adres</label><input data-t="adres" class="inp"/></div>
+          <div><label class="lbl">Not</label><input data-t="notlar" class="inp"/></div>
+        </div>
+      </section>
+
+      <section class="bolum">
+        <h3><span class="material-symbols-outlined text-base">payments</span> 3. Temin dönemi ve fiyat</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div><label class="lbl">Geliş (temin) tarihi *</label><input name="temin_baslangic" type="date" class="inp"/></div>
+          <div><label class="lbl">Tedarikçiye iade tarihi</label><input name="temin_bitis" type="date" class="inp"/></div>
+          <div><label class="lbl">Tedarikçi sözleşme no</label><input name="tedarik_sozlesme_no" class="inp"/></div>
+          <div><label class="lbl">Tedarikçinin makine kodu</label><input name="tedarikci_makine_kodu" class="inp"/></div>
+          <div><label class="lbl">Kiralama tipi (tedarikçi)</label><select name="maliyet_tipi" class="inp"><option value="gunluk">Günlük</option><option value="haftalik">Haftalık</option><option value="aylik" selected>Aylık</option><option value="sabit">Sabit</option></select></div>
+          <div><label class="lbl">Geliş fiyatı (tedarikçiye) *</label><input name="maliyet_birim_tutari" type="number" min="0" step="0.01" class="inp"/></div>
+          <div><label class="lbl">Para birimi</label><select name="maliyet_para_birimi" class="inp"><option>TL</option><option>USD</option><option>EUR</option></select></div>
+          <div><label class="lbl">KDV (%)</label><input name="kdv_orani" type="number" min="0" max="100" step="0.01" value="20" class="inp"/></div>
+          <div><label class="lbl">Geliş nakliyesi</label><input name="nakliye_gelis" type="number" min="0" step="0.01" class="inp"/></div>
+          <div><label class="lbl">İade nakliyesi</label><input name="nakliye_iade" type="number" min="0" step="0.01" class="inp"/></div>
+          <div><label class="lbl">Depozito</label><input name="depozito" type="number" min="0" step="0.01" class="inp"/></div>
+          <div><label class="lbl">Tedarikçi min. gün</label><input name="min_kiralama_suresi" type="number" min="0" step="1" class="inp"/></div>
+          <div><label class="lbl">Bizim liste fiyatımız</label><input name="avk_liste_fiyati" type="number" min="0" step="0.01" class="inp"/></div>
+          <div><label class="lbl">Bizim minimum fiyatımız</label><input name="avk_min_fiyati" type="number" min="0" step="0.01" class="inp"/></div>
+          <div><label class="lbl">Durum</label><select name="durum" class="inp"><option value="musait">Müsait</option><option value="rezerve">Rezerve</option><option value="musteride">Müşteride</option><option value="iade_bekliyor">İade bekliyor</option><option value="iade_edildi">Tedarikçiye iade edildi</option><option value="taslak">Taslak</option><option value="iptal">İptal</option></select></div>
+          <div class="flex items-end"><p id="dkKarOzet" class="text-xs text-slate-500"></p></div>
+          <div class="col-span-2"><label class="lbl">Sorumluluklar (sigorta, hasar, operatör…)</label><textarea name="sorumluluk_notu" rows="2" class="inp resize-none"></textarea></div>
+          <div class="col-span-2"><label class="lbl">İç not</label><textarea name="notlar" rows="2" class="inp resize-none"></textarea></div>
+        </div>
+      </section>
+
+      <section class="bolum" id="dkDosyaBolum">
+        <h3><span class="material-symbols-outlined text-base">photo_camera</span> 4. Geliş fotoğrafları ve evrak</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div><label class="lbl">Makine bize geldiğinde (fotoğraflar)</label>
+            <input id="dkFotoInp" type="file" accept="image/*" multiple class="inp" data-on-change="dkFotoOnizle"/>
+            <div id="dkFotoOnizleme" class="foto-grid mt-2"></div></div>
+          <div><label class="lbl">Evrak (sözleşme, teslim, ruhsat, sigorta…)</label>
+            <div class="flex gap-2"><select id="dkEvrakTur" class="inp" style="width:auto">
+              <option value="tedarik_sozlesmesi">Tedarik sözleşmesi</option><option value="teslim">Teslim belgesi</option><option value="ruhsat">Ruhsat</option>
+              <option value="sigorta">Sigorta / kasko</option><option value="muayene">Muayene / periyodik</option><option value="fatura">Fatura</option><option value="diger">Diğer</option></select>
+              <input id="dkEvrakInp" type="file" accept=".pdf,image/jpeg,image/png,image/webp" multiple class="inp"/></div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
+              <input id="dkEvrakAd" type="text" maxlength="200" class="inp" placeholder="Belge adı (boşsa dosya adı)" aria-label="Belge adı"/>
+              <input id="dkEvrakNo" type="text" maxlength="100" class="inp" placeholder="Belge no" aria-label="Belge no"/>
+              <input id="dkEvrakTarih" type="date" class="inp" aria-label="Belge tarihi" title="Belge tarihi"/>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">Kayıt oluşturulunca yüklenir. Sonradan da ayrıntı ekranından eklenebilir; belge no ve tarih boş bırakılabilir.</p></div>
+        </div>
+      </section>
+
+      <p id="dkMesaj" class="text-sm text-error"></p>
+    </form>
+    <div class="flex justify-end gap-2 px-7 pb-6">
+      <button data-on-click="kapat" data-args='["dkModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="dkKaydetBtn" data-on-click="dkKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<div id="dkDetay" class="hidden fixed inset-0 z-[200] bg-black/40 flex items-start justify-center p-4 overflow-y-auto">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-6">
+    <div class="flex items-center justify-between px-7 pt-6 pb-3 border-b border-slate-100">
+      <h2 class="text-lg font-bold font-headline" id="dkDetayBaslik">—</h2>
+      <button data-on-click="kapat" data-args='["dkDetay"]' class="p-1.5 hover:bg-surface-container-low rounded-lg" aria-label="Kapat"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div id="dkDetayIcerik" class="px-7 py-5 space-y-4"></div>
+  </div>
+</div>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script><script src="js/makine-kategori.js"></script>
+<script src="js/dis-kiralama.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+Options -Indexes
+
+
+<IfModule mod_headers.c>
+    Header always set Content-Security-Policy "default-src 'none'"
+    Header always set Cache-Control "no-store, no-cache, must-revalidate"
+</IfModule>
+
+<FilesMatch "(-lib|-kurallari|_kurallari)\.php$">
+    Require all denied
+</FilesMatch>
+<FilesMatch "^(akis-onay|analiz-maliyet|analiz_motor|bakim-onay|cek-gecmis-stok|cek-hareket-rapor|cek-islem|ciro-rapor|claude|config|eposta|filo-gorsel|filo-hedef-tarihce|filo-inceleme|filo-takvim|filo-tarihce|filo-yas|hasar-akis|hazirlik-akis|il-veri|kiralama-akis|operasyon-adim|operasyon-liste|prim-paylasim|tutanak-surum|tutanak-yaz|whatsapp|zip-basit)\.php$">
+    Require all denied
+</FilesMatch>
+<IfModule !mod_authz_core.c>
+    <FilesMatch "(-lib|-kurallari|_kurallari)\.php$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+    <FilesMatch "^(akis-onay|analiz-maliyet|analiz_motor|bakim-onay|cek-gecmis-stok|cek-hareket-rapor|cek-islem|ciro-rapor|claude|config|eposta|filo-gorsel|filo-hedef-tarihce|filo-inceleme|filo-takvim|filo-tarihce|filo-yas|hasar-akis|hazirlik-akis|il-veri|kiralama-akis|operasyon-adim|operasyon-liste|prim-paylasim|tutanak-surum|tutanak-yaz|whatsapp|zip-basit)\.php$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfModule>

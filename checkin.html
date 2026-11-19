@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Saha Check-in — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.55rem 0.9rem;font-size:0.875rem;outline:none}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+  #bzil, #garama { display:none !important; }
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+
+<main class="min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <img src="img/logo.svg" alt="" class="firma-logo h-9 w-auto"/>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Saha Check-in</h1>
+    </div>
+    <a id="ckPanelDonBtn" href="index.html" class="hidden text-xs font-bold text-primary hover:underline">← Panele Dön</a>
+  </header>
+
+  <div class="p-4 md:p-8 max-w-lg mx-auto">
+    <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+      <div id="ckKimKart" class="rounded-xl p-3 mb-4 text-sm flex items-center gap-2 bg-blue-50 text-blue-800">
+        <span class="material-symbols-outlined text-lg">badge</span>
+        <span id="ckKimMetin">Yükleniyor…</span>
+      </div>
+
+      <label class="lbl">Şantiye / Lokasyon Adı (opsiyonel)</label>
+      <input id="ckLokasyon" type="text" class="inp mb-4" placeholder="Örn: Şişli Ofis Tadilat"/>
+
+      <div id="ckKonumKart" class="rounded-xl p-3 mb-4 text-sm flex items-start gap-2 bg-surface-container-low text-slate-500">
+        <span class="material-symbols-outlined text-lg">my_location</span>
+        <span id="ckKonumMetin">Konum henüz alınmadı — Giriş/Çıkış'a bastığınızda otomatik istenecek.</span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <button id="ckGirisBtn" data-on-click="ckKaydet" data-args='["giris"]' class="py-4 bg-green-600 text-white font-bold rounded-xl text-sm hover:opacity-90 transition flex flex-col items-center gap-1">
+          <span class="material-symbols-outlined text-2xl">login</span> GİRİŞ YAP
+        </button>
+        <button id="ckCikisBtn" data-on-click="ckKaydet" data-args='["cikis"]' class="py-4 bg-error text-white font-bold rounded-xl text-sm hover:opacity-90 transition flex flex-col items-center gap-1">
+          <span class="material-symbols-outlined text-2xl">logout</span> ÇIKIŞ YAP
+        </button>
+      </div>
+    </div>
+
+    <div id="ckSonIslemKart" class="hidden bg-white rounded-2xl shadow-sm p-5 mb-6"></div>
+
+    <div id="ckAdminListeKart" class="hidden bg-white rounded-2xl shadow-sm overflow-hidden">
+      <div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between">
+        <h3 class="text-sm font-bold flex items-center gap-2"><span class="material-symbols-outlined text-primary text-lg">history</span>Bugünün Kayıtları</h3>
+        <button data-on-click="ckListeYukle" class="text-slate-400 hover:text-primary transition" title="Yenile"><span class="material-symbols-outlined text-lg">refresh</span></button>
+      </div>
+      <div id="ckListe" class="divide-y divide-slate-50"><p class="px-5 py-6 text-slate-400 text-sm text-center">Yükleniyor…</p></div>
+    </div>
+  </div>
+</main>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/cevrimdisi.js"></script>
+<script src="js/s-checkin.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

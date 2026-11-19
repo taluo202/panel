@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Satınalma Siparişleri — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.55rem 0.9rem;font-size:0.875rem;outline:none}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+  table tr.ft-gecmis:not(.acik){display:none !important}
+  table tr[style*="display: none"] + tr.ft-gecmis{display:none !important}
+  tr.ft-satir{cursor:pointer}
+  tr.ft-satir.acik{background:#f3f7ff}
+  tr.ft-gecmis > td{background:#f8faff;text-align:left !important}
+  .ftg{width:100%;text-align:left;font-size:12px;color:#334155}
+  .ftg-ust{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px;padding:4px 8px 8px;font-size:11px;color:#64748b}
+  .ftg-bas,.ftg-sat{display:grid;grid-template-columns:92px 120px 112px minmax(140px,1fr) 92px 112px 56px 104px;gap:8px;align-items:center;padding:7px 8px}
+  .ftg-bas{font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid #dbe6ff}
+  .ftg-sat{border-top:1px solid #e6eeff;background:#fff}
+  .ftg .sag{text-align:right;white-space:nowrap}
+  .ftg-bas > span{white-space:normal !important;line-height:1.3}
+  .ftg-sat > span{min-width:0;overflow-wrap:anywhere}
+  .ft-ac{display:inline-flex;align-items:center;gap:2px;padding:2px 6px;border-radius:8px}
+  .ft-ac:hover{background:#e6eeff}
+  @media (max-width:767px){
+    .ftg-bas{display:none}
+    .ftg-sat{grid-template-columns:1fr 1fr;gap:4px 12px;border:1px solid #e6eeff;border-radius:10px;margin-bottom:8px}
+    .ftg-sat > span::before{content:attr(data-l);display:block;font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em}
+    .ftg .sag{text-align:left}
+  }
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto">
+    <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">dashboard</span><span>Dashboard</span></a>
+    <a href="personel.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">badge</span><span>Personel Yönetimi</span></a>
+    <a href="arac.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">directions_car</span><span>Araç Yönetimi</span></a>
+    <a href="manlift.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">precision_manufacturing</span><span>Makine Yönetimi</span></a>
+    <a href="finans.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">account_balance_wallet</span><span>Finans</span></a>
+    <a href="rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">summarize</span><span>Raporlar</span></a>
+    <a href="kiralama.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">menu_book</span><span>Kataloglar</span></a>
+    <a href="kiralama-takip.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">assignment</span><span>Kiralama Takip</span></a>
+    <a href="musteriler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">groups</span><span>Müşteriler</span></a>
+    <a href="teklifler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">request_quote</span><span>Teklifler</span></a>
+    <a href="hakedisler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt</span><span>Hakedişler</span></a>
+    <a href="nakliye.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">local_shipping</span><span>Nakliye</span></a>
+    <a href="yedek-parca.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">build</span><span>Yedek Parça</span></a>
+    <a href="tedarikciler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">local_shipping</span><span>Tedarikçiler</span></a>
+    <a href="satinalma.html" class="flex items-center gap-3 px-3 py-2.5 bg-primary text-white rounded-xl text-sm font-bold shadow-sm"><span class="material-symbols-outlined text-xl">shopping_cart</span><span>Satınalma</span></a>
+    <a href="makine-rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">monitoring</span><span>Makine Raporu</span></a>
+    <a href="formlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt_long</span><span>Formlar</span></a>
+    <a href="ayarlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">settings</span><span>Ayarlar</span></a>
+  </nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Satınalma Siparişleri</h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="tedarikciler.html" class="px-3 py-2 text-slate-600 hover:bg-surface-container-low text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">local_shipping</span><span class="hidden sm:inline">Tedarikçiler</span></a>
+      <button data-on-click="disaAktar" title="Excel/CSV'ye aktar" class="px-3 py-2 text-green-700 hover:bg-green-50 text-sm font-bold rounded-xl flex items-center gap-1.5 transition">
+        <span class="material-symbols-outlined text-lg">download</span><span class="hidden sm:inline">Excel</span>
+      </button>
+      <button data-on-click="siparisModalAc" class="sa-yaz px-3 sm:px-5 py-2 bg-primary text-white text-sm font-bold rounded-xl flex items-center gap-1.5 hover:opacity-90 transition">
+        <span class="material-symbols-outlined text-lg">add</span><span class="hidden sm:inline">Yeni Sipariş</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8">
+    <div class="flex bg-white rounded-xl shadow-sm p-1 mb-4 w-fit" id="anaSekme">
+      <button data-s="siparis" class="as px-4 py-1.5 text-xs font-bold rounded-lg transition flex items-center gap-1"><span class="material-symbols-outlined text-base">shopping_cart</span>Siparişler</button>
+      <button data-s="fiyat" class="as px-4 py-1.5 text-xs font-bold rounded-lg transition flex items-center gap-1"><span class="material-symbols-outlined text-base">trending_up</span>Fiyat Takibi</button>
+    </div>
+
+    <div id="siparisWrap">
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <div class="flex flex-wrap bg-white rounded-xl shadow-sm p-1" id="durumFiltre">
+          <button data-d="hepsi" class="df px-3 py-1.5 text-xs font-bold rounded-lg transition">Hepsi</button>
+          <button data-d="taslak" class="df px-3 py-1.5 text-xs font-bold rounded-lg transition">Taslak</button>
+          <button data-d="gonderildi" class="df px-3 py-1.5 text-xs font-bold rounded-lg transition">Gönderildi</button>
+          <button data-d="kismi_teslim" class="df px-3 py-1.5 text-xs font-bold rounded-lg transition">Kısmi Teslim</button>
+          <button data-d="teslim_alindi" class="df px-3 py-1.5 text-xs font-bold rounded-lg transition">Fatura Bekleniyor</button>
+          <button data-d="tamamlandi" class="df px-3 py-1.5 text-xs font-bold rounded-lg transition">Tamamlandı</button>
+          <button data-d="iptal" class="df px-3 py-1.5 text-xs font-bold rounded-lg transition">İptal</button>
+        </div>
+        <div class="relative flex-1 min-w-[200px] sm:max-w-xs">
+          <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-base">search</span>
+          <input data-sayfa-arama id="aramaInp" type="text" placeholder="Sipariş kodu, tedarikçi…" data-on-input="araDebounce" class="w-full pl-10 pr-3 py-2 bg-white border-none rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary/20 shadow-sm"/>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+        <table class="w-full text-sm" style="min-width:820px">
+          <thead><tr class="bg-surface-container-low text-left">
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Kod</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Tedarikçi</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Tarih</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-center">Kalem</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Tutar</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-center">Durum</th>
+            <th class="px-4 py-3"></th>
+          </tr></thead>
+          <tbody id="tablo"><tr><td colspan="7" class="px-6 py-10 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="fiyatWrap" class="hidden">
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <div class="relative flex-1 min-w-[200px] max-w-xs">
+          <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-base">search</span>
+          <input id="ftArama" type="text" placeholder="Stok kodu, malzeme…" data-on-input="ftDebounce" class="w-full pl-8 pr-3 py-2 bg-white border-none rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary/20 shadow-sm"/>
+        </div>
+        <select id="ftTedarikci" data-on-change="fiyatYukle" class="px-3 py-2 bg-white border-none rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary/20 shadow-sm"><option value="">Tüm tedarikçiler</option></select>
+        <p class="text-[11px] text-slate-400">Fiyatlar yalnızca girilen tedarikçi faturalarından gelir.</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+        <table class="w-full text-sm" style="min-width:980px">
+          <thead><tr class="bg-surface-container-low text-left">
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Stok Kodu</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Malzeme</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Son Fiyat</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">KDV %</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Son Tarih</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Son Tedarikçi</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Önceki Fiyat</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Değişim</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">En Düşük</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">En Yüksek</th>
+          </tr></thead>
+          <tbody id="ftTablo"><tr><td colspan="10" class="px-6 py-10 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="spModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between gap-3 px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100 z-10">
+      <div class="min-w-0">
+        <h2 class="text-lg font-bold font-headline flex flex-wrap items-center gap-2"><span id="spKod">—</span><span id="spDurum"></span></h2>
+        <p class="text-xs text-slate-500" id="spAlt">—</p>
+      </div>
+      <button data-on-click="kapat" data-args='["spModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-7 py-5 space-y-5" id="spIcerik"></div>
+    <div class="flex flex-wrap gap-2 px-7 py-4 justify-end sticky bottom-0 bg-white border-t border-slate-100" id="spButonlar"></div>
+  </div>
+</div>
+
+<div id="siparisModal" class="hidden fixed inset-0 z-[110] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100 z-10">
+      <h2 class="text-lg font-bold font-headline" id="sModalBaslik">Yeni Satınalma Siparişi</h2>
+      <button data-on-click="kapat" data-args='["siparisModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-7 py-5 space-y-4">
+      <div id="sServisBaglamKutu" class="hidden p-3 rounded-xl bg-blue-50 text-blue-800 text-sm flex items-center gap-2">
+        <span class="material-symbols-outlined text-base">build</span>
+        <span id="sServisBaglamMetin"></span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="sm:col-span-2">
+          <label class="lbl">Tedarikçi *</label>
+          <div class="flex gap-2">
+            <select id="sTedarikci" class="inp"></select>
+            <a href="tedarikciler.html" title="Yeni tedarikçi ekle" target="_blank" class="shrink-0 grid place-items-center w-10 bg-surface-container-low rounded-xl hover:bg-primary-fixed transition"><span class="material-symbols-outlined text-primary text-lg">add_business</span></a>
+          </div>
+        </div>
+        <div><label class="lbl">Sipariş Tarihi</label><input id="sTarih" type="date" class="inp"/></div>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between mb-1">
+          <label class="lbl mb-0">Sipariş Kalemleri</label>
+          <button data-on-click="kalemEkle" class="text-xs font-bold text-primary flex items-center gap-1 px-2 py-1 bg-surface-container-low rounded-lg hover:bg-primary-fixed transition"><span class="material-symbols-outlined text-sm">add</span>Kalem Ekle</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full" style="min-width:960px">
+            <thead><tr class="text-left text-[10px] font-black text-slate-400 uppercase">
+              <th class="py-1 pr-1 w-10 text-center">Sıra</th><th class="py-1 px-1 w-32">Stok Kodu</th><th class="py-1 px-1">Malzeme *</th>
+              <th class="py-1 px-1 w-20 text-right">Miktar</th><th class="py-1 px-1 w-24">Birim</th><th class="py-1 px-1 w-48">Yedek Parça (isteğe bağlı)</th>
+              <th class="py-1 px-1 w-40">Not</th><th class="py-1 px-1 w-16 text-center" title="Bu malzeme stoğa girmez (sarf, hizmet vb.)">Stoğa girmez</th><th class="w-8"></th>
+            </tr></thead>
+            <tbody id="kalemTablo"></tbody>
+          </table>
+        </div>
+        <datalist id="birimListe"><option value="adet"></option><option value="metre"></option><option value="kg"></option><option value="litre"></option><option value="paket"></option><option value="kutu"></option><option value="takım"></option><option value="set"></option></datalist>
+        <p class="text-[11px] text-slate-400 mt-2">Siparişte fiyat girilmez — fiyatlar tedarikçi faturası gelince <strong>Fatura gir</strong> ile girilir.</p>
+      </div>
+
+      <div><label class="lbl">Not</label><textarea id="sNotlar" rows="2" class="inp resize-none"></textarea></div>
+    </div>
+    <div class="flex gap-3 px-7 py-4 justify-end sticky bottom-0 bg-white border-t border-slate-100">
+      <button data-on-click="kapat" data-args='["siparisModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="sKaydetBtn" data-on-click="siparisKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<div id="teslimModal" class="hidden fixed inset-0 z-[110] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100">
+      <div><h2 class="text-lg font-bold font-headline">Teslim Al</h2><p class="text-xs text-slate-500" id="tmBaslik">—</p></div>
+      <button data-on-click="kapat" data-args='["teslimModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-7 py-4" id="tmIcerik"></div>
+  </div>
+</div>
+
+<div id="faturaModal" class="hidden fixed inset-0 z-[110] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100 z-10">
+      <div><h2 class="text-lg font-bold font-headline">Tedarikçi Faturası Gir</h2><p class="text-xs text-slate-500" id="fmBaslik">—</p></div>
+      <button data-on-click="kapat" data-args='["faturaModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-7 py-5 space-y-4">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div><label class="lbl">Fatura No *</label><input id="fmNo" type="text" class="inp font-mono" placeholder="Örn: ABC2026000001234"/></div>
+        <div><label class="lbl">Fatura Tarihi *</label><input id="fmTarih" type="date" class="inp"/></div>
+        <div><label class="lbl">Not</label><input id="fmNotlar" type="text" class="inp" placeholder="İsteğe bağlı"/></div>
+      </div>
+      <p class="text-[11px] text-slate-400">Faturadaki her satırı siparişteki kalemiyle eşleştirin: faturada olmayan kalemin miktarını 0 bırakın. Bu ekran yalnızca kayıttır — ödeme ve muhasebe aktarımı yapmaz.</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm" style="min-width:900px">
+          <thead><tr class="text-left text-[10px] font-black text-slate-400 uppercase border-b border-slate-100">
+            <th class="py-1.5 pr-2">Sipariş Kalemi</th><th class="py-1.5 px-1 text-right">Kalan</th><th class="py-1.5 px-1 w-24 text-right">Miktar</th>
+            <th class="py-1.5 px-1 w-32 text-right">Birim Fiyat ₺</th><th class="py-1.5 px-1 w-20 text-right">KDV %</th>
+            <th class="py-1.5 px-1 text-right">Mal/Hizmet Tutarı</th><th class="py-1.5 px-1 text-right">KDV Tutarı</th><th class="py-1.5 pl-1 text-right">Toplam</th>
+          </tr></thead>
+          <tbody id="fmTablo"></tbody>
+          <tfoot><tr class="border-t border-slate-200 font-bold">
+            <td colspan="5" class="py-2 text-right text-xs text-slate-500 uppercase">Toplam</td>
+            <td class="py-2 px-1 text-right" id="fmAra">—</td><td class="py-2 px-1 text-right" id="fmKdv">—</td><td class="py-2 pl-1 text-right text-primary" id="fmGenel">—</td>
+          </tr></tfoot>
+        </table>
+      </div>
+    </div>
+    <div class="flex gap-3 px-7 py-4 justify-end sticky bottom-0 bg-white border-t border-slate-100">
+      <button data-on-click="kapat" data-args='["faturaModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="fmKaydetBtn" data-on-click="faturaKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Faturayı Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<div id="gonderModal" class="hidden fixed inset-0 z-[110] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100">
+      <div><h2 class="text-lg font-bold font-headline">Tedarikçiye Gönder</h2><p class="text-xs text-slate-500" id="gmBaslik">—</p></div>
+      <button data-on-click="kapat" data-args='["gonderModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-7 py-5 space-y-4">
+      <div class="rounded-xl border border-slate-100 p-4 space-y-2">
+        <p class="text-sm font-bold flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-base">mail</span>E-posta</p>
+        <p class="text-[11px] text-slate-500">Sipariş PDF olarak e-postaya eklenip gönderilir.</p>
+        <div class="flex flex-wrap gap-2">
+          <input id="gmEposta" type="email" class="inp flex-1 min-w-[200px]" placeholder="tedarikci@ornek.com"/>
+          <button id="gmEpostaBtn" data-on-click="gonderEposta" class="px-4 py-2 bg-primary text-white text-sm font-bold rounded-xl hover:opacity-90 transition">E-postayla gönder</button>
+        </div>
+      </div>
+      <div class="rounded-xl border border-slate-100 p-4 space-y-2">
+        <p class="text-sm font-bold flex items-center gap-1.5"><span class="material-symbols-outlined text-green-700 text-base">chat</span>WhatsApp</p>
+        <p class="text-[11px] text-slate-500">Sipariş metni WhatsApp'ta hazır açılır. WhatsApp bağlantısı dosya ekleyemez; PDF'i indirip sohbete siz ekleyin.</p>
+        <div class="flex flex-wrap gap-2">
+          <input id="gmTelefon" type="tel" class="inp flex-1 min-w-[160px] font-mono" placeholder="905551234567"/>
+          <button id="gmWpBtn" data-on-click="gonderWhatsapp" class="px-4 py-2 bg-green-600 text-white text-sm font-bold rounded-xl hover:opacity-90 transition">WhatsApp'ta aç</button>
+          <button data-on-click="spPdfIndir" class="px-4 py-2 border border-slate-200 text-slate-600 text-sm font-bold rounded-xl hover:bg-surface-container-low transition flex items-center gap-1"><span class="material-symbols-outlined text-base">picture_as_pdf</span>PDF indir</button>
+        </div>
+      </div>
+      <p class="text-[11px] text-slate-400">Gönderilen sipariş "Gönderildi" durumuna geçer; gönderim sipariş sayfasında kayıtlı kalır.</p>
+    </div>
+  </div>
+</div>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/s-satinalma.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

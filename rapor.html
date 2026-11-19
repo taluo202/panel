@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Raporlar — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<script src="js/eylem.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .rp-cubuk{position:sticky;top:var(--rp-ust,57px);z-index:30;background:#f8f9ff;padding-top:4px}
+  @media(max-width:767px){.rp-cubuk{position:static}}
+  .rp-cubuk button,.rp-cubuk input,.rp-cubuk select{min-height:44px}
+  .yf-sirala{cursor:pointer;user-select:none;white-space:nowrap}
+  .yf-sirala::after{content:'↕';opacity:.35;margin-left:4px;font-size:10px}
+  .yf-sirala[aria-sort=ascending]::after{content:'▲';opacity:1}
+  .yf-sirala[aria-sort=descending]::after{content:'▼';opacity:1}
+  .yf-sirala:focus-visible{outline:2px solid #00236f;outline-offset:-2px}
+  #rapor-icerik tfoot td{font-weight:800;background:#eff4ff;border-top:2px solid #dbe4f3}
+  .yf-css-grafik{display:flex;flex-direction:column;gap:6px}
+  .yf-cg-satir{display:grid;grid-template-columns:minmax(90px,2fr) 5fr minmax(72px,auto);align-items:center;gap:8px;font-size:12px}
+  .yf-cg-etiket{overflow-wrap:anywhere;color:#334155}
+  .yf-cg-cubuk{height:12px;border-radius:6px;background:#eef2f7;overflow:hidden}
+  .yf-cg-cubuk i{display:block;height:100%;border-radius:6px;background:#00236f}
+  .yf-cg-deger{text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+  .rp-kpi-degisim{font-size:10px;font-weight:700}
+  .rp-iyi{color:#16a34a}.rp-kotu{color:#ba1a1a}
+  #rapor-icerik a.rp-kayit{font-weight:600}
+  #rapor-icerik a.rp-kayit:hover{color:#00236f;text-decoration:underline}
+  @media(max-width:767px){#rapor-icerik a,#rapor-icerik button{display:inline-flex;align-items:center;min-height:44px}}
+  @page { size:A4 landscape; margin:10mm; }
+  @media print {
+    aside, .no-print { display:none !important; }
+    .rp-cubuk { position:static !important; }
+    main { margin-left:0 !important; padding:0 !important; }
+    body { background:white; height:auto !important; }
+    header { position:static !important; box-shadow:none !important; border:none !important; background:white !important; }
+    .overflow-x-auto, .overflow-hidden { overflow:visible !important; }
+    [class*="sticky"] { position:static !important; }
+    table { width:100% !important; border-collapse:collapse; table-layout:auto; }
+    th, td { padding:3px 5px !important; font-size:8pt !important; color:#000 !important; word-break:break-word; }
+    tr { page-break-inside:avoid; }
+    span { color:#000 !important; background:none !important; border:none !important; padding:0 !important; }
+    th { background:#eee !important; font-weight:700 !important; }
+    tr:nth-child(even) td { background:#f9f9f9 !important; }
+  }
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2">
+    <a href="index.html" title="Dashboard"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a>
+  </div>
+  <nav class="flex-1 flex flex-col gap-0.5">
+    <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">dashboard</span><span>Dashboard</span></a>
+    <a href="personel.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">badge</span><span>Personel Yönetimi</span></a>
+    <a href="arac.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">directions_car</span><span>Araç Yönetimi</span></a>
+    <a href="manlift.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">precision_manufacturing</span><span>Makine Yönetimi</span></a>
+    <a href="finans.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">account_balance_wallet</span><span>Finans</span></a>
+    <a href="rapor.html" class="flex items-center gap-3 px-3 py-2.5 bg-primary text-white rounded-xl text-sm font-bold shadow-sm"><span class="material-symbols-outlined text-xl">summarize</span><span>Raporlar</span></a>
+    <a href="kiralama.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">menu_book</span><span>Kataloglar</span></a>
+    <a href="kiralama-takip.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">assignment</span><span>Kiralama Takip</span></a>
+    <a href="musteriler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">groups</span><span>M&#252;&#351;teriler</span></a>
+    <a href="teklifler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">request_quote</span><span>Teklifler</span></a>
+    <a href="hakedisler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt</span><span>Hakedi&#351;ler</span></a>
+    <a href="nakliye.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">local_shipping</span><span>Nakliye</span></a>
+    <a href="yedek-parca.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">build</span><span>Yedek Par&#231;a</span></a>
+    <a href="makine-rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">monitoring</span><span>Makine Raporu</span></a>
+    <a href="formlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt_long</span><span>Formlar</span></a>
+    <a href="ayarlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">settings</span><span>Ayarlar</span></a>
+  </nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all">
+      <span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Raporlar</h1>
+    </div>
+    <div class="flex items-center gap-2 no-print">
+      <button data-on-click="raporAdresKopyala" title="Bu sekme ve dönemle sayfanın bağlantısını kopyala (paylaşılabilir)" class="px-3 py-2 text-primary hover:bg-primary/10 font-bold text-sm rounded-xl transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">link</span><span class="hidden sm:inline">Bağlantı</span>
+      </button>
+      <button data-on-click="csvIndir" class="px-4 py-2 bg-surface-container-low text-slate-600 font-bold text-sm rounded-xl hover:bg-surface-container transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">download</span> CSV İndir
+      </button>
+      <button data-on-click="App.sayfaYazdir" class="px-4 py-2 bg-primary text-white font-bold text-sm rounded-xl hover:opacity-90 transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">print</span> Yazdır
+      </button>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8">
+    <div id="raporSuzgec" class="rp-cubuk no-print">
+    <div class="overflow-x-auto mb-6 no-print">
+      <div class="flex gap-1 bg-surface-container-low p-1 rounded-xl w-max min-w-full sm:w-fit">
+        <button id="tab-personel" data-on-click="tabGec" data-args='["personel"]' class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition whitespace-nowrap">Personel Belgeleri</button>
+        <button id="tab-arac"     data-on-click="tabGec" data-args='["arac"]'     class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition whitespace-nowrap">Araçlar</button>
+        <button id="tab-manlift"  data-on-click="tabGec" data-args='["manlift"]'  class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition whitespace-nowrap">Makineler</button>
+        <button id="tab-finans"   data-on-click="tabGec" data-args='["finans"]'   class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition whitespace-nowrap">Finans</button>
+        <button id="tab-kiralama" data-on-click="tabGec" data-args='["kiralama"]' class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition whitespace-nowrap">Kiralama</button>
+        <button id="tab-ciro"     data-on-click="tabGec" data-args='["ciro"]'     class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition whitespace-nowrap">Ciro / Tahsilat</button>
+        <button id="tab-cek"      data-on-click="tabGec" data-args='["cek"]'      class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition whitespace-nowrap">Çek / Senet</button>
+        <button id="tab-servis"   data-on-click="tabGec" data-args='["servis"]'   class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition whitespace-nowrap">Teknik Servis</button>
+        <button id="tab-roi"      data-on-click="tabGec" data-args='["roi"]'      class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition whitespace-nowrap">ROI / Amortisman</button>
+        <button id="tab-babs"     data-on-click="tabGec" data-args='["babs"]'     class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition whitespace-nowrap">KDV / Ba-Bs</button>
+        <button id="tab-pnl"      data-on-click="tabGec" data-args='["pnl"]'      class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition whitespace-nowrap">Kâr / Zarar</button>
+        <button id="tab-parcakar" data-on-click="tabGec" data-args='["parcakar"]' class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition whitespace-nowrap">Parça Kârlılığı</button>
+        <button id="tab-butce"    data-on-click="tabGec" data-args='["butce"]'    class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition whitespace-nowrap">Bütçe</button>
+        <button id="tab-hasar"    data-on-click="tabGec" data-args='["hasar"]'    class="px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-lg transition whitespace-nowrap">Hasar</button>
+      </div>
+    </div>
+
+    <div id="hasar-donem-wrap" class="hidden items-center gap-3 mb-5 no-print flex-wrap">
+      <div class="flex bg-surface-container-low rounded-xl p-1" id="hasarDonemSecici">
+        <button data-d="ay"  class="hd-tab px-3 py-1.5 text-xs font-bold rounded-lg transition">Ay</button>
+        <button data-d="yil" class="hd-tab px-3 py-1.5 text-xs font-bold rounded-lg transition">Yıl</button>
+        <button data-d="tum" class="hd-tab px-3 py-1.5 text-xs font-bold rounded-lg transition">Tüm Zamanlar</button>
+      </div>
+      <input id="hasar-ay" type="month" class="bg-surface-container-low border-none rounded-xl px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary/20"/>
+      <input id="hasar-yil" type="number" min="2020" max="2100" class="hidden bg-surface-container-low border-none rounded-xl px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary/20 w-28"/>
+    </div>
+
+    <div id="finans-ay-wrap" class="hidden items-center gap-3 mb-5 no-print">
+      <label class="text-xs font-bold text-slate-500">Ay:</label>
+      <input id="finans-ay" type="month" class="bg-surface-container-low border-none rounded-xl px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary/20"/>
+      <button data-on-click="yukleFinans" class="px-4 py-1.5 bg-primary text-white text-xs font-bold rounded-lg hover:opacity-90 transition">Yükle</button>
+    </div>
+
+    <div id="babs-ay-wrap" class="hidden items-center gap-3 mb-5 no-print">
+      <label class="text-xs font-bold text-slate-500">Ay:</label>
+      <input id="babs-ay" type="month" class="bg-surface-container-low border-none rounded-xl px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary/20"/>
+      <button data-on-click="yukleBabs" class="px-4 py-1.5 bg-primary text-white text-xs font-bold rounded-lg hover:opacity-90 transition">Yükle</button>
+    </div>
+
+    <div id="butce-ay-wrap" class="hidden items-center gap-3 mb-5 no-print">
+      <label class="text-xs font-bold text-slate-500">Ay:</label>
+      <input id="butce-ay" type="month" class="bg-surface-container-low border-none rounded-xl px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary/20"/>
+      <button data-on-click="yukleButce" class="px-4 py-1.5 bg-primary text-white text-xs font-bold rounded-lg hover:opacity-90 transition">Yükle</button>
+      <button data-on-click="butceModalAc" class="px-4 py-1.5 bg-surface-container-low text-slate-700 text-xs font-bold rounded-lg hover:bg-surface-container transition flex items-center gap-1"><span class="material-symbols-outlined text-sm">add</span>Bütçe Ekle</button>
+    </div>
+    </div>
+
+    <div id="rapor-icerik">
+      <div class="text-center py-20 text-slate-400">Yükleniyor…</div>
+    </div>
+  </div>
+</main>
+
+<div id="butceModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4 no-print">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere p-7">
+    <h2 class="text-lg font-bold font-headline mb-5">Bütçe Hedefi Ekle</h2>
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Yıl</label><input id="bYil" type="number" min="2020" max="2100" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/></div>
+        <div><label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Ay</label><input id="bAy" type="number" min="1" max="12" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/></div>
+      </div>
+      <div><label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Kategori</label>
+        <select id="bKategori" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30">
+          <option value="personel">Personel</option>
+          <option value="yakit">Yakıt</option>
+          <option value="bakim">Bakım</option>
+          <option value="sigorta">Sigorta</option>
+          <option value="lastik">Lastik</option>
+          <option value="onarim">Onarım</option>
+          <option value="diger">Diğer (ekipman gideri)</option>
+          <option value="genel">Genel (serbest planlama — otomatik karşılaştırma yok)</option>
+        </select>
+      </div>
+      <div><label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Şube <span class="font-normal normal-case text-slate-400">— boş = genel/tüm şubeler</span></label>
+        <select id="bSube" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"><option value="">— Genel —</option></select>
+      </div>
+      <div><label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Hedef Tutar (₺)</label><input id="bHedef" type="number" min="0" step="0.01" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 text-right"/></div>
+      <div><label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Not</label><textarea id="bNotlar" rows="2" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 resize-none"></textarea></div>
+    </div>
+    <div class="flex gap-3 mt-6 justify-end">
+      <button data-on-click="Eylem.gizle" data-args='["butceModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="bKaydetBtn" data-on-click="butceKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/s-rapor.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

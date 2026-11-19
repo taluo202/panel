@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Filo Referansları — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="js/eylem.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.5rem 0.85rem;font-size:0.8125rem;outline:none}
+  #trHarita svg{width:100%;height:auto;display:block}
+  #trHarita path{stroke:#fff;stroke-width:.6;transition:fill .15s, opacity .15s;cursor:default}
+  #trHarita path.veriVar{cursor:pointer}
+  #trHarita path.veriVar:hover{opacity:.75;stroke:#00236f;stroke-width:1.4}
+  #hTip{position:fixed;z-index:300;pointer-events:none;display:none;background:#0f172a;color:#fff;
+        padding:8px 10px;border-radius:8px;font-size:12px;line-height:1.45;box-shadow:0 6px 20px rgba(0,0,0,.25);max-width:230px}
+  #hTip b{font-size:13px}
+  .fr-kpi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:16px 20px}
+  @media(min-width:900px){.fr-kpi{grid-template-columns:repeat(4,minmax(0,1fr))}}
+  .fr-kpi>div{background:#f8f9ff;border-radius:12px;padding:14px;min-width:0;display:flex;flex-direction:column;gap:4px}
+  .fr-kpi>div[role=button]{cursor:pointer;min-height:44px}
+  .fr-kpi>div[role=button]:hover{background:#eff4ff}
+  .fr-kpi span{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8}
+  .fr-kpi strong{font:900 22px Manrope,Inter,sans-serif;color:#00236f;overflow-wrap:anywhere}
+  .fr-kpi small{font-size:11px;color:#64748b;line-height:1.5}
+  .fr-kpi b{font-size:11px;font-weight:700;color:#00236f}
+  .rf-iskelet{color:transparent!important;background:linear-gradient(90deg,#eef2f7 25%,#f8fafc 50%,#eef2f7 75%);background-size:200% 100%;animation:rfIsk 1.2s infinite linear;border-radius:8px;min-width:48px;min-height:1em}
+  @keyframes rfIsk{to{background-position:-200% 0}}
+  th[data-sirala]{cursor:pointer;user-select:none}
+  th[data-sirala]:hover{color:#00236f}
+  th[data-sirala][aria-sort=ascending]::after{content:' ▲';font-size:9px}
+  th[data-sirala][aria-sort=descending]::after{content:' ▼';font-size:9px}
+  @media print{aside,.no-print,header{display:none!important}@page{margin:10mm;size:A4 landscape}.fr-kpi{grid-template-columns:repeat(4,minmax(0,1fr))}.fr-kpi>div{break-inside:avoid}}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+<link rel="stylesheet" href="css/analiz-panel.css"><link rel="stylesheet" href="css/filo-inceleme.css"></head>
+<body class="analysis-page bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html" title="Dashboard"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto"></nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<div id="hTip"></div>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="no-print sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Filo Referansları</h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="grafik-merkezi.html" class="px-3 py-2 text-slate-600 hover:bg-surface-container-low text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">insights</span><span class="hidden sm:inline">Grafik Merkezi</span></a>
+      <button data-on-click="frExport" class="px-3 py-2 text-green-700 hover:bg-green-50 text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">download</span><span class="hidden sm:inline">CSV</span></button>
+      <button data-on-click="App.sayfaYazdir" class="px-3 py-2 text-primary hover:bg-primary/10 text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">print</span><span class="hidden sm:inline">Yazdır</span></button>
+    </div>
+  </header>
+
+<div class="analysis-content"><div class="analysis-heading"><div><h1>Filo sınıfları ve fiyat geçmişi</h1><p>Makine gruplarını düzenleyin; belgeli fiyat ve kurları tarihleriyle kaydedin.</p></div><a class="analysis-button secondary" href="filo-analiz.html">Filo analizine dön</a></div>
+<div class="analysis-guide"><strong>Eski kayıtlar korunur.</strong><p>Sınıflar bütün makine türleri ve DK makineler için geçerlidir. Ana/alt grup alanında mevcut önerilerden seçebilir veya yeni bir ad yazabilirsiniz. Fiyatın geçerlilik tarihi girilmelidir. Boş fiyat “bilinmiyor”, 0 ise “ücretsiz” anlamındadır. Aylık fiyatlar 30 günlük karşılaştırma içindir.</p></div>
+<p id="frStatus" role="status" class="analysis-status"></p>
+<section class="analysis-card" aria-label="Referans özeti"><div class="analysis-card-head"><h2>Referans özeti</h2><p class="analysis-muted">Sınıflandırma, fiyat geçmişi ve kur kaydı kapsamı. Sayıya tıklayınca ilgili liste süzülür.</p></div><div class="fr-kpi" id="frKpi"><div><span>Toplam makine</span><strong class="rf-iskelet">—</strong><small>Yükleniyor…</small></div><div><span>Sınıflandırması eksik</span><strong class="rf-iskelet">—</strong><small>Yükleniyor…</small></div><div><span>Fiyat geçmişi olan</span><strong class="rf-iskelet">—</strong><small>Yükleniyor…</small></div><div><span>Kayıtlı kur</span><strong class="rf-iskelet">—</strong><small>Yükleniyor…</small></div></div></section>
+<section class="analysis-card"><div class="analysis-card-body analysis-form"><label>Makine ara<input id="frSearch" type="search" placeholder="Kod, model veya şube"></label><label>Makine seç<select id="frMakine"><option>Yükleniyor…</option></select></label><label class="check"><input id="frEksik" type="checkbox"> Yalnız sınıflandırması eksik olanlar</label><p id="frCount" class="wide"></p></div></section>
+<div id="frEditor" hidden>
+<section class="analysis-card"><div class="analysis-card-head"><h2 id="frTitle"></h2><a id="frDetail" class="analysis-row-button">Makine kaydını aç</a></div><form id="frSinif" class="analysis-card-body analysis-form"><label>Ana makine grubu<input id="frAna" list="frAnaListe" maxlength="120" placeholder="Örn. Platform"><datalist id="frAnaListe"></datalist></label><label>Alt makine grubu<input id="frAlt" list="frAltListe" maxlength="120" placeholder="Örn. Makaslı"><datalist id="frAltListe"></datalist></label><label>Enerji türü<select id="frEnerji"><option value="">Belirtilmemiş</option><option value="elektrik">Elektrik</option><option value="dizel">Dizel</option><option value="benzin">Benzin</option><option value="lpg">LPG</option><option value="hibrit">Hibrit</option><option value="diger">Diğer</option></select></label><button class="analysis-button" type="submit">Sınıflandırmayı kaydet</button></form></section>
+<section class="analysis-card"><div class="analysis-card-head"><h2>Tarihli liste fiyatı ekle</h2></div><form id="frFiyat" class="analysis-card-body analysis-form"><label>Geçerlilik başlangıcı<input id="frFiyatTarih" name="tarih" type="date" required></label><label>Para birimi<select name="para"><option>TL</option><option>USD</option><option>EUR</option></select></label><label>Günlük liste<input name="gunluk" type="number" min="0" step="0.01"></label><label>Haftalık liste<input name="haftalik" type="number" min="0" step="0.01"></label><label>Aylık liste<input name="aylik" type="number" min="0" step="0.01"></label><label>Kaynak / düzeltme açıklaması<input name="kaynak" maxlength="500" required placeholder="Belge tarihi ve referansı"></label><button type="submit" class="analysis-button">Fiyat kaydını ekle</button></form><p class="analysis-caption">Bir fiyat, aynı para birimindeki sonraki geçerlilik tarihine kadar kullanılır. Aynı tarih için düzeltme eklerseniz eski sürüm aşağıda kalır. Mevcut makine kartının güncel TL fiyatı değiştirilmez.</p><div class="analysis-scroll"><table class="analysis-table" id="frHistoryTablo"><thead><tr><th>Tarih / sürüm</th><th>Para</th><th>Günlük</th><th>Haftalık</th><th>Aylık</th><th>Kaynak / kaydeden</th><th>İşlem</th></tr></thead><tbody id="frHistory"></tbody></table></div></section>
+</div>
+<section class="analysis-card" id="frKatBolum" aria-labelledby="frKatBaslik"><div class="analysis-card-head"><h2 id="frKatBaslik">Kategori ana grupları</h2><p class="analysis-muted">Filo analizinde kategoriler bu ana gruplarda toplanır.</p></div><p class="analysis-caption">Kategori adları katalogdaki gibi kalır; burada yalnız hangi ana gruba bağlanacakları seçilir. Ana grubu boş bırakılan kategori alan şablonunun adıyla (ör. Platform, Forklift) gruplanır. Makineye özel ana grup girildiyse o öncelikli kullanılır.</p><div class="analysis-scroll"><table class="analysis-table" id="frKatTablo"><thead><tr><th>Kategori (alt grup)</th><th>Alan şablonu</th><th>Ana grup</th><th>İşlem</th></tr></thead><tbody id="frKatListe"><tr><td colspan="4">Yükleniyor…</td></tr></tbody></table></div><datalist id="frKatAnaListe"></datalist></section>
+<section class="analysis-card"><div class="analysis-card-head"><h2>Tarihli döviz kurları</h2></div><p class="analysis-caption">1 birim dövizin TL karşılığını girin. Analiz, sözleşme başlangıç gününe ait kuru kullanır; başka güne ait kur otomatik taşınmaz. Bu bir analiz dönüşümüdür, fatura veya muhasebe kaydı değiştirmez. Kayıt eklemek için merkez finans yazma yetkisi gerekir.</p><form id="frKur" class="analysis-card-body analysis-form"><label>Kur tarihi<input name="tarih" type="date" required></label><label>Para birimi<select name="para"><option>USD</option><option>EUR</option></select></label><label>1 döviz = TL<input name="kur" type="number" step="0.000001" min="0.000001" required></label><label class="wide">Kaynak / kur türü<input name="kaynak" required maxlength="500" placeholder="Örn. Onaylı sözleşme kuru; belge veya yayın referansı"></label><button type="submit" class="analysis-button">Kur kaydını ekle</button></form><div class="analysis-scroll"><table class="analysis-table" id="frKurTablo"><thead><tr><th>Tarih</th><th>Para</th><th>TL karşılığı</th><th>Kaynak / kaydeden</th></tr></thead><tbody id="frKurHistory"></tbody></table></div></section>
+</div></main><script src="js/app.js"></script><script src="js/app-panel.js"></script><script src="js/filo-referans.js"></script>
+<script src="js/s-filo-referans.js"></script></body></html>

@@ -1,0 +1,139 @@
+Options -Indexes
+
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000"
+    Header always set X-Frame-Options "DENY"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(self), microphone=(), geolocation=(self)"
+
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://api.qrserver.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; frame-src 'none'"
+    Header always set Content-Security-Policy-Report-Only "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://api.qrserver.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; frame-src 'none'; report-uri api/csp_rapor.php"
+    Header always unset X-Powered-By
+    Header unset X-Powered-By
+</IfModule>
+
+<IfModule LiteSpeed>
+    php_flag expose_php Off
+</IfModule>
+
+<IfModule mod_php8.c>
+    php_value session.cookie_httponly 1
+    php_value session.cookie_samesite Strict
+    php_value session.use_strict_mode 1
+    php_value expose_php Off
+    php_value display_errors Off
+    php_value log_errors On
+</IfModule>
+<IfModule mod_php7.c>
+    php_value session.cookie_httponly 1
+    php_value session.cookie_samesite Strict
+    php_value session.use_strict_mode 1
+    php_value expose_php Off
+    php_value display_errors Off
+    php_value log_errors On
+</IfModule>
+
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "^(sw|manifest)\.(js|json)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header unset Expires
+    </FilesMatch>
+    <FilesMatch "\.html$">
+        Header set Cache-Control "no-cache, must-revalidate"
+        Header unset Expires
+    </FilesMatch>
+</IfModule>
+<IfModule mod_expires.c>
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE application/json application/javascript text/javascript
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+    AddOutputFilterByType DEFLATE application/xml image/svg+xml
+    <IfModule mod_setenvif.c>
+        BrowserMatch ^Mozilla/4 gzip-only-text/html
+        BrowserMatch ^Mozilla/4\.0[678] no-gzip
+        BrowserMatch MSIE\s7 !no-gzip !gzip-only-text/html
+    </IfModule>
+    <IfModule mod_setenvif.c>
+        SetEnvIfNoCase Request_URI "/(login|session|iki_asamali)\.php$" no-gzip dont-vary
+    </IfModule>
+    <IfModule mod_headers.c>
+        Header append Vary Accept-Encoding
+    </IfModule>
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/kapi\.php
+    RewriteCond %{REQUEST_URI} !^/api/
+    RewriteRule ^([A-Za-z0-9._-]+)\.html$ kapi.php?p=$1.html [QSA,L]
+    RewriteRule ^$ kapi.php?p=index.html [QSA,L]
+    RewriteRule ^js/([A-Za-z0-9._-]+\.js)$ kapi.php?j=$1 [QSA,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.html$">
+        Header set X-Robots-Tag "noindex, nofollow, noarchive"
+    </FilesMatch>
+    <FilesMatch "^(login|kiralama|kiralama-urun)\.html$">
+        Header unset X-Robots-Tag
+    </FilesMatch>
+</IfModule>
+
+<FilesMatch "\.(sh|py|ps1|md|sqlite|sqlite-wal|sqlite-shm|sql|log|bak|yedek|ini|lock)$">
+    Require all denied
+</FilesMatch>
+<FilesMatch "^(package|package-lock|composer|composer\.lock|tailwind\.config)\.(json|js)$">
+    Require all denied
+</FilesMatch>
+<IfModule !mod_authz_core.c>
+    <FilesMatch "\.(sh|py|ps1|md|sqlite|sqlite-wal|sqlite-shm|sql|log|bak|yedek|ini|lock)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfModule>
+<FilesMatch "\.txt$">
+    Require all denied
+</FilesMatch>
+<Files "robots.txt">
+    Require all granted
+</Files>
+<IfModule !mod_authz_core.c>
+    <FilesMatch "\.txt$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+    <Files "robots.txt">
+        Order allow,deny
+        Allow from all
+    </Files>
+</IfModule>
+
+<FilesMatch "(~|\.(zip|tar|gz|tgz|bz2|7z|rar|orig|old|swp|swo|save|dist|tmp))$">
+    Require all denied
+</FilesMatch>
+<IfModule !mod_authz_core.c>
+    <FilesMatch "(~|\.(zip|tar|gz|tgz|bz2|7z|rar|orig|old|swp|swo|save|dist|tmp))$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfModule>
+
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(tests|build|db|dbstore|belgeler|araclar|data|docs|\.git)(/|$) - [F,L]
+</IfModule>

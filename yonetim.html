@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Yönetim Paneli — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<script src="js/eylem.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .card{background:#fff;border-radius:0.75rem;box-shadow:0 1px 2px rgba(0,0,0,.05);padding:1.25rem}
+  .yf-cubuk{position:sticky;top:var(--yf-ust,57px);z-index:30}
+  .yf-cubuk .yf-inp,.yf-cubuk button{min-height:44px}
+  .yf-alan{min-width:0}
+  @media(max-width:767px){.yf-cubuk{position:static}.yf-alan{flex:1 1 140px}.yf-alan .yf-inp{width:100%}.yf-hizli{width:100%;flex-wrap:wrap}}
+  .kp-kart{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:inherit;transition:box-shadow .15s;min-width:0}
+  .kp-kart:hover{box-shadow:0 6px 18px rgba(15,23,42,.09)}
+  .kp-kart .kp-deger{overflow-wrap:anywhere}
+  .kp-git{margin-top:auto;padding-top:6px;display:inline-flex;align-items:center;gap:2px;font-size:11px;font-weight:700;color:#00236f}
+  .kp-git .material-symbols-outlined{font-size:16px}
+  [aria-busy=true] .kp-deger{opacity:.35;animation:yfPulse 1s infinite}
+  @keyframes yfPulse{50%{opacity:.1}}
+  .yf-sirala{cursor:pointer;user-select:none;white-space:nowrap}
+  .yf-sirala::after{content:'↕';opacity:.35;margin-left:4px;font-size:10px}
+  .yf-sirala[aria-sort=ascending]::after{content:'▲';opacity:1}
+  .yf-sirala[aria-sort=descending]::after{content:'▼';opacity:1}
+  .yf-sirala:focus-visible{outline:2px solid #00236f;outline-offset:-2px}
+  tfoot td{font-weight:800;background:#eff4ff;border-top:2px solid #dbe4f3}
+  .yf-css-grafik{display:flex;flex-direction:column;gap:6px}
+  .yf-cg-satir{display:grid;grid-template-columns:minmax(90px,2fr) 5fr minmax(72px,auto);align-items:center;gap:8px;font-size:12px}
+  .yf-cg-etiket{overflow-wrap:anywhere;color:#334155}
+  .yf-cg-cubuk{height:12px;border-radius:6px;background:#eef2f7;overflow:hidden}
+  .yf-cg-cubuk i{display:block;height:100%;border-radius:6px;background:#00236f}
+  .yf-cg-deger{text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+  .yf-ok-iyi{color:#16a34a}.yf-ok-kotu{color:#ba1a1a}
+  @media(max-width:767px){.card table a{display:inline-flex;align-items:center;min-height:44px}#hedefAy,#genelHedefInp,#subeHedefTablo input,#subeHedefTablo button,#genelBar~*{min-height:44px}.card button{min-height:44px}}
+  @page { size:A4 landscape; margin:10mm; }
+  @media print {
+    aside, .no-print { display:none !important; }
+    .yf-cubuk { position:static !important; }
+    .kp-git { display:none !important; }
+    .overflow-x-auto { overflow:visible !important; }
+    table { width:100% !important; }
+    main { margin-left:0 !important; padding:0 !important; }
+    body { background:white; height:auto !important; }
+    header { position:static !important; box-shadow:none !important; border:none !important; background:white !important; }
+    canvas { break-inside:avoid; page-break-inside:avoid; }
+    tr { page-break-inside:avoid; }
+  }
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto">
+    <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">dashboard</span><span>Dashboard</span></a>
+    <a href="personel.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">badge</span><span>Personel Yönetimi</span></a>
+    <a href="arac.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">directions_car</span><span>Araç Yönetimi</span></a>
+    <a href="manlift.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">precision_manufacturing</span><span>Makine Yönetimi</span></a>
+    <a href="finans.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">account_balance_wallet</span><span>Finans</span></a>
+    <a href="rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">summarize</span><span>Raporlar</span></a>
+    <a href="kiralama.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">menu_book</span><span>Kataloglar</span></a>
+    <a href="formlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt_long</span><span>Formlar</span></a>
+    <a href="ayarlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">settings</span><span>Ayarlar</span></a>
+  </nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Yönetim Paneli — İş Zekâsı</h1>
+    </div>
+    <div class="flex items-center gap-2 no-print">
+      <button data-on-click="disaAktar" title="Excel/CSV'ye aktar" class="px-3 py-2 text-green-700 hover:bg-green-50 text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">download</span><span class="hidden sm:inline">Excel</span></button>
+      <button data-on-click="App.sayfaYazdir" title="Yazdır" class="px-3 py-2 text-primary hover:bg-primary/10 text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">print</span><span class="hidden sm:inline">Yazdır</span></button>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8 space-y-6">
+    <div id="filtreCubugu" class="card yf-cubuk flex flex-wrap items-end gap-3 no-print">
+      <div class="yf-alan">
+        <label for="fDonem" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Dönem</label>
+        <select id="fDonem" data-on-change="donemSec" data-args='["$value"]' class="yf-inp bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/20 min-w-[150px]">
+          <option value="">Özel aralık</option><option value="bugun">Bugün</option><option value="hafta">Bu hafta</option><option value="ay">Bu ay</option>
+          <option value="gecenay">Geçen ay</option><option value="ceyrek">Bu çeyrek</option><option value="yil">Bu yıl</option>
+        </select>
+      </div>
+      <div class="yf-alan">
+        <label for="fBas" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Başlangıç Tarihi</label>
+        <input id="fBas" type="date" data-on-change="ozelAralik" class="yf-inp bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/20"/>
+      </div>
+      <div class="yf-alan">
+        <label for="fBit" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Bitiş Tarihi</label>
+        <input id="fBit" type="date" data-on-change="ozelAralik" class="yf-inp bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/20"/>
+      </div>
+      <div class="yf-alan">
+        <label for="fSube" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Şube</label>
+        <select id="fSube" class="yf-inp bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/20 min-w-[160px]"><option value="">Tüm Şubeler</option></select>
+      </div>
+      <div class="yf-hizli flex items-center gap-2">
+        <button data-on-click="hizliDonem" data-args='[30]' class="px-3 py-2 bg-surface-container-low hover:bg-surface-container text-xs font-bold rounded-xl transition">Son 30 Gün</button>
+        <button data-on-click="hizliDonem" data-args='[90]' class="px-3 py-2 bg-surface-container-low hover:bg-surface-container text-xs font-bold rounded-xl transition">Son 90 Gün</button>
+        <button data-on-click="hizliDonemYilBasi" class="px-3 py-2 bg-surface-container-low hover:bg-surface-container text-xs font-bold rounded-xl transition">Yıl Başından</button>
+      </div>
+      <div class="yf-alan">
+        <label for="fTip" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Makine Tipi</label>
+        <select id="fTip" class="yf-inp bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/20">
+          <option value="">Tümü</option><option value="arac">Araç</option><option value="manlift">Makine</option>
+        </select>
+      </div>
+      <div class="yf-alan">
+        <label for="fMarka" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Marka</label>
+        <select id="fMarka" class="yf-inp bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/20 min-w-[130px]"><option value="">Tüm Markalar</option></select>
+      </div>
+      <div class="yf-alan">
+        <label for="fMetrajMin" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Metraj min-max</label>
+        <div class="flex items-center gap-1">
+          <input id="fMetrajMin" type="number" min="0" step="1" placeholder="min" aria-label="Metraj en az" class="yf-inp w-20 bg-surface-container-low border-none rounded-xl px-2 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/20"/>
+          <span class="text-slate-300">–</span>
+          <input id="fMetrajMax" type="number" min="0" step="1" placeholder="max" aria-label="Metraj en çok" class="yf-inp w-20 bg-surface-container-low border-none rounded-xl px-2 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/20"/>
+        </div>
+      </div>
+      <button data-on-click="yukle" class="px-5 py-2 bg-primary text-white text-sm font-bold rounded-xl hover:opacity-90 transition flex items-center gap-1.5"><span class="material-symbols-outlined text-lg">filter_alt</span>Uygula</button>
+      <button data-on-click="kayitliFiltreKaydet" title="Mevcut filtre kombinasyonunu isimlendirip kaydet" class="px-3 py-2 text-primary hover:bg-primary/10 text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">bookmark_add</span><span class="hidden sm:inline">Kaydet</span></button>
+      <button data-on-click="adresKopyala" title="Bu süzgeçlerle sayfanın bağlantısını kopyala (paylaşılabilir)" class="px-3 py-2 text-primary hover:bg-primary/10 text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">link</span><span class="hidden sm:inline">Bağlantı</span></button>
+      <div class="ml-auto text-xs text-slate-400 font-semibold text-right">
+        <div id="donemEtiket">—</div>
+        <div class="text-[11px] font-normal text-slate-500 mt-0.5">Tip/Marka/Metraj sadece makine bazlı bölümleri (En Kârlı/En Dolu, Ort. Doluluk) etkiler. Süzgeçler adres çubuğuna yazılır.</div>
+      </div>
+    </div>
+
+    <div id="kayitliFiltreSatiri" class="hidden flex flex-wrap items-center gap-2 -mt-3 no-print">
+      <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Kayıtlı Filtreler:</span>
+      <div id="kayitliFiltreCipler" class="flex flex-wrap gap-2"></div>
+    </div>
+
+    <div id="kpiIzgara" class="grid grid-cols-2 lg:grid-cols-6 gap-4" aria-busy="true">
+      <a class="card kp-kart" id="kpCiroKart" href="kiralama-takip.html"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 min-h-[2.6em] leading-[1.3]">Ciro (seçili dönem)</p><p class="text-lg font-black text-blue-900 font-headline kp-deger" id="kpiCiro">—</p><p class="text-[10px] font-bold" id="kpiCiroDegisim"></p><span class="kp-git">Dönemin kiralamaları<span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></span></a>
+      <a class="card kp-kart" id="kpTahsilatKart" href="hakedisler.html"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 min-h-[2.6em] leading-[1.3]">Tahsilat (seçili dönem)</p><p class="text-lg font-black text-green-700 font-headline kp-deger" id="kpiTahsilat">—</p><p class="text-[10px] font-bold" id="kpiTahsilatDegisim"></p><span class="kp-git">Hakedişler ve tahsilat<span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></span></a>
+      <a class="card kp-kart" id="kpAlacakKart" href="musteriler.html"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 min-h-[2.6em] leading-[1.3]" title="Faturası kesilmiş, tahsil edilmemiş tutar (Dashboard, Yaşlandırma ve cari ekstreyle aynı)">Açık Alacak (faturalı)</p><p class="text-lg font-black text-error font-headline kp-deger" id="kpiAlacak">—</p><p class="text-[10px] text-slate-500" id="kpiAlacakAlt"></p><span class="kp-git">Müşteri bakiyeleri<span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></span></a>
+      <a class="card kp-kart" id="kpOranKart" href="hakedisler.html"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 min-h-[2.6em] leading-[1.3]">Tahsilat Oranı</p><p class="text-lg font-black text-blue-900 font-headline kp-deger" id="kpiOran">—</p><p class="text-[10px] font-bold" id="kpiOranDegisim"></p><span class="kp-git">Hakedişler<span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></span></a>
+      <a class="card kp-kart" id="kpDsoKart" href="#agingKutular"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 min-h-[2.6em] leading-[1.3]">DSO (gün)</p><p class="text-lg font-black text-blue-900 font-headline kp-deger" id="kpiDso">—</p><p class="text-[9px] text-slate-400">ort. tahsilat süresi</p><span class="kp-git">Alacak yaşlandırma<span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></span></a>
+      <a class="card kp-kart" id="kpDolulukKart" href="musaitlik.html"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 min-h-[2.6em] leading-[1.3]">Ort. Doluluk</p><p class="text-lg font-black text-blue-900 font-headline kp-deger" id="kpiDoluluk">—</p><p class="text-[10px] font-bold" id="kpiDolulukDegisim"></p><span class="kp-git">Müsaitlik takvimi<span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></span></a>
+    </div>
+    <p class="text-[11px] text-slate-400 -mt-3">Değişim, seçili döneme eşit uzunluktaki hemen önceki dönemle karşılaştırılır (<span id="oncekiDonemEtiket">—</span>). Kartlar ilgili listeye gider.</p>
+
+    <div class="card">
+      <h2 class="text-sm font-bold text-blue-950 font-headline mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-base text-primary">show_chart</span>Aylık Tahsilat / Gider Trendi (seçili dönem)</h2>
+      <div style="height:300px"><canvas id="trendChart"></canvas></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="card">
+        <h2 class="text-sm font-bold text-blue-950 font-headline mb-2 flex items-center gap-2"><span class="material-symbols-outlined text-base text-primary">workspace_premium</span>En Çok Ciro Yapan Müşteriler</h2>
+        <div id="yogunlasmaUyari" class="hidden text-[11px] rounded-lg px-3 py-2 mb-3 flex items-start gap-1.5"></div>
+        <div style="height:280px"><canvas id="musteriChart"></canvas></div>
+        <div class="overflow-x-auto mt-3">
+          <table class="w-full text-xs">
+            <thead><tr class="text-left text-[10px] font-black text-slate-500 uppercase border-b border-slate-100">
+              <th class="py-1.5">Müşteri</th>
+              <th class="py-1.5 text-right">Ciro</th>
+              <th class="py-1.5 text-right" title="Bu dönemde verilen indirim">İndirim</th>
+              <th class="py-1.5 text-right" title="Faturalanmış borcunun tahsil edilen oranı">Tahsilat</th>
+              <th class="py-1.5 text-right">Bakiye</th>
+            </tr></thead>
+            <tbody id="musteriTablo"></tbody>
+            <tfoot id="musteriToplam"></tfoot>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="text-sm font-bold text-blue-950 font-headline mb-1 flex items-center gap-2"><span class="material-symbols-outlined text-base text-primary">apartment</span>Şube Karşılaştırması (ciro)</h2>
+        <p class="text-[11px] text-slate-400 mb-3">Seçili tarih aralığı, tüm şubeler — karşılaştırma amaçlı şube filtresinden etkilenmez.</p>
+        <div style="height:300px"><canvas id="subeChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="card">
+        <h2 class="text-sm font-bold text-blue-950 font-headline mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-base text-green-600">savings</span>En Kârlı Makineler (seçili dönem net)</h2>
+        <div style="height:300px"><canvas id="karliChart"></canvas></div>
+      </div>
+      <div class="card">
+        <h2 class="text-sm font-bold text-blue-950 font-headline mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-base text-orange-500">donut_large</span>En Yüksek Doluluk (%)</h2>
+        <div style="height:300px"><canvas id="dolulukChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="card">
+        <h2 class="text-sm font-bold text-blue-950 font-headline mb-1 flex items-center gap-2"><span class="material-symbols-outlined text-base text-primary">sell</span>Markalara Göre Kıyas (Net Kâr)</h2>
+        <p class="text-[11px] text-slate-400 mb-3">Seçili dönem + filtreler (tip/marka/metraj/şube).</p>
+        <div style="height:280px"><canvas id="markaChart"></canvas></div>
+      </div>
+      <div class="card">
+        <h2 class="text-sm font-bold text-blue-950 font-headline mb-1 flex items-center gap-2"><span class="material-symbols-outlined text-base text-primary">straighten</span>Metraj Aralığına Göre Kıyas (Makine)</h2>
+        <p class="text-[11px] text-slate-400 mb-3">Sadece manlift; sabit 5m'lik bantlar.</p>
+        <div style="height:280px"><canvas id="metrajChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="text-sm font-bold text-blue-950 font-headline mb-1 flex items-center gap-2"><span class="material-symbols-outlined text-base text-error">build</span>En Çok Arıza / Bakıma Giren Araç & Makine</h2>
+      <p class="text-[11px] text-slate-400 mb-4">Seçili tarih aralığı, teknik servis kayıtlarından — hangi makineler en çok baş ağrıtıyor.</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm" style="min-width:520px">
+          <thead><tr class="text-left text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-100">
+            <th class="py-2">Makine</th><th class="py-2 text-right">Arıza</th><th class="py-2 text-right">Bakım</th><th class="py-2 text-right">Expertiz</th><th class="py-2 text-right">Toplam</th><th class="py-2 text-right">Maliyet</th>
+          </tr></thead>
+          <tbody id="servisTablo"><tr><td colspan="6" class="py-6 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+          <tfoot id="servisToplam"></tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="text-sm font-bold text-blue-950 font-headline mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-base text-error">hourglass_bottom</span>Alacak Yaşlandırma (Aging)</h2>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4" id="agingKutular"></div>
+      <div class="h-3 rounded-full overflow-hidden flex mb-4" id="agingBar"></div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm" style="min-width:640px">
+          <thead><tr class="text-left text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-100">
+            <th class="py-2">Müşteri</th><th class="py-2 text-right">Güncel</th><th class="py-2 text-right">1-30</th><th class="py-2 text-right">31-60</th><th class="py-2 text-right">61-90</th><th class="py-2 text-right">90+</th><th class="py-2 text-right">Toplam</th>
+          </tr></thead>
+          <tbody id="agingTablo"><tr><td colspan="7" class="py-6 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+          <tfoot id="agingToplam"></tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <h2 class="text-sm font-bold text-blue-950 font-headline flex items-center gap-2"><span class="material-symbols-outlined text-base text-green-600">flag</span>Tahsilat Hedefleri & Gerçekleşme</h2>
+        <input id="hedefAy" type="month" data-on-change="hedefYukle" class="bg-surface-container-low border-none rounded-xl px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary/20"/>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-4">
+          <div class="bg-surface-container-low rounded-xl p-4">
+            <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 mb-2">
+              <span class="text-xs font-bold text-slate-600 uppercase tracking-wide whitespace-nowrap">Aylık Genel Hedef</span>
+              <div class="flex items-center gap-2">
+                <input id="genelHedefInp" type="number" min="0" step="1000" class="w-36 bg-white border-none rounded-lg px-2 py-1 text-sm text-right outline-none focus:ring-2 focus:ring-primary/20" placeholder="₺ hedef"/>
+                <button data-on-click="hedefKaydet" data-args='["","genelHedefInp"]' class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-lg hover:opacity-90">Kaydet</button>
+              </div>
+            </div>
+            <div id="genelBar"></div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead><tr class="text-left text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-100">
+                <th class="py-2 pr-3">Şube</th><th class="py-2 px-3 text-right">Hedef</th><th class="py-2 px-3 text-right">Gerçekleşme</th><th class="py-2 px-3 w-40">İlerleme</th><th class="py-2 pl-3 text-right">İşlem</th>
+              </tr></thead>
+              <tbody id="subeHedefTablo"><tr><td colspan="5" class="py-6 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+              <tfoot id="subeHedefToplam"></tfoot>
+            </table>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-3">Ödeme Tipi Dağılımı</h3>
+          <div style="height:240px"><canvas id="yontemChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/s-yonetim.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

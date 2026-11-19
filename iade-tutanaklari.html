@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>İade Tutanakları — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.55rem 0.9rem;font-size:0.875rem;outline:none}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+  .zc-satir{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.zc-cip{display:inline-flex;flex-direction:column;padding:6px 10px;border-radius:12px;font-size:12px;font-weight:700;border:1px solid #e2e8f0}.zc-cip small{font-weight:500;color:#64748b}.zc-tamam{background:#ecfdf5;color:#065f46;border-color:#a7f3d0}.zc-atlandi{background:#fffbeb;color:#92400e;border-color:#fde68a}.zc-bekliyor{background:#f8fafc;color:#94a3b8}.zc-ayrac{color:#94a3b8}
+  @media print{aside,.no-print,header,main>.p-4{display:none!important}#printArea{display:block!important}@page{margin:14mm;size:A4}}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+<script src="js/eylem.js"></script>
+<script src="js/aksesuar-sayim.js"></script></head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html" title="Dashboard"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto"></nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="no-print sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">İade Tutanakları</h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <button data-on-click="disaAktar" class="px-3 py-2 text-green-700 hover:bg-green-50 text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">download</span><span class="hidden sm:inline">Excel</span></button>
+      <a href="kiralama-takip.html" class="px-3 py-2 text-slate-600 hover:bg-surface-container-low text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">assignment</span><span class="hidden sm:inline">Kiralama Takip</span></a>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8">
+    <p class="text-xs text-slate-400 mb-5 -mt-1">Sahada QR/PIN ile doldurulan tüm teslim/iade tutanaklarının kiralamadan bağımsız, tek yerden denetimi. Belirli bir kiralamanın tutanak geçmişi için <a href="kiralama-takip.html" class="text-primary font-bold hover:underline">Kiralama Takip</a>'teki 🔍 simgesini kullanın.</p>
+
+    <div id="itKiralamaCipKutu" class="mb-3 no-print" hidden><button type="button" id="itKiralamaCip" data-on-click="kiralamaSuzgeciKaldir" title="Kiralama süzgecini kaldır" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-primary/10 text-primary text-sm font-semibold"><span id="itKiralamaCipAd"></span><span class="material-symbols-outlined text-base">close</span></button></div>
+
+    <div class="flex gap-2 mb-4 no-print"><button type="button" id="skZincir" class="px-4 py-2 rounded-xl text-sm font-bold bg-primary text-white" data-on-click="sekme" data-args='["zincir"]'>Belge zinciri</button><button type="button" id="skListe" class="px-4 py-2 rounded-xl text-sm font-bold bg-white text-slate-600" data-on-click="sekme" data-args='["liste"]'>Tüm tutanaklar</button></div>
+    <div id="zincirBolum"><div class="bg-white rounded-xl shadow-sm p-4 mb-4 grid grid-cols-2 md:grid-cols-4 gap-3 items-end"><div><label class="lbl" for="zArama">Ara</label><input data-sayfa-arama id="zArama" class="inp" placeholder="Kiralama, müşteri, ekipman…" data-on-input="zDebounce"/></div><div><label class="lbl" for="zBas">Başlangıç</label><input id="zBas" type="date" class="inp" data-on-change="zYukle"/></div><div><label class="lbl" for="zBit">Bitiş</label><input id="zBit" type="date" class="inp" data-on-change="zYukle"/></div><div><label class="lbl" for="zDurum">Durum</label><select id="zDurum" class="inp" data-on-change="zYukle"><option value="">Hepsi</option><option value="iade_bekleyen">İade tutanağı bekleyen</option><option value="hasarli">Hasarlı</option></select></div></div><div id="zincirListe" class="space-y-2"><p class="text-slate-400 text-sm">Yükleniyor…</p></div></div>
+    <div id="listeBolum" hidden>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Toplam Tutanak</p><p class="text-xl font-black text-blue-900 font-headline" id="ozToplam">0</p></div>
+      <div class="bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">İade</p><p class="text-xl font-black text-blue-900 font-headline" id="ozIade">0</p></div>
+      <div class="bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Hasarlı</p><p class="text-xl font-black text-error font-headline" id="ozHasar">0</p></div>
+      <div class="bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Bağlı Ek Ücret</p><p class="text-xl font-black text-green-700 font-headline" id="ozEkUcret">₺0</p></div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm p-4 mb-5 grid grid-cols-2 md:grid-cols-6 gap-3 items-end no-print">
+      <div><label class="lbl">Başlangıç</label><input id="fTarihBas" type="date" class="inp" data-on-change="tarihSuzgeciDegisti"/></div>
+      <div><label class="lbl">Bitiş</label><input id="fTarihBit" type="date" class="inp" data-on-change="tarihSuzgeciDegisti"/></div>
+      <div><label class="lbl">Personel</label><select id="fPersonel" class="inp" data-on-change="yukle"><option value="">Hepsi</option></select></div>
+      <div><label class="lbl">İşlem</label><select id="fIslem" class="inp" data-on-change="yukle"><option value="">Hepsi</option><option value="teslim">Teslim</option><option value="teslim_alma">Teslim alma</option><option value="iade">İade</option></select></div>
+      <div><label class="lbl">Durum</label><select id="fDurum" class="inp" data-on-change="yukle"><option value="">Hepsi</option><option value="saglam">Sağlam / Eksiksiz</option><option value="hasarli">Hasarlı</option><option value="eksik_aksesuar">Eksik Aksesuar</option></select></div>
+      <div><label class="lbl">Ara</label><input id="fArama" type="text" class="inp" placeholder="Kiralama, ekipman, müşteri, personel…" data-on-input="_aramaDebounce"/></div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+      <table class="w-full text-sm" style="min-width:920px">
+        <thead><tr class="bg-surface-container-low text-left">
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Tarih</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">İşlem</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Kiralama / Ekipman</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Müşteri</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Personel</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Durum</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Ek Ücret</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right no-print">İşlem</th>
+        </tr></thead>
+        <tbody id="tablo"><tr><td colspan="8" class="px-6 py-12 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+      </table>
+    </div>
+    <div id="sayfalama" class="no-print"></div>
+
+    <div class="mt-8">
+      <h2 class="text-sm font-black text-slate-500 uppercase tracking-widest mb-1 flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-lg">fact_check</span>Dönüş Kontrolü Bekleyen Kiralamalar</h2>
+      <p class="text-xs text-slate-400 mb-3">Sahada teslim alındı; dönüş kontrolü (İade Tutanağı) bekliyor. Kiralama Takip'te "Bakımda" görünür.</p>
+      <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+        <table class="w-full text-sm" style="min-width:640px">
+          <thead><tr class="bg-surface-container-low text-left">
+            <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Teslim alma</th>
+            <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Kiralama / Ekipman</th>
+            <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Müşteri</th>
+            <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Bekleme</th>
+            <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right no-print">İşlem</th>
+          </tr></thead>
+          <tbody id="tabloInceleme"><tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="mt-8">
+      <h2 class="text-sm font-black text-slate-500 uppercase tracking-widest mb-1 flex items-center gap-1.5"><span class="material-symbols-outlined text-orange-500 text-lg">warning</span>Tutanaksız Tamamlanan Kiralamalar</h2>
+      <p class="text-xs text-slate-400 mb-3">Kiralama Takip'teki hızlı "Tamamlandı" işaretiyle (imza/fotoğraf/PIN doğrulaması olmadan, ofisten) kapatılmış kiralamalar — sahada imzalı teslim alma kaydı yok. Dönüş kontrolünden sonra İade Tutanağı oluşmuş olabilir; varsa satırda bağlantısı görünür ama imza eksikliği sürer. Makine değişimiyle kapanan eski kayıtlar listelenmez. Zildeki "Tutanaksız Tamamlanan Kiralamalar" ile aynı kural.</p>
+      <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+        <table class="w-full text-sm" style="min-width:640px">
+          <thead><tr class="bg-surface-container-low text-left">
+            <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Tarih</th>
+            <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Kiralama / Ekipman</th>
+            <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Müşteri</th>
+          <th class="px-4 py-2.5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Belge</th></tr></thead>
+          <tbody id="tabloEksik"><tr><td colspan="4" class="px-6 py-8 text-center text-slate-400">Yükleniyor…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+  </div>
+</main>
+
+<div id="duzenleModal" class="hidden fixed inset-0 z-[130] bg-black/40 flex items-center justify-center p-4 no-print">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere my-8 max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100">
+      <h2 class="text-lg font-bold font-headline flex items-center gap-2"><span class="material-symbols-outlined text-primary">edit</span>Düzeltme Talebi Oluştur</h2>
+      <button data-on-click="Eylem.gizle" data-args='["duzenleModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-7 py-5 space-y-4">
+      <div class="ipucu-kutu bg-blue-50 text-blue-800 text-xs rounded-xl p-3">Kimlik doğrulaması, imza ve işlem türü (Teslim/İade) burada değiştirilemez — bunlar sahadaki kaydın kanıt değerini korur. Sadece açıklayıcı alanları ve fotoğrafları düzeltebilirsiniz.</div>
+      <p class="text-sm">Onaydan önce geçerli belge değişmez. Onayla yeni sürüm oluşur; eski imzalar yeni sürüme taşınmaz.</p><label class="lbl" for="dzGerekce">Düzeltme gerekçesi *</label><textarea id="dzGerekce" class="inp" maxlength="3000"></textarea><div id="dzSurumNot" class="text-xs text-slate-500"></div><div class="grid grid-cols-2 gap-3">
+        <div><label class="lbl">Tarih</label><input id="dzTarih" type="date" class="inp"/></div>
+        <div>
+          <label class="lbl">Genel Durum</label>
+          <select id="dzDurum" data-on-change="dzDurumDegisti" data-args='["$this"]' class="inp">
+            <option value="saglam">Sağlam / Eksiksiz</option>
+            <option value="hasarli">Hasarlı</option>
+            <option value="eksik_aksesuar">Eksik Aksesuar</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div><label class="lbl">Çalışma Saati</label><input id="dzSaat" type="number" min="0" step="0.1" class="inp"/></div>
+        <div><label class="lbl">Kilometre</label><input id="dzKm" type="number" min="0" class="inp"/></div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="lbl">Yakıt Durumu</label>
+          <select id="dzYakit" class="inp">
+            <option value="">— Seçin —</option>
+            <option value="Dolu">Dolu</option><option value="3/4">3/4</option><option value="1/2">1/2</option><option value="1/4">1/4</option><option value="Boş">Boş</option>
+          </select>
+        </div>
+        <div><label class="lbl">Müşteri Temsilcisi</label><input id="dzTemsilci" type="text" class="inp"/></div>
+      </div>
+      <div>
+        <label class="lbl">Teslim Edilen Aksesuarlar</label>
+        <div class="flex flex-wrap gap-3 mt-1" id="dzAksesuarlar">
+          <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Anahtar" class="rounded"/> Anahtar</label>
+          <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Kumanda" class="rounded"/> Kumanda</label>
+          <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Şarj Aleti" class="rounded"/> Şarj Aleti</label>
+          <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Ruhsat" class="rounded"/> Ruhsat</label>
+          <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Operatör El Kitabı" class="rounded"/> El Kitabı</label>
+          <label class="flex items-center gap-1.5 text-sm"><input type="checkbox" value="Stepne" class="rounded"/> Stepne</label>
+        </div>
+      </div>
+      <div id="dzHasarAlan" class="hidden">
+        <label class="lbl text-error">Hasar / Eksik Notu</label>
+        <textarea id="dzHasarNotu" class="inp" rows="2"></textarea>
+      </div>
+      <div><label class="lbl">Genel Notlar</label><textarea id="dzGenelNot" class="inp" rows="2"></textarea></div>
+      <div>
+        <label class="lbl">Fotoğraflar</label>
+        <div class="grid grid-cols-4 gap-2 mt-1" id="dzFotoGrid"></div>
+        <label class="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline cursor-pointer">
+          <span class="material-symbols-outlined text-base">add_photo_alternate</span>Yeni fotoğraf ekle
+          <input type="file" accept="image/*" class="hidden" data-on-change="dzYeniFoto" data-args='["$this"]'/>
+        </label>
+      </div>
+    </div>
+    <div class="px-7 py-4 border-t border-slate-100 flex justify-end gap-3 sticky bottom-0 bg-white">
+      <button data-on-click="Eylem.gizle" data-args='["duzenleModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="dzKaydetBtn" data-on-click="duzenleKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<div id="aiModal" class="hidden fixed inset-0 z-[130] bg-black/40 flex items-center justify-center p-4 no-print">
+  <div class="bg-white rounded-2xl shadow-2xl w-full my-8 max-h-[92vh] overflow-y-auto pencere">
+    <div class="flex items-center justify-between px-7 pt-6 pb-3 sticky top-0 bg-white border-b border-slate-100">
+      <h2 class="text-lg font-bold font-headline flex items-center gap-2"><span class="material-symbols-outlined text-purple-600">auto_awesome</span>AI Hasar Karşılaştırması</h2>
+      <button data-on-click="Eylem.gizle" data-args='["aiModal"]' class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-7 py-5">
+      <div class="ipucu-kutu bg-purple-50 text-purple-800 text-xs rounded-xl p-3 mb-4">Bu tutanağın fotoğrafları, makinenin bir önceki tutanağındaki fotoğraflarla AÇI AÇI kıyaslanır: her hasar için parça, tür, şiddet, yeni olup olmadığı ve önerilen işlem raporlanır; eksik açılar ve teknisyen kontrol listesi de verilir. Sonuç yalnız bir öneridir, nihai kararı ofis/personel verir.</div>
+      <div id="aiIcerik" class="text-sm text-slate-600">Yükleniyor…</div>
+    </div>
+    <div class="px-7 py-4 border-t border-slate-100 flex justify-end gap-3 sticky bottom-0 bg-white">
+      <button data-on-click="Eylem.gizle" data-args='["aiModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Kapat</button>
+      <button id="aiCalistirBtn" data-on-click="aiAnalizCalistir" class="px-6 py-2 bg-purple-600 text-white font-bold rounded-xl text-sm hover:opacity-90 transition flex items-center gap-1.5"><span class="material-symbols-outlined text-base">auto_awesome</span>Analiz Et</button>
+    </div>
+  </div>
+</div>
+
+<div id="printArea"></div>
+
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script><script src="js/app-panel.js"></script><script src="js/tutanak-sablon.js"></script><script src="js/belge-zinciri.js"></script><script src="js/belge-sablon.js"></script>
+<script src="js/hasar-ai.js"></script>
+<script src="js/s-iade-tutanaklari.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

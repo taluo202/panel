@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Müşteri Portalı</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  #bzil, #garama { display:none !important; }
+  .pt-sekmeler{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px;padding-bottom:2px}
+  .pt-sekme-btn{flex:0 0 auto;padding:8px 14px;border-radius:12px;font-size:13px;font-weight:700;color:#475569;background:#fff;box-shadow:0 1px 2px #0000000d;display:flex;align-items:center;gap:6px}
+  .pt-sekme-btn[aria-selected="true"]{background:#00236f;color:#fff}
+  .pt-sayi{font-size:11px;background:#fee2e2;color:#991b1b;border-radius:999px;padding:0 6px}
+  .pt-belge{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:5px 10px;border-radius:10px;background:#eff4ff;color:#00236f}
+  .pt-belge:hover{background:#dbe5ff}
+  .pt-belge-liste{border:1px solid #dbe4ed;border-radius:10px;overflow:hidden}
+  .pt-belge-satir{display:flex;align-items:center;gap:8px 10px;flex-wrap:wrap;padding:8px 10px;background:#fff}
+  .pt-belge-satir+.pt-belge-satir{border-top:1px solid #e6edf3}
+  .pt-belge-ikon{color:#00236f;font-size:20px;flex:none}
+  .pt-belge-bilgi{flex:1 1 260px;min-width:0}
+  .pt-belge-bas{font-size:13px;color:#172b40;margin:0;overflow-wrap:anywhere}
+  .pt-belge-makine{font-size:11.5px;color:#526477;margin:2px 0 0;overflow-wrap:anywhere}
+  .pt-belge-durum{font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;background:#f1f5f9;color:#475467;flex:none}
+  .pt-belge-durum.pt-belge-bekliyor{background:#fffaeb;color:#93370d}
+  .pt-belge-eylem{display:flex;gap:6px;flex-wrap:wrap;flex:none;margin-left:auto}
+  @media(max-width:480px){.pt-belge-eylem{margin-left:30px}}
+  .pt-eylem{flex:1 1 0;min-width:130px !important;padding:8px 10px;border-radius:12px;font-size:12px;font-weight:700;display:flex !important;align-items:center;justify-content:center;gap:6px}
+  .pt-talep-not{display:flex;align-items:flex-start;gap:6px;font-size:12px;border-radius:10px;padding:7px 10px;margin-top:10px}
+  .pt-baslik{font-size:11px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin:4px 0 8px}
+  .pt-inp{width:100%;background:#eff4ff;border:none;border-radius:12px;padding:10px 12px;font-size:14px;outline:none}
+  .pt-inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .pt-lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin:10px 0 3px}
+  .pt-foto-izgara{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+  .pt-foto-izgara:empty{display:none}
+  .pt-foto{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#eff4ff}
+  .pt-foto img{width:100%;height:100%;object-fit:cover;display:block}
+  .pt-foto button{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:999px;background:#000000a0;color:#fff;font-size:13px;line-height:20px;text-align:center}
+  .pt-foto-ekle{margin-top:6px;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border:1.5px dashed #c5d3f0;border-radius:12px;font-size:13px;font-weight:700;color:#00236f;cursor:pointer}
+  .pt-foto-ekle:hover{background:#eff4ff}
+  .pt-foto-ekle[hidden]{display:none}
+  .pt-kalem{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:#475569;padding:4px 0;border-top:1px solid #f1f5f9}
+  .pt-kalem:first-child{border-top:none}
+  .pt-wa{display:flex;align-items:flex-start;gap:8px;margin-top:12px;padding:10px 12px;border-radius:12px;background:#f0fdf4;border:1px solid #bbf7d0;font-size:13px;color:#14532d;cursor:pointer}
+  .pt-wa[hidden]{display:none}
+  .pt-wa input{margin-top:3px;width:16px;height:16px;accent-color:#15803d}
+  .pt-wa-acik{font-size:11px;color:#3f6212}
+  .pt-wa-banner{display:flex;align-items:center;gap:10px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:10px 12px;margin-bottom:12px}
+  .pt-wa-banner[hidden]{display:none}
+  .pt-toplam{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;padding-top:8px;border-top:1px solid #e2e8f0}
+  .pt-vurgu{outline:2px solid #00236f;outline-offset:2px;background:#dbe5ff}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<main class="min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <img src="img/logo.svg" alt="" class="firma-logo h-9 w-auto"/>
+      <div>
+        <h1 class="text-base font-bold text-blue-950 font-headline">Müşteri Portalı</h1>
+        <p class="text-xs text-slate-400" id="musteriAdi"></p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="text-xs text-slate-400 hidden sm:inline" id="kontakAdi"></span>
+      <button data-on-click="cikisYap" class="px-3 py-1.5 text-error hover:bg-error-container text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">logout</span><span class="hidden sm:inline">Çıkış</span></button>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8 max-w-3xl mx-auto">
+    <a href="portal-sihirbaz.html" class="block bg-primary text-white rounded-2xl p-5 mb-5 flex items-center justify-between hover:opacity-90 transition">
+      <div>
+        <p class="font-bold text-base font-headline">Bana Uygun Makineyi Bulun</p>
+        <p class="text-sm text-white/80 mt-0.5">Kısa birkaç soruyla ihtiyacınıza en uygun ekipmanı önerelim.</p>
+      </div>
+      <span class="material-symbols-outlined text-3xl">arrow_forward</span>
+    </a>
+
+    <nav id="sekmeler" class="pt-sekmeler" role="tablist" aria-label="Portal bölümleri"></nav>
+
+    <section id="s-kiralama" class="pt-sekme">
+      <div id="waBanner" class="pt-wa-banner" hidden>
+        <span class="material-symbols-outlined text-green-700">chat</span>
+        <p class="flex-1 text-xs text-slate-700"><b>Gelişmeleri WhatsApp'tan alın.</b> Talep kararları, arıza durumu ve yeni teklifler telefonunuza gelsin.</p>
+        <button type="button" data-on-click="sekmeAc" data-args='["hesap"]' class="text-xs font-bold text-green-800 underline shrink-0">Aç</button>
+        <button type="button" data-on-click="waBannerKapat" aria-label="Kapat" class="text-slate-400 shrink-0">×</button>
+      </div>
+      <div id="servisBedelAlan" class="mb-5" hidden>
+        <p class="pt-baslik">Servis bedeli dökümleri</p>
+        <div id="servisBedelListe" class="space-y-2"></div>
+      </div>
+      <div id="liste" class="space-y-3 mb-8"><p class="text-slate-400 text-sm">Yükleniyor…</p></div>
+    </section>
+    <section id="s-teklif" class="pt-sekme" hidden>
+      <div id="teklifListe" class="space-y-3 mb-8"></div>
+    </section>
+    <section id="s-hesap" class="pt-sekme" hidden>
+      <div class="bg-white rounded-xl shadow-sm p-4 mb-3">
+        <p class="pt-baslik">Profil</p>
+        <p class="text-sm text-slate-600"><b id="hFirma"></b></p>
+        <label class="pt-lbl" for="hEmail">E-posta (giriş adresi)</label>
+        <input id="hEmail" type="email" class="pt-inp" disabled/>
+        <p class="text-[11px] text-slate-400 mt-1">E-posta adresinizi değiştirmek için firmamızla iletişime geçin.</p>
+        <label class="pt-lbl" for="hAd">Ad soyad</label>
+        <input id="hAd" type="text" maxlength="100" class="pt-inp" autocomplete="name"/>
+        <label class="pt-lbl" for="hTel">Cep telefonu</label>
+        <input id="hTel" type="tel" maxlength="25" class="pt-inp" autocomplete="tel" placeholder="0532 123 45 67"/>
+        <label id="hWaAlan" class="pt-wa" hidden>
+          <input id="hWaIzin" type="checkbox"/>
+          <span><b>WhatsApp bildirimleri</b><br/><span class="pt-wa-acik">Süre uzatma / toplama kararları, arıza durumu ve size gönderilen yeni teklifler bu numaraya WhatsApp'tan gelsin. İstediğiniz zaman buradan kapatabilirsiniz.</span></span>
+        </label>
+        <p class="text-[11px] text-slate-400 mt-2" id="hSonGiris"></p>
+        <button type="button" id="hKaydetBtn" data-on-click="profilKaydet" class="mt-3 w-full px-4 py-2.5 rounded-xl text-sm font-bold bg-primary text-white hover:opacity-90 transition">Kaydet</button>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm p-4 mb-8">
+        <p class="pt-baslik">Şifre değiştir</p>
+        <label class="pt-lbl" for="sMevcut">Mevcut şifre</label>
+        <input id="sMevcut" type="password" class="pt-inp" autocomplete="current-password"/>
+        <label class="pt-lbl" for="sYeni">Yeni şifre</label>
+        <input id="sYeni" type="password" class="pt-inp" autocomplete="new-password"/>
+        <label class="pt-lbl" for="sYeni2">Yeni şifre (tekrar)</label>
+        <input id="sYeni2" type="password" class="pt-inp" autocomplete="new-password"/>
+        <p class="text-[11px] text-slate-400 mt-1">En az 10 karakter; en az bir harf ve bir rakam. Değiştirince diğer cihazlardaki oturumlarınız kapanır.</p>
+        <button type="button" id="sKaydetBtn" data-on-click="sifreDegistir" class="mt-3 w-full px-4 py-2.5 rounded-xl text-sm font-bold bg-primary text-white hover:opacity-90 transition">Şifreyi değiştir</button>
+      </div>
+    </section>
+    <section id="s-talep" class="pt-sekme" hidden>
+      <div id="kiraTalepAlan" hidden>
+        <p class="pt-baslik">Süre uzatma ve iade talepleri</p>
+        <div id="kiraTalepListe" class="space-y-2 mb-6"></div>
+      </div>
+      <p class="pt-baslik">Arıza / servis talepleri</p>
+      <div id="servisTalepListe" class="space-y-2 mb-6"></div>
+      <p class="pt-baslik">Makine talepleri</p>
+      <div id="talepListe" class="space-y-2"></div>
+    </section>
+  </div>
+
+  <div id="arizaModal" class="hidden fixed inset-0 bg-black/40 z-50 flex items-end sm:items-center justify-center p-4">
+    <div class="bg-white rounded-2xl p-5 w-full pencere-orta max-h-[88vh] overflow-y-auto">
+      <p class="text-sm font-bold text-on-surface mb-1">Arıza Bildir</p>
+      <p class="text-xs text-slate-400 mb-3" id="arizaMakineAdi"></p>
+      <textarea id="arizaAciklama" rows="4" class="w-full bg-surface-container-low border-none rounded-xl px-3 py-2.5 text-sm outline-none resize-none" placeholder="Ne oldu, kısaca anlatır mısınız?"></textarea>
+      <p class="pt-lbl">Fotoğraf (isteğe bağlı, en çok 5)</p>
+      <div id="arizaFotolar" class="pt-foto-izgara"></div>
+      <label class="pt-foto-ekle" id="arizaFotoEkle">
+        <span class="material-symbols-outlined text-lg">add_a_photo</span>Fotoğraf ekle
+        <input id="arizaFotoInp" type="file" accept="image/*" multiple class="hidden" data-on-change="arizaFotoSec" data-args='["$this"]'/>
+      </label>
+      <div class="flex gap-2 mt-3">
+        <button data-on-click="arizaKapat" class="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold text-slate-500 hover:bg-surface-container-low transition">Vazgeç</button>
+        <button data-on-click="arizaGonder" id="arizaGonderBtn" class="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold bg-primary text-white hover:opacity-90 transition">Gönder</button>
+      </div>
+    </div>
+  </div>
+  <div id="teklifModal" class="hidden fixed inset-0 bg-black/40 z-50 flex items-end sm:items-center justify-center p-4">
+    <div class="bg-white rounded-2xl p-5 w-full pencere-orta max-h-[88vh] overflow-y-auto">
+      <p class="text-sm font-bold text-on-surface mb-1" id="teklifModalBaslik">Teklif</p>
+      <p class="text-xs text-slate-600 mt-2 bg-surface-container-low rounded-lg px-3 py-2" id="teklifModalBilgi"></p>
+      <label class="pt-lbl" for="teklifNot" id="teklifNotEt">Not (isteğe bağlı)</label>
+      <textarea id="teklifNot" rows="3" maxlength="1000" class="pt-inp resize-none"></textarea>
+      <div class="flex gap-2 mt-4">
+        <button data-on-click="teklifKapat" class="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold text-slate-500 hover:bg-surface-container-low transition">Vazgeç</button>
+        <button data-on-click="teklifKararGonder" id="teklifGonderBtn" class="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold bg-primary text-white hover:opacity-90 transition">Onayla</button>
+      </div>
+    </div>
+  </div>
+  <div id="talepModal" class="hidden fixed inset-0 bg-black/40 z-50 flex items-end sm:items-center justify-center p-4">
+    <div class="bg-white rounded-2xl p-5 w-full pencere max-h-[88vh] overflow-y-auto">
+      <p class="text-sm font-bold text-on-surface mb-1" id="talepBaslik">Talep</p>
+      <p class="text-xs text-slate-400" id="talepMakine"></p>
+      <p class="text-xs text-slate-600 mt-2 bg-surface-container-low rounded-lg px-3 py-2" id="talepBilgi"></p>
+      <label class="pt-lbl" for="talepTarih" id="talepTarihEt">Tarih</label>
+      <input id="talepTarih" type="date" class="pt-inp"/>
+      <div id="talepAdresAlan" class="hidden">
+        <label class="pt-lbl" for="talepAdres">Toplama adresi</label>
+        <input id="talepAdres" type="text" maxlength="500" class="pt-inp" placeholder="Boş bırakırsanız kiralama lokasyonu"/>
+      </div>
+      <label class="pt-lbl" for="talepAciklama">Not (isteğe bağlı)</label>
+      <textarea id="talepAciklama" rows="3" maxlength="1000" class="pt-inp resize-none" placeholder=""></textarea>
+      <div class="flex gap-2 mt-4">
+        <button data-on-click="talepKapat" class="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold text-slate-500 hover:bg-surface-container-low transition">Vazgeç</button>
+        <button data-on-click="talepGonder" id="talepGonderBtn" class="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold bg-primary text-white hover:opacity-90 transition">Gönder</button>
+      </div>
+    </div>
+  </div>
+  <div id="printArea" class="hidden"></div>
+</main>
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/aksesuar-sayim.js"></script>
+<script src="js/tutanak-sablon.js"></script>
+<script src="js/belge-sablon.js"></script>
+<script src="js/hasar-dosya-sablon.js"></script>
+<script src="js/portal.js"></script>
+<script src="js/portal-yonlendir.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Grafik Merkezi — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<script src="js/eylem.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .card{background:#fff;border-radius:0.75rem;box-shadow:0 1px 2px rgba(0,0,0,.05);padding:1.25rem}
+  .print-baslik{display:none}
+  .lbl{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.5rem 0.85rem;font-size:0.8125rem;outline:none;min-height:44px}
+  .rf-cubuk{position:sticky;top:var(--ust,56px);z-index:30;background:#f8f9ff;padding:6px 0 10px;margin-bottom:16px;box-shadow:0 12px 12px -12px rgba(15,23,42,.12)}
+  .rf-ust{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+  .rf-cipler{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;max-width:100%}
+  .rf-cipler::-webkit-scrollbar{display:none}
+  .rf-cip{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid #d7e0e8;background:#fff;color:#334155;font:700 13px 'Inter',sans-serif;cursor:pointer;transition:background .15s}
+  .rf-cip:hover{background:#eff4ff}
+  .rf-cip[aria-pressed=true]{background:#00236f;border-color:#00236f;color:#fff}
+  .rf-guncel{font-size:12px;font-weight:600;color:#64748b}
+  .rf-alanlar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;align-items:end}
+  @media(min-width:768px){.rf-alanlar{grid-template-columns:repeat(5,minmax(0,1fr))}}
+  .rf-alan{display:block;min-width:0}
+  @media(max-width:767px){.rf-alan.rf-genis{grid-column:1/-1}}
+  .rf-paylas{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:44px;padding:0 12px;border-radius:12px;background:#eff4ff;color:#00236f;font:700 12px 'Inter',sans-serif;cursor:pointer;border:0}
+  .rf-paylas .material-symbols-outlined{font-size:18px}
+  .rf-kiyas{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px;margin-top:6px;background:#f1f5f9;color:#475569;width:max-content;max-width:100%;overflow-wrap:anywhere;white-space:normal}
+  .rf-kiyas.iyi{background:#e8f7ec;color:#166534}.rf-kiyas.kotu{background:#fde8e8;color:#ba1a1a}
+  .rf-iskelet{color:transparent!important;background:linear-gradient(90deg,#eef2f7 25%,#f8fafc 50%,#eef2f7 75%);background-size:200% 100%;animation:rfIsk 1.2s infinite linear;border-radius:8px;min-width:48px;min-height:1em}
+  @keyframes rfIsk{to{background-position:-200% 0}}
+  .rf-tablo thead th{padding:10px 16px;text-align:left;font-size:10px;font-weight:900;color:#64748b;text-transform:uppercase;letter-spacing:.1em;background:#eff4ff;white-space:nowrap}
+  .rf-tablo tbody td{padding:10px 16px;border-top:1px solid #f1f5f9;vertical-align:top;overflow-wrap:anywhere}
+  .rf-tablo .sag{text-align:right;white-space:nowrap}
+  .rf-tablo tbody tr:hover td{background:#f7f9ff}
+  th[data-sirala]{cursor:pointer;user-select:none}
+  th[data-sirala]:hover{color:#00236f}
+  th[data-sirala][aria-sort=ascending]::after{content:' ▲';font-size:9px}
+  th[data-sirala][aria-sort=descending]::after{content:' ▼';font-size:9px}
+  tfoot th,tfoot td{padding:10px 16px;font-weight:800;background:#eff4ff;color:#0d1c2e;border-top:1px solid #dbe4f0;text-align:left}
+  a.kpi-kart{display:block;text-decoration:none;color:inherit}
+  a.kpi-kart:hover{box-shadow:0 6px 18px rgba(15,23,42,.09)}
+  .card p.truncate{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
+  @media(max-width:767px){.rf-cubuk{position:static;box-shadow:none}.gm-tab,.rf-cip,.rf-paylas,.inp{min-height:44px!important}}
+  @page { size:A4 landscape; margin:10mm; }
+  @media print {
+    aside, .no-print { display:none !important; }
+    main { margin-left:0 !important; padding:0 !important; }
+    body { background:white; height:auto !important; }
+    header { position:static !important; box-shadow:none !important; border:none !important; background:white !important; }
+    .gm-panel { display:block !important; }
+    .gm-panel + .gm-panel { page-break-before:always; break-before:page; margin-top:0; }
+    .print-baslik{ display:block !important; font-size:14pt; font-weight:800; margin-bottom:12px; }
+    .card { break-inside:avoid; page-break-inside:avoid; }
+    canvas { break-inside:avoid; page-break-inside:avoid; }
+    tr, tfoot { break-inside:avoid; }
+  }
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto"></nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex flex-wrap gap-3 justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline flex items-center gap-1.5"><span class="material-symbols-outlined text-primary">insights</span>Grafik Merkezi</h1>
+    </div>
+    <div class="flex items-center gap-2 no-print">
+      <div class="flex bg-white rounded-xl shadow-sm p-1 overflow-x-auto" id="sekmeSecici">
+        <button data-t="cari" class="gm-tab whitespace-nowrap px-3 py-1.5 text-xs font-bold rounded-lg transition">Cari &amp; Tahsilat</button>
+        <button data-t="teklif" class="gm-tab whitespace-nowrap px-3 py-1.5 text-xs font-bold rounded-lg transition">Teklif Analizi</button>
+        <button data-t="satinalma" class="gm-tab whitespace-nowrap px-3 py-1.5 text-xs font-bold rounded-lg transition">Satınalma &amp; Tedarikçi</button>
+      </div>
+      <a href="filo-analiz.html" title="Harita + doluluk + gelir kaçağı analizi" class="px-3 py-2 text-primary hover:bg-primary/10 text-sm font-bold rounded-xl flex items-center gap-1.5 transition bg-white shadow-sm"><span class="material-symbols-outlined text-lg">map</span><span class="hidden sm:inline">Filo Analizi</span></a>
+      <button data-on-click="gmYazdir" title="Tüm sekmeleri yazdır" class="px-3 py-2 text-primary hover:bg-primary/10 text-sm font-bold rounded-xl flex items-center gap-1.5 transition bg-white shadow-sm"><span class="material-symbols-outlined text-lg">print</span><span class="hidden sm:inline">Yazdır</span></button>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8">
+    <p class="text-xs text-slate-400 mb-5">Farklı modüllerdeki görsel raporlar burada tek yerde toplanır — tek tek sayfa gezmeden hepsini buradan takip edebilirsiniz.</p>
+
+    <div class="rf-cubuk no-print" id="raporFiltre">
+      <div class="rf-ust">
+        <div class="rf-cipler" role="group" aria-label="Dönem">
+          <button type="button" class="rf-cip" data-donem="tum" aria-pressed="true" data-on-click="gmDonemSec" data-args='["tum"]'>Tümü</button>
+          <button type="button" class="rf-cip" data-donem="gun" aria-pressed="false" data-on-click="gmDonemSec" data-args='["gun"]'>Bugün</button>
+          <button type="button" class="rf-cip" data-donem="hafta" aria-pressed="false" data-on-click="gmDonemSec" data-args='["hafta"]'>Bu hafta</button>
+          <button type="button" class="rf-cip" data-donem="ay" aria-pressed="false" data-on-click="gmDonemSec" data-args='["ay"]'>Bu ay</button>
+          <button type="button" class="rf-cip" data-donem="ceyrek" aria-pressed="false" data-on-click="gmDonemSec" data-args='["ceyrek"]'>Çeyrek</button>
+          <button type="button" class="rf-cip" data-donem="yil" aria-pressed="false" data-on-click="gmDonemSec" data-args='["yil"]'>Bu yıl</button>
+          <button type="button" class="rf-cip" data-donem="ozel" aria-pressed="false" data-on-click="gmDonemSec" data-args='["ozel"]'>Özel aralık</button>
+        </div>
+        <span class="rf-guncel" id="gmDonemNot"></span>
+      </div>
+      <div class="rf-alanlar">
+        <label class="rf-alan"><span class="lbl">Başlangıç</span><input id="gmBas" type="date" class="inp" data-on-change="gmOzelDonemYenile"></label>
+        <label class="rf-alan"><span class="lbl">Bitiş</span><input id="gmBit" type="date" class="inp" data-on-change="gmOzelDonemYenile"></label>
+        <label class="rf-alan rf-genis"><span class="lbl">Şube</span><select id="gmSube" class="inp" data-on-change="gmYenile" data-args='[true]'><option value="">Tüm Şubeler</option></select></label>
+        <button type="button" class="rf-paylas" data-on-click="gmBaglantiKopyala" title="Açık sekme ve süzgeçlerle bu sayfanın bağlantısını kopyala"><span class="material-symbols-outlined">link</span>Bağlantıyı kopyala</button>
+        <button type="button" class="rf-paylas" data-on-click="gmCsv" title="Açık sekmenin tablosunu Excel/CSV olarak indir"><span class="material-symbols-outlined">download</span>Excel / CSV</button>
+      </div>
+      <p class="text-[11px] text-slate-400 mt-2">Dönem süzgeci teklif ve satınalma sekmelerine uygulanır; cari yaşlandırma bugün itibarıyla anlık görünümdür. Süzgeçler adres çubuğuna yazılır; bağlantı paylaşılabilir.</p>
+    </div>
+
+    <div id="tabCari" class="gm-panel space-y-4">
+      <h2 class="print-baslik">Cari &amp; Tahsilat</h2>
+      <div id="cariIcerik" class="space-y-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="card !p-3"><p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Toplam Açık Alacak</p><p class="text-lg font-black text-primary rf-iskelet" id="cAcik">—</p></div>
+          <div class="card !p-3"><p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Borçlu Müşteri</p><p class="text-lg font-black text-primary" id="cMusteriSayi">—</p></div>
+          <div class="card !p-3"><p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Güncel (vadesi gelmemiş)</p><p class="text-lg font-black text-green-600" id="cGuncel">—</p></div>
+          <div class="card !p-3"><p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">90+ gün geciken</p><p class="text-lg font-black text-error" id="cGecikmis">—</p></div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div class="card"><h3 class="text-sm font-bold text-slate-700 mb-2">Yaşlandırma Dağılımı</h3><div style="height:280px"><canvas id="agingChart"></canvas></div></div>
+          <div class="card"><h3 class="text-sm font-bold text-slate-700 mb-2">En Borçlu 10 Müşteri</h3><div style="height:280px"><canvas id="borcluChart"></canvas></div></div>
+        </div>
+        <div class="card !p-0 overflow-hidden"><div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between gap-2 flex-wrap"><h3 class="text-sm font-bold text-slate-700">Borçlu Müşteriler — Yaşlandırma Tablosu</h3><span class="text-[11px] text-slate-400">Başlığa tıklayarak sıralayın · müşteri adı cari karta gider</span></div>
+          <div class="overflow-x-auto"><table class="w-full text-sm rf-tablo" id="cariTablo"><thead><tr><th>Müşteri</th><th class="sag">Güncel</th><th class="sag">1-30 gün</th><th class="sag">31-60 gün</th><th class="sag">61-90 gün</th><th class="sag">90+ gün</th><th class="sag">Toplam açık</th></tr></thead><tbody><tr><td colspan="7" class="px-6 py-8 text-center text-slate-400">Yükleniyor…</td></tr></tbody></table></div></div>
+      </div>
+      <div id="cariBos" class="hidden text-center text-slate-400 text-sm py-10"></div>
+    </div>
+
+    <div id="tabTeklif" class="gm-panel hidden space-y-4">
+      <h2 class="print-baslik">Teklif Analizi</h2>
+      <div id="teklifIcerik" class="space-y-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="card !p-3"><p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Toplam Teklif</p><p class="text-lg font-black text-primary rf-iskelet" id="tToplam">—</p><span class="rf-kiyas" id="tToplamKiyas" hidden></span></div>
+          <div class="card !p-3"><p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Kabul Oranı</p><p class="text-lg font-black text-green-600" id="tKabulOran">—</p></div>
+          <div class="card !p-3"><p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Onay Bekleyen İskonto</p><p class="text-lg font-black text-orange-600" id="tBekleyen">—</p></div>
+          <div class="card !p-3"><p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Ortalama Teklif</p><p class="text-lg font-black text-primary rf-iskelet" id="tOrtalama">—</p><span class="rf-kiyas" id="tTutarKiyas" hidden></span></div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div class="card"><h3 class="text-sm font-bold text-slate-700 mb-2">Durum Dağılımı</h3><div style="height:280px"><canvas id="teklifDurumChart"></canvas></div></div>
+          <div class="card"><h3 class="text-sm font-bold text-slate-700 mb-2">Aylık Teklif Hacmi (son 6 ay)</h3><div style="height:280px"><canvas id="teklifAyChart"></canvas></div></div>
+        </div>
+        <div class="card !p-0 overflow-hidden"><div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between gap-2 flex-wrap"><h3 class="text-sm font-bold text-slate-700">Teklif Listesi</h3><span class="text-[11px] text-slate-400" id="teklifTabloNot">Başlığa tıklayarak sıralayın · teklif no teklif kaydına, müşteri cari karta gider</span></div>
+          <div class="overflow-x-auto"><table class="w-full text-sm rf-tablo" id="teklifTablo"><thead><tr><th>Teklif No</th><th>Müşteri</th><th>Tarih</th><th>Durum</th><th>İskonto Onayı</th><th>Şube</th><th class="sag">Genel Toplam</th></tr></thead><tbody><tr><td colspan="7" class="px-6 py-8 text-center text-slate-400">Yükleniyor…</td></tr></tbody></table></div></div>
+      </div>
+      <div id="teklifBos" class="hidden text-center text-slate-400 text-sm py-10"></div>
+    </div>
+
+    <div id="tabSatinalma" class="gm-panel hidden space-y-4">
+      <h2 class="print-baslik">Satınalma &amp; Tedarikçi</h2>
+      <div id="satinalmaIcerik" class="space-y-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="card !p-3"><p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Toplam Sipariş</p><p class="text-lg font-black text-primary rf-iskelet" id="sToplamSiparis">—</p><span class="rf-kiyas" id="sSiparisKiyas" hidden></span></div>
+          <div class="card !p-3"><p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Toplam Harcama</p><p class="text-lg font-black text-primary rf-iskelet" id="sToplamHarcama">—</p><span class="rf-kiyas" id="sHarcamaKiyas" hidden></span></div>
+          <div class="card !p-3"><p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Tedarikçi Sayısı</p><p class="text-lg font-black text-primary" id="sTedarikciSayi">—</p></div>
+          <div class="card !p-3"><p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">En Çok Harcanan Tedarikçi</p><p class="text-sm font-black text-primary truncate" id="sEnBuyuk">—</p></div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div class="card"><h3 class="text-sm font-bold text-slate-700 mb-2">Tedarikçi Bazlı Harcama (top 10)</h3><div style="height:280px"><canvas id="tedarikciChart"></canvas></div></div>
+          <div class="card"><h3 class="text-sm font-bold text-slate-700 mb-2">Aylık Satınalma Hacmi (son 6 ay)</h3><div style="height:280px"><canvas id="satinalmaAyChart"></canvas></div></div>
+        </div>
+        <div class="card !p-0 overflow-hidden"><div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between gap-2 flex-wrap"><h3 class="text-sm font-bold text-slate-700">Sipariş Listesi</h3><span class="text-[11px] text-slate-400">Başlığa tıklayarak sıralayın · sipariş satınalma kaydına gider</span></div>
+          <div class="overflow-x-auto"><table class="w-full text-sm rf-tablo" id="satinalmaTablo"><thead><tr><th>Sipariş</th><th>Tedarikçi</th><th>Tarih</th><th>Durum</th><th class="sag">Toplam</th></tr></thead><tbody><tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">Yükleniyor…</td></tr></tbody></table></div></div>
+      </div>
+      <div id="satinalmaBos" class="hidden text-center text-slate-400 text-sm py-10"></div>
+    </div>
+  </div>
+</main>
+
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/s-grafik-merkezi.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

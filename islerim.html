@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>İşlerim — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.6rem 0.9rem;font-size:0.875rem;outline:none}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+  #bzil, #garama { display:none !important; }
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+
+<main class="min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <img src="img/logo.svg" alt="" class="firma-logo h-9 w-auto"/>
+      <h1 class="text-base font-bold text-blue-950 font-headline">İşlerim</h1>
+    </div>
+    <a href="hesabim.html" class="text-xs font-bold text-primary hover:underline">← Panele Dön</a>
+  </header>
+
+  <div class="p-4 md:p-8 max-w-lg mx-auto">
+    <div id="isBaglisizUyari" class="hidden bg-white rounded-2xl shadow-sm p-6 flex items-start gap-3">
+      <span class="material-symbols-outlined text-slate-400">link_off</span>
+      <div>
+        <p class="text-sm font-bold">Personel kaydınıza bağlı değilsiniz</p>
+        <p class="text-xs text-slate-400 mt-1">Yöneticiniz sizi bir personel kaydına bağlarsa bugünkü işleriniz burada görünür.</p>
+      </div>
+    </div>
+    <section id="srvIslerim"></section>
+<div id="isListe" class="space-y-4"><p class="text-slate-400 text-sm text-center py-6">Yükleniyor…</p></div>
+  </div>
+</main>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/servis-islerim.js"></script>
+<script src="js/referans-foto.js"></script>
+<script src="js/s-islerim.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

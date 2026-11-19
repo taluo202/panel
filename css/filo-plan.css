@@ -1,0 +1,42 @@
+.fp-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px}.fp-heading h2{font-size:26px;font-weight:800;color:#173554}.fp-heading p{font-size:13px;color:#617489;margin-top:5px;line-height:1.6}.fp-tools,.fp-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.fp-btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;border:1px solid #cad8e7;border-radius:9px;background:#fff;color:#20476e;font-size:12px;font-weight:700;padding:9px 13px;cursor:pointer}.fp-btn:hover{background:#eef4fc}.fp-btn[aria-pressed=true],.fp-primary{background:#173d70;color:#fff;border-color:#173d70}.fp-btn:disabled{opacity:.5;cursor:not-allowed}.fp-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0}.fp-metric{display:flex;flex-direction:column;gap:5px;background:#fff;border:1px solid #dce6f0;border-radius:12px;padding:17px}.fp-metric strong{font:800 28px 'Manrope',sans-serif;color:#193c68}.fp-metric span{font-size:12px;color:#5b7189}.fp-status{font-size:12px;color:#5d7086;margin:12px 0;min-height:20px}.fp-viewbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:12px 0}.fp-viewbar label{font-size:12px;color:#4b627b}.fp-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.fp-cards[hidden],#takvimKutu[hidden]{display:none}.fp-machine{text-align:left;background:#fff;border:1px solid #d6e0ed;border-radius:13px;padding:17px;display:flex;flex-direction:column;gap:9px;min-width:0}.fp-machine[aria-pressed=true]{border-color:#235e9f;box-shadow:inset 0 0 0 1px #235e9f}.fp-machine strong{font-size:15px;overflow-wrap:anywhere}.fp-tag{align-self:flex-start;display:inline-block;padding:4px 8px;border-radius:5px;font-size:11px;font-weight:700}.fp-musait{background:#e8f5ee;color:#236342}.fp-dolu{background:#eaf0ff;color:#2a4b8e}.fp-kontrol{background:#fff2df;color:#8b5017}.fp-engel{background:#f1f3f6;color:#5a6678}.fp-sub{font-size:12px;color:#5a6e84;line-height:1.65;overflow-wrap:anywhere}.fp-card-link{font-size:12px;font-weight:700;color:#27598c;margin-top:auto}.fp-details{background:#fff;border:1px solid #dce6ef;border-radius:13px;padding:20px;margin-top:16px}.fp-detail-head{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;font-size:16px;font-weight:800;color:#1c3c63}.fp-reasons{font-size:13px;color:#4d6278;line-height:1.7;margin:12px 0;padding-left:18px;list-style:disc}.fp-small-title{font-size:13px;font-weight:800;color:#304d6d;margin:20px 0 8px}.fp-events{list-style:none;max-height:280px;overflow:auto}.fp-events li{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-size:12px;border-top:1px solid #e7edf4;padding:10px 0}.fp-events time{color:#6a7f93;min-width:86px}.fp-events a{color:#235789;font-weight:700;text-decoration:underline}.fp-events span{color:#61778f}.fp-empty{padding:24px;font-size:13px;color:#60768d}.fp-explainer{font-size:12px;color:#5b6f85;line-height:1.6;margin:8px 0}.fp-search{background:#edf4fc;border:1px solid #cbddef;border-radius:12px;padding:14px;margin-bottom:12px}.fp-search label{font-size:12px;font-weight:700;color:#425f7b;display:flex;flex-direction:column;gap:4px}.fp-search input{background:#fff;border:1px solid #c5d5e5;border-radius:8px;padding:9px 10px;min-height:42px;min-width:0}.fp-search-controls{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}.fp-search h3{font-size:14px;font-weight:800;color:#173b62;margin-bottom:10px}#fpMakine{max-width:100%;min-height:42px;border:1px solid #c4d3e3;border-radius:8px;padding:8px 12px;font-size:13px;background:#fff}#filtreCubugu{border:1px solid #dde5ef}#filtreCubugu input,#filtreCubugu select{min-height:40px}#fpGovde :focus-visible{outline:3px solid #518ac8;outline-offset:3px}#takvim{overflow:auto}.ghead{position:sticky;top:0}.gbar-kira:focus-visible,.gbar-servis:focus-visible{outline:3px solid #133c70;outline-offset:1px}.gtrack{min-height:44px}.gbar-kira{border:0}.gbar-servis{border:0}.glabel{z-index:6}.ghead{z-index:8}.ghead .glabel{background:#f4f7fc}.fp-touch{font-size:12px;color:#50677f;display:flex;align-items:center;gap:6px}@media(max-width:800px){.fp-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.fp-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:480px){.fp-cards{grid-template-columns:1fr}.fp-heading h2{font-size:22px}.fp-details{padding:15px}.fp-search-controls label{flex:1 1 130px}.fp-search-controls input{width:100%}.fp-btn{min-height:44px}.fp-machine{padding:15px}.fp-metric{padding:13px}.fp-metric strong{font-size:24px}}
+.fp-metrics{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;grid-template-columns:none}
+.fp-metric{flex-direction:row;align-items:baseline;gap:7px;padding:5px 11px;border-radius:8px}
+.fp-metric strong{font-size:17px;line-height:1.1}
+.fp-metric span{font-size:11px;color:#5b7189}
+.fp-heading{margin-bottom:10px;gap:10px}
+.fp-heading h2{font-size:20px}
+.fp-heading p{font-size:12px;margin-top:2px}
+.fp-status{margin:0 0 8px;min-height:0;font-size:11px}
+.fp-search{padding:9px 12px;margin-bottom:8px;display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap}
+.fp-search h3{margin:0;font-size:13px;white-space:nowrap}
+.fp-search-controls{align-items:center;gap:8px;flex:1 1 420px}
+.fp-search label{flex-direction:row;align-items:center;gap:6px;white-space:nowrap}
+.fp-search input{min-height:36px;padding:6px 9px}
+.fp-search .fp-btn{min-height:36px;padding:7px 12px}
+.fp-explainer{margin:0;flex:1 1 100%;font-size:11px;color:#64788d}
+@media (min-width:1450px){.fp-explainer{flex:0 1 auto;margin-left:auto;text-align:right}}
+.fp-viewbar{margin:8px 0}
+.fp-btn{min-height:36px;padding:7px 12px}
+#takvim{max-height:none;height:var(--fp-takvim-h,520px);min-height:320px;overflow:auto}
+#aciklamaSatiri{overflow-x:auto;white-space:nowrap;flex-wrap:nowrap;padding-bottom:2px}
+#aciklamaSatiri>span{flex:0 0 auto}
+@media (max-width:767px){
+  #filtreCubugu .fp-ek{display:none}
+  #filtreCubugu.fp-filtre-acik .fp-ek{display:flex}
+  #filtreCubugu.fp-filtre-acik select.fp-ek{display:block}
+  #filtreCubugu #fAra{display:none}
+  #filtreCubugu.fp-filtre-acik #fAra{display:block}
+}
+#filtreCubugu #fAra{flex:1 1 312px}
+.sr-gizli{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+          clip:rect(0 0 0 0);white-space:nowrap;border:0}
+#ozet{font-weight:600;color:#3c556f}
+.fp-btn.hidden,.fp-btn[hidden]{display:none}
+#filtreCubugu select{max-width:170px}
+#filtreCubugu #fBas{max-width:160px}
+.fp-search h3{font-size:12px;color:#2d5581}
+.fp-search .fp-explainer{flex:1 1 260px;margin-left:auto;text-align:right}
+.fp-dk{color:#92400e;font-weight:800}
+@media (min-width:768px){#aciklamaSatiri{flex-wrap:wrap;overflow-x:visible;white-space:normal}}
+.fp-kira{font-weight:700;color:#1e3a8a}
+@media (max-width:640px){.fp-search-controls{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;flex:1 1 100%}.fp-search label{flex-direction:column;align-items:stretch;gap:3px;min-width:0;white-space:normal}.fp-search input{width:100%;min-width:0}.fp-search .fp-explainer{text-align:left;margin-left:0}#filtreCubugu #fAra{flex:1 1 100%;max-width:none}}

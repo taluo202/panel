@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Ürün Detayı</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  #lightbox{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.92);align-items:center;justify-content:center}
+  #lightbox.aktif{display:flex}
+  #lightboxImg{max-height:90vh;max-width:90vw;object-fit:contain;border-radius:12px}
+</style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+
+<div id="lightbox" data-on-click="lightboxKapat">
+  <button data-on-click="lightboxKapat" class="absolute top-4 right-5 text-white/70 hover:text-white text-3xl leading-none">&times;</button>
+  <button id="lbPrev" data-on-click="lightboxAdim" data-args='[-1]' data-stop class="absolute left-4 text-white/70 hover:text-white p-2">
+    <span class="material-symbols-outlined text-4xl">chevron_left</span>
+  </button>
+  <img id="lightboxImg" src="" alt=""/>
+  <button id="lbNext" data-on-click="lightboxAdim" data-args='[1]' data-stop class="absolute right-4 text-white/70 hover:text-white p-2">
+    <span class="material-symbols-outlined text-4xl">chevron_right</span>
+  </button>
+  <p id="lbSayac" class="absolute bottom-5 left-0 right-0 text-center text-white/60 text-sm"></p>
+</div>
+
+<div id="urunKatalogModal" class="hidden fixed inset-0 z-[200] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta p-7">
+    <h2 class="text-lg font-bold font-headline mb-5">Ürün Kataloğu Ekle</h2>
+    <div class="space-y-4">
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Katalog Adı *</label>
+        <input id="ukAd" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30" placeholder="Örn: Teknik Katalog 2025"/>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Dosya (PDF / Resim)</label>
+        <input id="ukDosya" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp"
+          class="w-full text-sm text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-surface-container file:text-primary hover:file:opacity-80"/>
+        <p class="text-[11px] text-slate-400">PDF, JPG, PNG veya WebP. En fazla 20 MB.</p>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-6 justify-end">
+      <button data-on-click="kapat" data-args='["urunKatalogModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="urunKatalogYukleBtn" data-on-click="urunKatalogYukle" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Yükle</button>
+    </div>
+  </div>
+</div>
+
+<div id="galeriModal" class="hidden fixed inset-0 z-[200] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta p-7">
+    <h2 class="text-lg font-bold font-headline mb-5">Görsel Ekle</h2>
+    <div class="space-y-4">
+      <input id="galeriDosya" type="file" accept=".jpg,.jpeg,.png,.webp" multiple
+        class="w-full text-sm text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-surface-container file:text-primary hover:file:opacity-80"/>
+      <p class="text-[11px] text-slate-400">JPG, PNG veya WebP. Her biri en fazla 20 MB.</p>
+    </div>
+    <div class="flex gap-3 mt-6 justify-end">
+      <button data-on-click="kapat" data-args='["galeriModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="galeriYukleBtn" data-on-click="galeriYukle" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Yükle</button>
+    </div>
+  </div>
+</div>
+
+<div id="urunModal" class="hidden fixed inset-0 z-[200] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere p-7 max-h-[90vh] overflow-y-auto">
+    <h2 class="text-lg font-bold font-headline mb-5">Ürün Düzenle</h2>
+    <div class="space-y-4">
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Ürün Adı *</label>
+        <input id="uIsim" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Kategori *</label>
+        <select id="uKategori" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30">
+          <option value="Akülü Makaslı Platformlar">Akülü Makaslı Platformlar</option>
+          <option value="4X4 Arazi Tipi Akülü Makaslı Platformlar">4X4 Arazi Tipi Akülü Makaslı Platformlar</option>
+          <option value="4x4 Arazi Tipi Dizel Makaslı Platformlar">4x4 Arazi Tipi Dizel Makaslı Platformlar</option>
+          <option value="Arazi Tipi Paletli Akülü Makaslı Platform">Arazi Tipi Paletli Akülü Makaslı Platform</option>
+          <option value="Akülü Eklemli Platformlar">Akülü Eklemli Platformlar</option>
+          <option value="Akülü Teleskopik Platformlar">Akülü Teleskopik Platformlar</option>
+          <option value="Dikey Direk Platformlar">Dikey Direk Platformlar</option>
+          <option value="Dizel Forkliftler">Dizel Forkliftler</option>
+          <option value="Elle Çekilebilir Makaslı Platformlar">Elle Çekilebilir Makaslı Platformlar</option>
+          <option value="Çift Direk Dikey Platform">Çift Direk Dikey Platform</option>
+          <option value="Örümcek Platformlar">Örümcek Platformlar</option>
+          <option value="Araç Üstü Sepetli Platformlar">Araç Üstü Sepetli Platformlar</option>
+          <option value="Araç Üstü Kırmalı Platformlar">Araç Üstü Kırmalı Platformlar</option>
+          <option value="Araç Üstü Kırmasız Taşımalı Vinç">Araç Üstü Kırmasız Taşımalı Vinç</option>
+          <option value="Araç Üstü Kırmalı Vinç">Araç Üstü Kırmalı Vinç</option>
+        </select>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Detay / Açıklama</label>
+        <textarea id="uAciklama" rows="4" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 resize-none"></textarea>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Ana Görsel URL</label>
+        <input id="uGorsel" type="url" placeholder="https://…" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 font-mono text-xs"/>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Sıralama</label>
+        <input id="uSira" type="number" min="0" value="0" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-6 justify-end">
+      <button data-on-click="kapat" data-args='["urunModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="urunKaydetBtn" data-on-click="urunKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Güncelle</button>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-5xl mx-auto px-4 py-8">
+
+  <div class="flex items-center gap-3 mb-6">
+    <a id="geriLink" href="kiralama.html" class="flex items-center gap-1.5 px-3 py-2 text-slate-500 hover:text-primary text-sm font-medium rounded-xl hover:bg-surface-container-low transition">
+      <span class="material-symbols-outlined text-base">arrow_back</span> Geri
+    </a>
+    <span id="katBreadcrumb" class="text-sm text-slate-400 empty:hidden before:content-['/'] before:text-slate-300 before:mr-3"></span>
+    <div class="ml-auto flex flex-wrap gap-2" id="adminBar" style="display:none">
+      <button data-on-click="galeriModalAc" class="px-3 py-2 bg-surface-container-low text-slate-700 text-sm font-bold rounded-xl hover:bg-surface-container transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">add_photo_alternate</span><span class="hidden sm:inline">Görsel Ekle</span>
+      </button>
+      <button data-on-click="urunKatalogModalAc" class="px-3 py-2 bg-surface-container-low text-slate-700 text-sm font-bold rounded-xl hover:bg-surface-container transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">upload_file</span><span class="hidden sm:inline">Katalog Ekle</span>
+      </button>
+      <button data-on-click="urunDuzenleModalAc" class="px-3 py-2 bg-primary text-white text-sm font-bold rounded-xl hover:opacity-90 transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">edit</span><span class="hidden sm:inline">Düzenle</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="yukleniyor" class="text-center py-24 text-slate-400">
+    <span class="material-symbols-outlined text-5xl block mb-3 text-slate-200 animate-pulse">hourglass_empty</span>Yükleniyor…
+  </div>
+
+  <div id="icerik" class="hidden">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div id="anaGorselWrap" class="relative bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden aspect-[4/3] flex items-center justify-center cursor-pointer group"
+           data-on-click="lightboxAc" data-args='[0]'>
+        <img id="anaGorsel" src="" alt="" class="w-full h-full object-contain p-4"/>
+        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition flex items-center justify-center">
+          <span class="material-symbols-outlined text-white text-4xl opacity-0 group-hover:opacity-100 transition">zoom_in</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <div>
+          <span id="katChip" class="inline-block text-[10px] font-black uppercase tracking-widest text-primary bg-primary-fixed px-2.5 py-1 rounded-full mb-2"></span>
+          <h1 id="urunIsim" class="text-2xl font-extrabold text-blue-950 font-headline leading-tight"></h1>
+        </div>
+        <div id="aciklamaWrap" class="hidden">
+          <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Teknik Bilgiler</p>
+          <p id="urunAciklama" class="text-sm text-slate-600 leading-relaxed whitespace-pre-line"></p>
+        </div>
+        <div id="urunKatalogWrap" class="hidden">
+          <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Ürün Katalogları</p>
+          <div id="urunKatalogListesi" class="space-y-2"></div>
+        </div>
+        <div id="katalogWrap" class="hidden mt-auto">
+          <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Kategori Katalogları</p>
+          <div id="katalogListesi" class="space-y-2"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="galeriWrap" class="hidden mb-8">
+      <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3">Görsel Galerisi</p>
+      <div id="galeriGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/eylem.js"></script>
+<script src="js/s-kiralama-urun.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

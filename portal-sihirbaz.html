@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Müşteri Portalı — Makine Bul</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.65rem 0.9rem;font-size:0.9rem;outline:none}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:4px}
+  .kat-btn.secili{background:#00236f!important;color:#fff!important}
+  #bzil, #garama { display:none !important; }
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<main class="min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex items-center gap-3">
+    <a href="portal.html" class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-500">arrow_back</span></a>
+    <h1 class="text-base font-bold text-blue-950 font-headline">Bana Uygun Makineyi Bulun</h1>
+  </header>
+
+  <div class="p-4 md:p-8 max-w-2xl mx-auto">
+    <div id="adim1">
+      <p class="text-sm text-slate-500 mb-4">Hangi tür ekipmana ihtiyacınız var?</p>
+      <div id="katGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-6">Yükleniyor…</div>
+    </div>
+
+    <div id="adim2" class="hidden space-y-4">
+      <div>
+        <p class="text-sm font-bold text-slate-600 mb-2">Seçilen: <span id="secilenKatEt" class="text-primary"></span></p>
+      </div>
+      <div><label class="lbl">Ne kadar süreyle kullanacaksınız?</label>
+        <select id="sSure" class="inp">
+          <option value="birkac_gun">Birkaç gün</option>
+          <option value="1_hafta">1 hafta</option>
+          <option value="1_ay">1 ay</option>
+          <option value="uzun_sure">Uzun süreli (aylık+)</option>
+        </select>
+      </div>
+      <div><label class="lbl">Kısaca ihtiyacınızı anlatır mısınız? (kapasite, çalışma yüksekliği, arazi tipi vb.)</label>
+        <textarea id="sAciklama" rows="3" class="inp resize-none" placeholder="Örn: 12 metre çalışma yüksekliği, dış mekan, zemin düz…"></textarea>
+      </div>
+      <div><label class="lbl">Teslimat adresi / şantiye (opsiyonel)</label>
+        <input id="sAdres" type="text" class="inp" placeholder="Örn: Ankara, Sincan OSB, 5. Cadde No:12"/>
+      </div>
+      <button data-on-click="urunleriGoster" class="w-full px-6 py-2.5 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Uygun Ürünleri Göster</button>
+    </div>
+
+    <div id="adim3" class="hidden">
+      <p class="text-sm text-slate-500 mb-4">Bu kategorideki ürünlerimiz (fiyat teklifi için talep gönderin):</p>
+      <div id="urunGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6"></div>
+      <button data-on-click="talepGonder" id="talepBtn" class="w-full px-6 py-2.5 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Teklif İste</button>
+      <p class="text-xs text-slate-400 text-center mt-2">Bir temsilcimiz en kısa sürede sizinle iletişime geçecek.</p>
+    </div>
+
+    <div id="adim4" class="hidden text-center py-10">
+      <span class="material-symbols-outlined text-5xl text-green-600 block mb-2">check_circle</span>
+      <p class="text-sm text-slate-600" id="basariMetin"></p>
+      <a href="portal.html" class="inline-block mt-4 px-6 py-2.5 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Portala Dön</a>
+    </div>
+  </div>
+</main>
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/s-portal-sihirbaz.js"></script>
+</body>
+</html>

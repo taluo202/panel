@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex,nofollow"/>
+<meta name="referrer" content="no-referrer"/>
+<title>Tutanak</title>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link rel="stylesheet" href="css/belge.css"/>
+<style>
+  body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#f1f5f9;margin:0;padding:12px;color:#172b42}
+  .tg-ust{max-width:900px;margin:0 auto 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .tg-ust button{background:#00236f;color:#fff;border:0;border-radius:10px;padding:10px 16px;font-weight:700;font-size:14px}
+  #tgAlan{background:#fff;max-width:900px;margin:0 auto;padding:16px;border-radius:12px;overflow-x:auto}
+  .tg-mesaj{max-width:900px;margin:40px auto;text-align:center;font-size:15px}
+  @media print{.tg-ust{display:none}body{background:#fff;padding:0}#tgAlan{padding:0;border-radius:0;overflow:visible}}
+</style>
+</head>
+<body>
+<div class="tg-ust"><strong id="tgBaslik">Tutanak</strong><button type="button" data-on-click="Eylem.yazdir">Yazdır / PDF kaydet</button></div>
+<div id="tgAlan" class="tg-mesaj">Yükleniyor…</div>
+<script src="js/eylem.js"></script>
+<script src="js/app.js"></script>
+<script src="js/aksesuar-sayim.js"></script>
+<script src="js/tutanak-sablon.js"></script>
+<script src="js/s-tutanak-goster.js"></script>
+</body>
+</html>

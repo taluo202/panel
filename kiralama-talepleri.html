@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Portal Talepleri</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.55rem 0.9rem;font-size:0.875rem;outline:none}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+  .kt-kart{transition:box-shadow .3s}
+  .kt-vurgu{box-shadow:0 0 0 3px #00236f55}
+  .kt-rozet{display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap}
+  .kt-tarih{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13px}
+  .kt-tarih b{font-family:'Manrope',sans-serif}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto">
+    <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">dashboard</span><span>Dashboard</span></a>
+    <a href="personel.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">badge</span><span>Personel Yönetimi</span></a>
+    <a href="arac.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">directions_car</span><span>Araç Yönetimi</span></a>
+    <a href="manlift.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">precision_manufacturing</span><span>Makine Yönetimi</span></a>
+    <a href="finans.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">account_balance_wallet</span><span>Finans</span></a>
+    <a href="rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">summarize</span><span>Raporlar</span></a>
+    <a href="kiralama.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">menu_book</span><span>Kataloglar</span></a>
+    <a href="gorevler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">checklist</span><span>Görevler</span></a>
+    <a href="istisnalar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">report_problem</span><span>Dikkat Gerekenler</span></a>
+    <a href="formlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt_long</span><span>Formlar</span></a>
+    <a href="ayarlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">settings</span><span>Ayarlar</span></a>
+  </nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Portal Talepleri <span class="hidden sm:inline text-slate-400 font-medium text-sm">· müşteri ve personel</span></h1>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8">
+    <div class="flex flex-wrap gap-2 mb-5" role="tablist">
+      <button type="button" role="tab" data-sekme="musteri" data-on-click="sekmeSec" data-args='["musteri"]' class="hidden px-4 py-2 text-sm font-bold rounded-xl transition flex items-center gap-1.5"><span class="material-symbols-outlined text-lg">groups</span>Müşteri <span id="sayiMusteri"></span></button>
+      <button type="button" role="tab" data-sekme="personel" data-on-click="sekmeSec" data-args='["personel"]' class="hidden px-4 py-2 text-sm font-bold rounded-xl transition flex items-center gap-1.5"><span class="material-symbols-outlined text-lg">badge</span>Personel <span id="sayiPersonel"></span></button>
+    </div>
+
+    <section id="sekmeMusteri" class="hidden">
+    <div class="bg-primary/5 border border-primary/20 rounded-xl px-4 py-3 mb-5 text-sm text-slate-600 flex gap-2 items-start">
+      <span class="material-symbols-outlined text-primary text-lg shrink-0">verified_user</span>
+      <p><b class="text-on-surface">Süre uzatma</b> talebini yalnız <b>sistem yöneticisi</b> ya da kiralamanın <b>şube yetkilisi</b> (o şubeye bağlı, kiralama yazma yetkili kullanıcı) sonuçlandırır. Onaylanırsa kiralamanın bitişi istenen tarihe çekilir; reddedilirse kiralama değişmez ve gerekçe müşteriye gösterilir. <b class="text-on-surface">İade / toplama</b> talebi planlanınca operasyona hatırlatma görevi açılır.</p>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-2 mb-4">
+      <div class="flex items-center gap-2">
+      <button data-on-click="filtreSet" data-args='["bekliyor"]' data-f="bekliyor" class="fb px-3 py-1.5 text-xs font-bold rounded-lg transition">Bekleyen <span id="sayiBekleyen"></span></button>
+      <button data-on-click="filtreSet" data-args='["sonuc"]' data-f="sonuc" class="fb px-3 py-1.5 text-xs font-bold rounded-lg transition">Sonuçlanan</button>
+      <button data-on-click="filtreSet" data-args='["hepsi"]' data-f="hepsi" class="fb px-3 py-1.5 text-xs font-bold rounded-lg transition">Hepsi</button>
+      </div>
+      <span class="flex-1"></span>
+      <select id="fTur" data-on-change="render" class="bg-white border-none rounded-xl px-3 py-2 text-sm shadow-sm outline-none">
+        <option value="">Tüm talepler</option>
+        <option value="uzatma">Süre uzatma</option>
+        <option value="iade">İade / toplama</option>
+      </select>
+    </div>
+
+    <div id="liste" class="grid grid-cols-1 xl:grid-cols-2 gap-3"><p class="text-slate-400 text-sm">Yükleniyor…</p></div>
+    </section>
+
+    <section id="sekmePersonel" class="hidden">
+      <div class="bg-primary/5 border border-primary/20 rounded-xl px-4 py-3 mb-5 text-sm text-slate-600 flex gap-2 items-start">
+        <span class="material-symbols-outlined text-primary text-lg shrink-0">badge</span>
+        <p>Personelin kendi hesabından (<b class="text-on-surface">Hesabım</b>) gönderdiği ve onay bekleyen <b>izin</b>, <b>mesai</b> (konaklama dâhil), <b>masraf</b> talepleri ile yüklediği <b>belgeler</b>. İzin, masraf ve belge kararı <b>personel</b>, mesai kararı <b>mesai</b> modülünde yazma yetkisi ister. Aynı kayıtlar personelin detay sayfasında da onaylanabilir.</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <span class="flex-1"></span>
+        <select id="pTur" data-on-change="PersonelOnay.ciz" class="bg-white border-none rounded-xl px-3 py-2 text-sm shadow-sm outline-none">
+          <option value="">Tüm talepler</option>
+          <option value="izin">İzin</option>
+          <option value="mesai">Mesai</option>
+          <option value="masraf">Masraf</option>
+          <option value="belge">Belge</option>
+        </select>
+      </div>
+      <div id="pListe" class="grid grid-cols-1 xl:grid-cols-2 gap-3"><p class="text-slate-400 text-sm">Yükleniyor…</p></div>
+    </section>
+  </div>
+</main>
+
+<div id="kararModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta max-h-[88vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-6 pt-5 pb-3 border-b border-slate-100">
+      <h2 class="text-lg font-bold font-headline" id="kBaslik">Karar</h2>
+      <button data-on-click="kararKapat" class="p-1.5 hover:bg-surface-container-low rounded-lg"><span class="material-symbols-outlined text-slate-400">close</span></button>
+    </div>
+    <div class="px-6 py-4 space-y-4">
+      <div id="kOzet" class="text-sm text-slate-600"></div>
+      <div id="kTarihAlan" class="hidden"><label class="lbl" for="kTarih">Toplama tarihi</label><input id="kTarih" type="date" class="inp"/></div>
+      <div><label class="lbl" for="kNot" id="kNotEt">Not</label><textarea id="kNot" rows="3" maxlength="1000" class="inp resize-none" placeholder=""></textarea>
+        <p class="text-[11px] text-slate-400 mt-1">Bu not müşteri portalında görünür.</p></div>
+    </div>
+    <div class="flex gap-3 px-6 py-4 justify-end border-t border-slate-100">
+      <button data-on-click="kararKapat" class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="kGonderBtn" data-on-click="kararGonder" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/personel-onay.js"></script>
+<script src="js/s-kiralama-talepleri.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

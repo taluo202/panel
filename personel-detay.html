@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Personel Detay — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link rel="stylesheet" href="css/detay.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  @media print {
+    body > *:not(#qrRozetModal) { display:none !important; }
+    #qrRozetModal { position:static !important; background:white !important; padding:0 !important; }
+    #qrRozetModal .no-print { display:none !important; }
+  }
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2">
+    <a href="index.html" title="Dashboard"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a>
+  </div>
+  <nav class="flex-1 flex flex-col gap-0.5">
+    <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">dashboard</span><span>Dashboard</span></a>
+    <a href="personel.html" class="flex items-center gap-3 px-3 py-2.5 bg-primary text-white rounded-xl text-sm font-bold shadow-sm"><span class="material-symbols-outlined text-xl">badge</span><span>Personel Yönetimi</span></a>
+    <a href="arac.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">directions_car</span><span>Araç Yönetimi</span></a>
+    <a href="manlift.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">precision_manufacturing</span><span>Makine Yönetimi</span></a>
+    <a href="finans.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">account_balance_wallet</span><span>Finans</span></a>
+    <a href="rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">summarize</span><span>Raporlar</span></a>
+    <a href="kiralama.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">menu_book</span><span>Kataloglar</span></a>
+    <a href="kiralama-takip.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">assignment</span><span>Kiralama Takip</span></a>
+    <a href="musteriler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">groups</span><span>M&#252;&#351;teriler</span></a>
+    <a href="teklifler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">request_quote</span><span>Teklifler</span></a>
+    <a href="hakedisler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt</span><span>Hakedi&#351;ler</span></a>
+    <a href="nakliye.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">local_shipping</span><span>Nakliye</span></a>
+    <a href="yedek-parca.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">build</span><span>Yedek Par&#231;a</span></a>
+    <a href="makine-rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">monitoring</span><span>Makine Raporu</span></a>
+    <a href="formlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt_long</span><span>Formlar</span></a>
+    <a href="ayarlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">settings</span><span>Ayarlar</span></a>
+  </nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all">
+      <span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<div id="paylasimModal" class="hidden fixed inset-0 z-[200] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta p-7">
+    <h2 class="text-lg font-bold font-headline mb-4">Belgeleri Paylaş</h2>
+    <div id="paylasimListe" class="mb-4 space-y-1 max-h-40 overflow-y-auto text-sm text-slate-600"></div>
+    <div class="space-y-3">
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">WhatsApp Numarası</label>
+        <input id="pWpNo" type="tel" placeholder="905551234567" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 font-mono"/>
+      </div>
+      <button data-on-click="wpPaylas" class="w-full py-2.5 bg-green-600 text-white font-bold rounded-xl text-sm hover:opacity-90 transition flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-base">chat</span> WhatsApp ile Gönder
+      </button>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">E-Posta</label>
+        <input id="pEmail" type="email" placeholder="ornek@firma.com" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+      </div>
+      <button data-on-click="emailPaylas" class="w-full py-2.5 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-base">mail</span> E-Posta ile Gönder
+      </button>
+    </div>
+    <button data-on-click="Eylem.gizle" data-args='["paylasimModal"]' class="mt-4 w-full py-2 text-slate-500 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Kapat</button>
+  </div>
+</div>
+
+<div id="izinModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere p-7">
+    <h2 class="text-lg font-bold font-headline mb-5" id="izinModalBaslik">İzin Ekle</h2>
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Başlangıç *</label>
+          <input id="izinBaslangic" type="date" data-on-change="gunOnizle" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Bitiş *</label>
+          <input id="izinBitis" type="date" data-on-change="gunOnizle" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+      </div>
+      <div id="gunOnizleme" class="hidden bg-primary-fixed/50 rounded-xl px-4 py-2 text-sm font-semibold text-primary text-center"></div>
+      <div id="izinAsimUyari" class="hidden bg-red-50 border border-red-200 rounded-xl px-4 py-2 text-sm font-semibold text-red-700 text-center"></div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">İzin Türü</label>
+        <select id="izinTur" data-on-change="gunOnizle" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30">
+          <option value="yillik">Yıllık İzin</option>
+          <option value="mazeretli">Mazeretli İzin</option>
+          <option value="ucretsiz">Ücretsiz İzin</option>
+          <option value="diger">Diğer</option>
+        </select>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Not / Açıklama</label>
+        <textarea id="izinNotlar" rows="2" placeholder="İsteğe bağlı not…" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 resize-none"></textarea>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">İzin Verildi Belgesi (PDF/Resim)</label>
+        <input id="izinEvrak" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" class="w-full text-sm text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-surface-container file:text-primary hover:file:opacity-80"/>
+        <p id="izinEvrakMevcut" class="hidden text-[11px] text-slate-400"></p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Belge Adı</label>
+          <input id="izinEvrakAd" maxlength="200" placeholder="İzin Verildi Belgesi" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Belge No</label>
+          <input id="izinEvrakNo" maxlength="100" placeholder="Boş bırakılabilir" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Belge Tarihi</label>
+          <input id="izinEvrakTarih" type="date" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-6 justify-end">
+      <button data-on-click="Eylem.gizle" data-args='["izinModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="izinKaydetBtn" data-on-click="izinKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Ekle</button>
+    </div>
+  </div>
+</div>
+
+<div id="ekstraIzinModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere p-7">
+    <h2 class="text-lg font-bold font-headline mb-5">Ekstra İzin Günü Ekle</h2>
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Başlangıç</label>
+          <input id="ekstraBaslangic" type="date" data-on-change="ekstraGunOnizle" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Bitiş</label>
+          <input id="ekstraBitis" type="date" data-on-change="ekstraGunOnizle" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+      </div>
+      <div id="ekstraGunOnizleme" class="hidden bg-primary-fixed/50 rounded-xl px-4 py-2 text-sm font-semibold text-primary text-center"></div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Eklenecek Gün Sayısı *</label>
+        <input id="ekstraGun" type="number" min="1" max="365" placeholder="Örn: 5" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        <p class="text-[11px] text-slate-400">Tarih seçerseniz gün sayısı (Pazar ve resmi tatiller hariç) otomatik hesaplanır; gerekirse elle değiştirebilirsiniz.</p>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Açıklama</label>
+        <textarea id="ekstraAciklama" rows="2" placeholder="Neden ekstra izin hakkı verildiğini yazın…" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 resize-none"></textarea>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Dayanak Belgesi (PDF / Resim)</label>
+        <input id="ekstraBelge" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.webp" class="w-full text-sm text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-surface-container file:text-primary hover:file:opacity-80"/>
+        <p class="text-[11px] text-slate-400">Belge, "Evraklar &amp; Belgeler" bölümüne "Ekstra İzin" kategorisiyle kaydedilir; oradan düzenlenebilir.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Belge Adı</label>
+          <input id="ekstraBelgeAd" maxlength="200" placeholder="Boşsa açıklama + gün sayısı" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Belge No</label>
+          <input id="ekstraBelgeNo" maxlength="100" placeholder="Boş bırakılabilir" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Belge Tarihi</label>
+          <input id="ekstraBelgeTarih" type="date" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-6 justify-end">
+      <button data-on-click="Eylem.gizle" data-args='["ekstraIzinModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="ekstraIzinKaydetBtn" data-on-click="ekstraIzinKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Ekle</button>
+    </div>
+  </div>
+</div>
+
+<div id="izinAzaltModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta p-7">
+    <h2 class="text-lg font-bold font-headline mb-5">İzin Azalt</h2>
+    <div class="space-y-4">
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Azaltılacak Gün Sayısı *</label>
+        <input id="azaltGun" type="number" min="1" max="365" placeholder="Örn: 3" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Açıklama</label>
+        <textarea id="azaltAciklama" rows="2" placeholder="Neden izin azaltıldığını yazın…" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 resize-none"></textarea>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-6 justify-end">
+      <button data-on-click="Eylem.gizle" data-args='["izinAzaltModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="izinAzaltKaydetBtn" data-on-click="izinAzaltKaydet" class="px-6 py-2 bg-red-600 text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Azalt</button>
+    </div>
+  </div>
+</div>
+
+<div id="izinEvrakModal" class="hidden fixed inset-0 z-[150] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta p-7">
+    <h2 id="izinEvrakModalBaslik" class="text-lg font-bold font-headline mb-5">İzin Evrakı Yükle</h2>
+    <div class="space-y-4">
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Belge Adı *</label>
+        <input id="izinEvrakDAd" maxlength="200" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Belge No</label>
+          <input id="izinEvrakDNo" maxlength="100" placeholder="Boş bırakılabilir" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Belge Tarihi</label>
+          <input id="izinEvrakDTarih" type="date" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+      </div>
+      <div class="space-y-1">
+        <label id="izinEvrakDosyaEtiket" class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Dosya (PDF / Resim) *</label>
+        <input id="izinEvrakDosya" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" class="w-full text-sm text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-surface-container file:text-primary hover:file:opacity-80"/>
+        <p id="izinEvrakDosyaNot" class="hidden text-[11px] text-slate-400">Yeni dosya seçmezseniz mevcut dosya kalır; seçerseniz eskisinin yerine geçer.</p>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-6 justify-end">
+      <button data-on-click="Eylem.gizle" data-args='["izinEvrakModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="izinEvrakYukleBtn" data-on-click="izinEvrakYukle" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Yükle</button>
+    </div>
+  </div>
+</div>
+
+<div id="belgeModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere p-7">
+    <h2 class="text-lg font-bold font-headline mb-5" id="bModalBaslik">Belge Ekle</h2>
+    <div class="space-y-4">
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Kategori *</label>
+        <select id="bKat" data-on-change="bKatDegisti" data-args='["$value"]' class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30">
+          <option value="Ehliyet">Ehliyet</option>
+          <option value="SRC">SRC</option>
+          <option value="Psikoteknik">Psikoteknik</option>
+          <option value="İSG Eğitimi">İSG Eğitimi</option>
+          <option value="Sağlık Raporu">Sağlık Raporu</option>
+          <option value="Yüksekte Çalışma">Yüksekte Çalışma</option>
+          <option value="diger">Diğer…</option>
+        </select>
+        <input id="bKatManuel" class="hidden w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 mt-2" placeholder="Kategori adını girin…"/>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Belge Adı *</label>
+        <input id="bAd" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30" placeholder="Açıklayıcı belge adı…"/>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Belge No</label>
+          <input id="bBelgeNo" maxlength="100" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30" placeholder="Belge / sertifika no"/>
+        </div>
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Belge Tarihi</label>
+          <input id="bBelgeTarihi" type="date" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+        <div class="space-y-1">
+          <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Geçerlilik Bitiş Tarihi</label>
+          <input id="bBitis" type="date" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+        </div>
+      </div>
+      <div class="space-y-1">
+        <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Dosya (PDF veya Resim) — birden fazla seçebilirsiniz</label>
+        <input id="bDosya" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.webp" class="w-full text-sm text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-surface-container file:text-primary hover:file:opacity-80"/>
+        <p id="bDosyaNot" class="hidden text-[11px] text-slate-400">Yeni dosya seçmezseniz mevcut dosya kalır; seçerseniz eskisinin yerine geçer.</p>
+      </div>
+      <label class="flex items-center gap-2 text-sm cursor-pointer bg-surface-container-low rounded-xl px-4 py-2.5">
+        <input id="bArsiv" type="checkbox" class="rounded"/>
+        <span class="material-symbols-outlined text-slate-500 text-base">inventory_2</span>
+        <span class="font-semibold text-slate-600">Eski / arşiv belgesi (uyarı vermez, arşivde saklanır)</span>
+      </label>
+    </div>
+    <div class="flex gap-3 mt-6 justify-end">
+      <button data-on-click="Eylem.gizle" data-args='["belgeModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button id="bYukleBtn" data-on-click="belgeyukleGonder" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Yükle</button>
+    </div>
+  </div>
+</div>
+
+<div id="qrRozetModal" class="hidden fixed inset-0 z-[240] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta p-7 text-center">
+    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 no-print">Personel QR Rozeti</p>
+    <h2 class="text-lg font-bold font-headline mb-3" id="qrRozetAd">—</h2>
+    <img id="qrRozetImg" class="mx-auto rounded-xl border border-slate-100" width="220" height="220" alt="Personel QR rozeti"/>
+    <p class="text-[11px] text-slate-400 mt-3 no-print">Yazdırıp personele verin. Okutulunca QR Merkezi bu kişinin kartını açar; personel kendi rozetini okutunca oradan Saha Girişi'ne geçer — giriş yine kendi kullanıcı hesabıyla yapılır.</p>
+    <div class="flex gap-2 mt-5 no-print">
+      <button data-on-click="Eylem.gizle" data-args='["qrRozetModal"]' class="flex-1 px-5 py-2.5 text-slate-600 font-bold text-sm bg-surface-container-low rounded-xl hover:bg-surface-container transition">Kapat</button>
+      <button data-on-click="AvkBelge.document" data-args='["qrRozetModal",{"title":"QR Etiket"}]' class="flex-1 px-5 py-2.5 bg-primary text-white font-bold text-sm rounded-xl hover:opacity-90 transition flex items-center justify-center gap-1.5"><span class="material-symbols-outlined text-base">print</span>Yazdır</button>
+    </div>
+  </div>
+</div>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <a href="personel.html" class="p-2 hover:bg-surface-container-low rounded-xl transition-colors text-slate-500">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </a>
+      <div>
+        <div class="text-[10px] text-slate-400 font-medium uppercase tracking-wider whitespace-nowrap"><span class="sm:hidden">Personel</span><span class="hidden sm:inline">Personel Yönetimi</span></div>
+        <h1 class="text-base font-bold text-blue-950 font-headline leading-tight" id="pageTitle">Profil Yükleniyor…</h1>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <a id="masrafBtn" href="#" title="Bu personelin avans ve masrafları" class="px-4 py-2 bg-surface-container-low text-slate-600 font-bold text-sm rounded-xl hover:bg-surface-container transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">payments</span><span class="hidden sm:inline">Avans / Masraf</span>
+      </a>
+      <a id="duzenleBtn" href="#" class="px-4 py-2 bg-surface-container-low text-slate-600 font-bold text-sm rounded-xl hover:bg-surface-container transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">edit</span><span class="hidden sm:inline">Düzenle</span>
+      </a>
+      <button id="ekstraIzinBtn" data-on-click="ekstraIzinAc" class="hidden px-4 py-2 bg-amber-500 text-white font-bold text-sm rounded-xl hover:opacity-90 transition flex items-center gap-1.5" title="Ekstra İzin Hakkı Ekle">
+        <span class="material-symbols-outlined text-base">add_circle</span><span class="hidden sm:inline">Ekstra İzin</span>
+      </button>
+      <button id="izinAzaltBtn" data-on-click="azaltAc" class="hidden px-4 py-2 bg-red-500 text-white font-bold text-sm rounded-xl hover:opacity-90 transition flex items-center gap-1.5" title="İzin Azalt">
+        <span class="material-symbols-outlined text-base">remove_circle</span><span class="hidden sm:inline">İzin Azalt</span>
+      </button>
+      <button data-on-click="izinModalAc" class="px-4 py-2 bg-primary text-white font-bold text-sm rounded-xl hover:opacity-90 transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">beach_access</span><span class="hidden sm:inline">İzin Ekle</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8">
+    <div class="flex justify-end gap-2 mb-3">
+      <button type="button" data-on-click="bolumHepsi" data-args='[true]' class="px-3 py-1.5 text-xs font-bold text-slate-600 bg-white rounded-lg shadow-sm hover:bg-surface-container-low flex items-center gap-1"><span class="material-symbols-outlined text-sm">unfold_more</span>Tümünü aç</button>
+      <button type="button" data-on-click="bolumHepsi" data-args='[false]' class="px-3 py-1.5 text-xs font-bold text-slate-600 bg-white rounded-lg shadow-sm hover:bg-surface-container-low flex items-center gap-1"><span class="material-symbols-outlined text-sm">unfold_less</span>Tümünü kapat</button>
+    </div>
+    <div id="icerik" class="detay-duzen">
+      <div class="text-center py-20 text-slate-400">Yükleniyor…</div>
+    </div>
+    <div id="gorevGecmis" class="detay-duzen mt-5"></div>
+  </div>
+</main>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/detay-ortak.js"></script>
+<script src="js/personel-onay.js"></script>
+<script src="js/s-personel-detay.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

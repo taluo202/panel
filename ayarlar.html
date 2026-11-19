@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Ayarlar — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2">
+    <a href="index.html" title="Dashboard"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a>
+  </div>
+  <nav class="flex-1 flex flex-col gap-0.5">
+    <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">dashboard</span><span>Dashboard</span></a>
+    <a href="personel.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">badge</span><span>Personel Yönetimi</span></a>
+    <a href="arac.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">directions_car</span><span>Araç Yönetimi</span></a>
+    <a href="manlift.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">precision_manufacturing</span><span>Makine Yönetimi</span></a>
+    <a href="finans.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">account_balance_wallet</span><span>Finans</span></a>
+    <a href="rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">summarize</span><span>Raporlar</span></a>
+    <a href="kiralama.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">menu_book</span><span>Kataloglar</span></a>
+    <a href="kiralama-takip.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">assignment</span><span>Kiralama Takip</span></a>
+    <a href="musteriler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">groups</span><span>M&#252;&#351;teriler</span></a>
+    <a href="teklifler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">request_quote</span><span>Teklifler</span></a>
+    <a href="hakedisler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt</span><span>Hakedi&#351;ler</span></a>
+    <a href="nakliye.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">local_shipping</span><span>Nakliye</span></a>
+    <a href="yedek-parca.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">build</span><span>Yedek Par&#231;a</span></a>
+    <a href="makine-rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">monitoring</span><span>Makine Raporu</span></a>
+    <a href="formlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt_long</span><span>Formlar</span></a>
+    <a href="ayarlar.html" class="flex items-center gap-3 px-3 py-2.5 bg-primary text-white rounded-xl text-sm font-bold shadow-sm"><span class="material-symbols-outlined text-xl">settings</span><span>Ayarlar</span></a>
+  </nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all">
+      <span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">Ayarlar</h1>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8 space-y-5">
+
+    <a href="hesabim.html" class="block bg-white rounded-xl shadow-sm p-5 hover:shadow-md transition">
+      <div class="flex items-center gap-4">
+        <span class="material-symbols-outlined text-primary">account_circle</span>
+        <div class="flex-1">
+          <p class="text-sm font-bold">Hesabım</p>
+          <p class="text-xs text-slate-400">Şifre, e-posta ve iki aşamalı doğrulama</p>
+        </div>
+        <span class="material-symbols-outlined text-slate-300">chevron_right</span>
+      </div>
+    </a>
+
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div class="px-7 py-4 border-b border-slate-50 flex items-center gap-2">
+        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        <h3 class="text-xs font-black text-primary uppercase tracking-widest">Firma Bilgileri</h3>
+      </div>
+      <div class="p-7 space-y-5">
+        <p class="text-xs text-slate-500">Bu bilgiler sözleşme, teklif, fatura-hazır belge, cari ekstre ve form başlık/altbilgilerinde otomatik kullanılır.</p>
+        <div class="flex flex-wrap items-center gap-4">
+          <div class="w-28 h-20 rounded-xl bg-surface-container-low grid place-items-center overflow-hidden border border-slate-100">
+            <img id="firmaLogoOnizleme" src="img/logo.svg" alt="logo" class="max-h-16 max-w-24 object-contain"/>
+          </div>
+          <div class="flex-1 min-w-0">
+            <label class="lbl">Firma Logosu</label>
+            <input id="firmaLogoDosya" type="file" accept=".png,.jpg,.jpeg,.webp,.svg" class="block max-w-full text-sm text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-surface-container file:text-primary hover:file:opacity-80"/>
+            <button data-on-click="logoYukle" class="mt-2 px-4 py-2 bg-primary text-white text-xs font-bold rounded-xl hover:opacity-90 transition">Logoyu Yükle</button>
+            <p class="text-[11px] text-slate-400 mt-1">PNG/JPG/WEBP/SVG, en fazla 5 MB. Menüde ve baskılarda görünür.</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="sm:col-span-2"><label class="lbl">Firma Ünvanı</label><input id="fUnvan" class="inp" placeholder="ör: ABC Vinç Kiralama İnş. San. ve Tic. Ltd. Şti."/></div>
+          <div><label class="lbl">Vergi Dairesi</label><input id="fVd" class="inp"/></div>
+          <div><label class="lbl">Vergi No</label><input id="fVno" class="inp"/></div>
+          <div><label class="lbl">Mersis No</label><input id="fMersis" class="inp"/></div>
+          <div><label class="lbl">Telefon</label><input id="fTel" inputmode="tel" autocomplete="tel" class="inp"/></div>
+          <div><label class="lbl">E-posta</label><input id="fEposta" class="inp"/></div>
+          <div><label class="lbl">Web</label><input id="fWeb" class="inp" placeholder="www.firma.com"/></div>
+          <div><label class="lbl">Banka (hasar bildirimi ödeme bilgisi)</label><input id="fBanka" class="inp" placeholder="Banka adı"/></div>
+          <div><label class="lbl">IBAN</label><input id="fIban" autocapitalize="characters" spellcheck="false" autocomplete="off" class="inp" placeholder="TR00 0000 0000 0000 0000 0000 00"/></div>
+          <div><label class="lbl" for="fServisSaat">Saha servisi saat ücreti (₺, KDV hariç)</label><input id="fServisSaat" class="inp" inputmode="decimal" placeholder="ör: 750"/></div>
+          <div><label class="lbl" for="fServisYol">Saha servisi yol / ziyaret ücreti (₺)</label><input id="fServisYol" class="inp" inputmode="decimal" placeholder="ör: 1000"/></div>
+          <div class="sm:col-span-2"><label class="lbl" for="fSeferUcreti">Boşa giden sefer ücreti (₺, KDV hariç — varsayılan)</label><input id="fSeferUcreti" class="inp sm:max-w-sm" inputmode="decimal" placeholder="ör: 2500"/>
+            <p class="text-[11px] text-slate-400 mt-1">Müşteri kaynaklı teslim/alım günü taşıma ve iptalde "boşa giden sefer ücreti al" seçilince ayrı hakediş kalemi bu tutarla açılır. TL dışı kiralamada tutar pencerede girilir.</p></div>
+          <div class="sm:col-span-2"><label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="fArizaIndirimAktif" class="rounded"/><span class="text-sm font-semibold">Sahada arıza süresi uzayınca kira indirimi öner</span></label><p class="text-[11px] text-slate-400 mt-1">Varsayılan kapalı. Açıksa sahadaki aktif kiralamaya bağlı arıza servisinde, kayıt açılışından tamamlanmaya geçen süre eşiği aşarsa öneri görev olarak düşer; teknisyen "müşteri kaynaklı" dediyse önerilmez.</p></div>
+          <div><label class="lbl" for="fArizaEsik">Arıza kira indirimi eşiği (saat)</label><input id="fArizaEsik" class="inp" inputmode="decimal" placeholder="ör: 24"/><p class="text-[11px] text-slate-400 mt-1">Arıza bildiriminden çözüme kadar geçen süre bu eşiği aşarsa sistem kira indirimi önerir; ofis onaylar.</p></div>
+          <div><label class="lbl" for="fArizaOran">Arıza kira indirimi oranı (%)</label><input id="fArizaOran" class="inp" inputmode="decimal" placeholder="ör: 100"/><p class="text-[11px] text-slate-400 mt-1">%100 = arızalı günler ücretsiz. Öneri gün × günlük ücret × oran; müşteri kusurunda önerilmez.</p></div>
+          <div class="sm:col-span-2"><label class="lbl">Adres</label><textarea id="fAdres" rows="2" class="inp resize-none"></textarea></div>
+          <div class="sm:col-span-2">
+            <span class="lbl">Teklif Şartları</span>
+            <p class="text-[11px] text-slate-400 mb-2">Her teklif türünün kendi şart metni var. Yeni teklif açıldığında türünün metniyle dolu gelir; o teklif için ayrıca değiştirilebilir. Türün metni boşsa Genel metin basılır. Buradaki değişiklik, şartları kendisiyle birlikte kaydedilmiş teklifleri değiştirmez.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div><label class="lbl" for="fTeklifSartKiralama">Kiralama teklifi</label>
+              <textarea id="fTeklifSartKiralama" rows="5" class="inp" placeholder="Boş bırakılırsa Genel metin basılır."></textarea>
+              <p class="text-[11px] text-slate-400 mt-1">Teklifler sayfasındaki kiralama teklifleri ve Formlar'daki Kiralama Teklif Formu.</p></div>
+            <div><label class="lbl" for="fTeklifSartSatis">Satış teklifi</label>
+              <textarea id="fTeklifSartSatis" rows="5" class="inp" placeholder="Boş bırakılırsa Genel metin basılır."></textarea>
+              <p class="text-[11px] text-slate-400 mt-1">Formlar'daki Satış Teklif Formu.</p></div>
+            <div><label class="lbl" for="fTeklifSartServis">Servis teklifi</label>
+              <textarea id="fTeklifSartServis" rows="5" class="inp" placeholder="Boş bırakılırsa Genel metin basılır."></textarea>
+              <p class="text-[11px] text-slate-400 mt-1">Formlar'daki Makine Servis Teklif Formu.</p></div>
+            <div><label class="lbl" for="fTeklifSartlari">Genel (türe özel metin boşsa)</label>
+              <textarea id="fTeklifSartlari" rows="5" class="inp" placeholder="Bu da boşsa teklifte şart metni basılmaz."></textarea>
+              <p class="text-[11px] text-slate-400 mt-1">Türün kendi metni boş bırakıldığında basılan ortak metin.</p></div>
+            </div>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="lbl" for="fProtokolSartlari">Kiralama Protokolü Şartları</label>
+            <textarea id="fProtokolSartlari" rows="8" class="inp" placeholder="Boş bırakılırsa genel şartlar basılır: Kiralanan ekipman teslim alındığı durumda iade edilir. Hasar, kayıp ve gecikmeden müşteri sorumludur. Ödeme, fatura/hakediş tarihinden itibaren mutabık kalınan vadede yapılır."></textarea>
+            <p class="text-[11px] text-slate-400 mt-1">Müşterinin sahada teslimde ya da bağlantıyla imzaladığı kiralama protokolünün "Kiralama şartları" bölümüne aynen basılır. Kendi protokol metninizi buraya yapıştırın. Metni değiştirmek imzalı protokolleri değiştirmez; imza bekleyen protokoller yeni metinle güncellenir.</p>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="lbl" for="fSozlesmeSartlari">Kiralama Sözleşmesi Şartları</label>
+            <textarea id="fSozlesmeSartlari" rows="8" class="inp" placeholder="Boş bırakılırsa Kiralama Protokolü Şartları, o da boşsa iki cümlelik genel şartlar basılır."></textarea>
+            <p class="text-[11px] text-slate-400 mt-1">Kiralama Takip'ten yazdırılan Makine Kiralama Sözleşmesi'nin "Genel Şartlar" bölümüne aynen basılır; uzun metin ikinci sayfada iki sütun hâlinde akar. Madde başlıklarını (ör. "1. Konu") ayrı satıra yazın.</p>
+          </div>
+        </div>
+        <div class="flex justify-end">
+          <button data-on-click="firmaKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Firma Bilgilerini Kaydet</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div class="px-7 py-4 border-b border-slate-50 flex items-center gap-2">
+        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        <h3 class="text-xs font-black text-primary uppercase tracking-widest">Bildirim Ayarları</h3>
+      </div>
+      <div class="p-7 space-y-6">
+
+        <div class="space-y-1.5">
+          <label class="lbl">Uyarı Eşiği (Gün)</label>
+          <input id="bGunEsigi" type="number" min="1" max="365" value="30"
+            class="w-32 bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+          <p class="text-[11px] text-slate-400">Süresi bu kadar gün veya daha az kalan belgeler uyarıya dahil edilir.</p>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="lbl">Teklif İskonto Onay Eşiği (%)</label>
+          <input id="bIskontoEsik" type="number" min="0" max="100" value="10"
+            class="w-32 bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+          <p class="text-[11px] text-slate-400">Bu oranın üzerinde iskonto girilen teklifler, kiralamaya dönüştürülmeden önce yönetici onayı bekler.</p>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="lbl">Şube Prim Oranı (%)</label>
+          <input id="bPrimOrani" type="number" min="0" max="100" step="0.01" value="2.5"
+            class="w-32 bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+          <p class="text-[11px] text-slate-400">Şube Primi sayfasında pozitif net sonucun bu yüzdesi prim olarak hesaplanır. Yalnız yönetici değiştirebilir; daha önce kaydedilmiş kapanışlar kendi oranıyla kalır.</p>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="lbl">Elle Eklenen Resmi Tatil Günleri</label>
+          <textarea id="bEkTatiller" rows="2" placeholder="2026-04-24, 2026-11-11"
+            class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/30 outline-none transition"></textarea>
+          <p class="text-[11px] text-slate-400">Sistemde hazır bulunmayan ek resmi tatil günleri (virgülle ayırıp YYYY-AA-GG biçiminde girin) — personel izin gün hesabında (Pazar + resmi tatiller hariç tutulur) otomatik dikkate alınır.</p>
+        </div>
+
+        <div class="border border-slate-100 rounded-xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-xl">mail</span>
+              <span class="text-sm font-bold">E-posta Bildirimi</span>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="bEmailAktif" class="sr-only peer"/>
+              <div class="w-10 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+            </label>
+          </div>
+          <div class="space-y-1.5">
+            <label class="lbl">Alıcı E-posta Adresi</label>
+            <input id="bEmail" type="email" placeholder="ornek@firma.com"
+              class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+          </div>
+        </div>
+
+        <div class="border border-slate-100 rounded-xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-green-600 text-xl">chat</span>
+              <span class="text-sm font-bold">WhatsApp Bildirimi</span>
+              <span class="text-[10px] bg-green-100 text-green-700 font-bold px-2 py-0.5 rounded-full">CallMeBot</span>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="bWpAktif" class="sr-only peer"/>
+              <div class="w-10 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+            </label>
+          </div>
+          <div class="space-y-1.5">
+            <label class="lbl">WhatsApp Telefon Numaranız</label>
+            <input id="bWpNo" type="tel" placeholder="905551234567"
+              class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+            <p class="text-[11px] text-slate-400">Ülke kodu ile, + ve boşluk olmadan (örn: 905551234567)</p>
+          </div>
+          <div class="space-y-1.5">
+            <label class="lbl">CallMeBot API Key</label>
+            <input id="bWpApiKey" type="password" autocomplete="new-password" placeholder="1234567"
+              class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+          </div>
+          <div class="bg-surface-container-low rounded-xl p-4 space-y-1.5 text-[11px] text-slate-500 leading-relaxed">
+            <p class="font-bold text-slate-600">API Key nasıl alınır? (Ücretsiz)</p>
+            <p>1. WhatsApp'ta <span class="font-mono font-bold text-primary">+34 644 59 78 45</span> numarasını rehbere kaydedin.</p>
+            <p>2. O numaraya şu mesajı gönderin: <span class="font-mono font-bold">I allow callmebot to send me messages</span></p>
+            <p>3. Birkaç dakika içinde API key'iniz otomatik mesaj olarak gelecek.</p>
+          </div>
+        </div>
+
+        <div id="whatsapp-business" class="border border-slate-100 rounded-xl p-5 space-y-3">
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2 flex-wrap min-w-0">
+              <span class="material-symbols-outlined text-green-600 text-xl">mark_chat_read</span>
+              <span class="text-sm font-bold">WhatsApp Business — Müşteri Bildirimleri</span>
+              <span class="text-[10px] bg-green-100 text-green-700 font-bold px-2 py-0.5 rounded-full whitespace-nowrap">Cloud API</span>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="waAktif" class="sr-only peer"/>
+              <div class="w-10 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+            </label>
+          </div>
+          <p class="text-[11px] text-slate-500 leading-relaxed">Müşteri portalı olaylarını WhatsApp'tan bildirir: süre uzatma / toplama kararı, arıza alındı ve giderildi, müşteriye yeni teklif gönderildi. Mesaj yalnız portal > Hesabım'da <b>WhatsApp bildirimlerine izin veren</b> kişiye gider. Ofis numaralarına da yeni portal talepleri, arıza bildirimleri ve teklif kararları düşer (kapalıysa yukarıdaki CallMeBot numarasına).</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="space-y-1.5 sm:col-span-2">
+              <label class="lbl">Kalıcı erişim anahtarı (System User token)</label>
+              <input id="waToken" type="password" autocomplete="new-password" placeholder="EAAG..." class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+            </div>
+            <div class="space-y-1.5">
+              <label class="lbl">Telefon numarası kimliği (Phone number ID)</label>
+              <input id="waPhoneId" type="text" inputmode="numeric" placeholder="123456789012345" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+            </div>
+            <div class="space-y-1.5">
+              <label class="lbl">API sürümü <span class="font-normal normal-case text-slate-400">(boş: v23.0)</span></label>
+              <input id="waApiSurum" type="text" placeholder="v23.0" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+            </div>
+            <div class="space-y-1.5">
+              <label class="lbl">Onaylı şablon adı</label>
+              <input id="waSablon" type="text" placeholder="portal_bildirim" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+            </div>
+            <div class="space-y-1.5">
+              <label class="lbl">Şablon dili</label>
+              <input id="waSablonDil" type="text" placeholder="tr" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+            </div>
+          </div>
+          <label class="flex items-center gap-2 text-sm"><input id="waOfisAktif" type="checkbox" class="rounded"/> Ofis numaralarına da bildir</label>
+          <div class="space-y-1.5">
+            <label class="lbl">Ofis numaraları <span class="font-normal normal-case text-slate-400">(virgülle ayırın)</span></label>
+            <input id="waOfisNo" type="text" placeholder="0532 111 22 33, 0533 444 55 66" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+          </div>
+          <div class="bg-surface-container-low rounded-xl p-4 space-y-1.5 text-[11px] text-slate-500 leading-relaxed">
+            <p class="font-bold text-slate-600">Kurulum (Meta Business)</p>
+            <p>1. business.facebook.com'da WhatsApp Business hesabı açın ve işletme numaranızı ekleyin; <b>Phone number ID</b> WhatsApp Manager > API Setup'ta yazar.</p>
+            <p>2. Business Settings > System users'ta bir kullanıcıya <span class="font-mono">whatsapp_business_messaging</span> izniyle kalıcı token üretin.</p>
+            <p>3. WhatsApp Manager > Message templates'te <b>Utility</b> kategorisinde, Türkçe, gövdesi <span class="font-mono">Merhaba {{1}}, {{2}}</span> olan bir şablon oluşturup onaylatın ve adını buraya yazın. {{1}} kişinin adı, {{2}} bildirim metni olur.</p>
+            <p>Şablon boş bırakılırsa düz metin gönderilir; WhatsApp bunu yalnız son 24 saatte size yazmış numaralara iletir.</p>
+          </div>
+          <div class="flex flex-wrap items-end gap-2">
+            <div class="space-y-1.5 flex-1" style="min-width:180px">
+              <label class="lbl">Deneme numarası</label>
+              <input id="waTestNo" type="tel" placeholder="0532 123 45 67" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+            </div>
+            <button type="button" data-on-click="waTest" id="waTestBtn" class="px-4 py-3 bg-green-600 text-white text-sm font-bold rounded-xl hover:opacity-90 transition">Deneme gönder</button>
+          </div>
+          <p class="text-[11px] text-slate-400">Deneme için önce ayarları kaydedin.</p>
+          <details id="waGunlukKutu" class="border border-slate-100 rounded-xl" data-on-toggle="waGunlukAcildi" data-args='["$this"]'>
+            <summary class="cursor-pointer px-4 py-3 text-sm font-bold text-slate-600">Gönderim günlüğü <span id="waOzet" class="font-normal text-slate-400"></span></summary>
+            <div id="waGunluk" class="px-4 pb-4 text-xs text-slate-500">Yükleniyor…</div>
+          </details>
+        </div>
+
+        <div class="border border-slate-100 rounded-xl p-5 space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-purple-600 text-xl">auto_awesome</span>
+            <span class="text-sm font-bold">AI Hasar Tespiti</span>
+            <span class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded-full">Opsiyonel</span>
+          </div>
+          <p class="text-[11px] text-slate-500 leading-relaxed">İade Tutanakları sayfasındaki "AI ile Karşılaştır" düğmesi, bir tutanağın fotoğraflarını makinenin bir önceki tutanağının fotoğraflarıyla kıyaslayıp olası yeni hasarı Türkçe özetler. Otomatik hakem değildir — ofisten elle tetiklenir, sonucu siz değerlendirirsiniz. Kullanım başına küçük bir API maliyeti oluşur (sağlayıcınızın fiyatlandırmasına bağlı).</p>
+          <div class="space-y-1.5">
+            <label class="lbl">Sağlayıcı</label>
+            <select id="aiSaglayici" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition">
+              <option value="">Kapalı</option>
+              <option value="anthropic">Claude (Anthropic)</option>
+              <option value="openai">GPT (OpenAI)</option>
+            </select>
+          </div>
+          <div class="space-y-1.5">
+            <label class="lbl">API Anahtarı</label>
+            <input id="aiApiKey" type="password" placeholder="sk-... veya sk-ant-..." autocomplete="new-password"
+              class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+            <p class="text-[11px] text-slate-400">Claude için <span class="font-mono">console.anthropic.com</span>, GPT için <span class="font-mono">platform.openai.com</span> üzerinden alınır. Sadece sunucuda saklanır, hiçbir zaman tarayıcıya/personele gösterilmez.</p>
+          </div>
+          <div class="space-y-1.5">
+            <label class="lbl">Model <span class="font-normal normal-case text-slate-400">(boş: Claude için claude-opus-5 — ayrıntılı görsel inceleme; maliyeti düşürmek için ör. claude-haiku-4-5 yazılabilir)</span></label>
+            <input id="aiModel" type="text" placeholder="Claude: claude-opus-5 (varsayılan) · GPT: gpt-4o-mini (varsayılan)"
+              class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+          </div>
+        </div>
+
+        <div id="yapay-zeka" class="border border-slate-100 rounded-xl p-5 space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-xl">forum</span>
+            <span class="text-sm font-bold">Yapay Zekâ Analiz Asistanı</span>
+            <span class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded-full">Claude</span>
+          </div>
+          <p class="text-[11px] text-slate-500 leading-relaxed">Analiz &amp; Asistan ekranındaki soru-cevap asistanını, yönetici yorumunu ve müşteri risk açıklamalarını çalıştırır. Asistan yalnız okuma yapar ve her kullanıcının kendi yetkisi/şubesiyle sınırlıdır; kişisel iletişim bilgileri gönderilmez. Kullanıcı başına saatte en fazla 40 istek yapılabilir. Anahtar boş bırakılır ve yukarıdaki hasar tespitinde sağlayıcı Claude seçiliyse o anahtar kullanılır.</p>
+          <label class="flex items-center gap-2 text-sm"><input id="claudeAktif" type="checkbox" class="rounded"/> Asistan etkin</label>
+          <div class="space-y-1.5">
+            <label class="lbl">Claude API Anahtarı</label>
+            <input id="claudeApiKey" type="password" placeholder="sk-ant-..." autocomplete="new-password"
+              class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+            <p class="text-[11px] text-slate-400"><span class="font-mono">console.anthropic.com</span> üzerinden alınır. Yalnız sunucuda saklanır, tarayıcıya gösterilmez.</p>
+          </div>
+          <div class="space-y-1.5">
+            <label class="lbl">Model <span class="font-normal normal-case text-slate-400">(boş: claude-opus-5)</span></label>
+            <input id="claudeModel" type="text" placeholder="claude-opus-5"
+              class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+          </div>
+        </div>
+
+        <div class="border border-slate-100 rounded-xl p-5 space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-xl">local_gas_station</span>
+            <span class="text-sm font-bold">Araç Maliyet Hesabı — Varsayılanlar</span>
+          </div>
+          <p class="text-[11px] text-slate-500 leading-relaxed">Araç Maliyet Hesabı ekranında her yeni hesaplamaya varsayılan olarak dolan genel oranlar. Araca özel değerler (yakıt sarfiyatı, amortisman/gün vb.) araç kaydında ayrıca girilir; buradakiler sadece mazot fiyatı ve operatör günlük maliyetleri gibi genel değerlerdir — istenirse her hesaplamada elle değiştirilebilir.</p>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="space-y-1.5">
+              <label class="lbl">Mazot Fiyatı (₺/litre)</label>
+              <input id="mzMazotFiyati" type="number" min="0" step="0.01" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+            </div>
+            <div class="space-y-1.5">
+              <label class="lbl">Vergi Oranı (%)</label>
+              <input id="mzVergiOrani" type="number" min="0" max="100" step="0.1" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+            </div>
+            <div class="space-y-1.5">
+              <label class="lbl">Operatör Maaş / Gün (₺)</label>
+              <input id="mzOpMaas" type="number" min="0" step="0.01" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+            </div>
+            <div class="space-y-1.5">
+              <label class="lbl">Operatör SGK / Gün (₺)</label>
+              <input id="mzOpSgk" type="number" min="0" step="0.01" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+            </div>
+            <div class="space-y-1.5">
+              <label class="lbl">Operatör Yemek / Gün (₺)</label>
+              <input id="mzOpYemek" type="number" min="0" step="0.01" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+            </div>
+            <div class="space-y-1.5">
+              <label class="lbl">Tazminat / Gün (₺)</label>
+              <input id="mzOpTazminat" type="number" min="0" step="0.01" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+            </div>
+          </div>
+        </div>
+
+        <div id="bildAyarMesaj" class="hidden p-3 rounded-xl text-sm font-medium flex items-center gap-2"></div>
+
+        <div class="flex flex-wrap justify-end gap-3">
+          <button data-on-click="ayarKaydet" class="flex-1 sm:flex-none px-4 sm:px-8 py-3 whitespace-nowrap bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-lg">save</span> Ayarları Kaydet
+          </button>
+          <button data-on-click="bildirimiGonder" id="gonderBtn" class="flex-1 sm:flex-none px-4 sm:px-8 py-3 whitespace-nowrap bg-green-600 text-white font-bold rounded-xl text-sm hover:opacity-90 transition flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-lg">send</span>
+            <span id="gonderTxt">Bildirimleri Gönder</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div class="px-7 py-4 border-b border-slate-50 flex items-center gap-2">
+        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        <h3 class="text-xs font-black text-primary uppercase tracking-widest">Şube Yönetimi</h3>
+      </div>
+      <div class="px-7 py-5">
+        <p class="text-xs text-slate-400 mb-3">Şubeler tüm modüllerdeki (kiralama, müşteri, yedek parça…) şube seçeneklerinde görünür. Kullanımda olan şube silinemez; pasife alınabilir.</p>
+        <p class="text-xs text-slate-500 mb-3"><b>Belge alt bilgisi:</b> Yazdırılan tüm belgelerin (teklif, sözleşme, tutanak, hakediş, ekstre, raporlar…) altında aktif şubeler yan yana basılır. Her şubenin il, adres, telefon ve e-postasını <span class="material-symbols-outlined text-sm align-middle">contact_mail</span> düğmesinden girin; alt bilgide görünmesini istemediğiniz şubeyi oradan kapatabilirsiniz. <button type="button" data-on-click="subeSeritOnizle" class="text-primary font-bold underline">Alt bilgiyi önizle</button></p>
+        <div id="subeSeritOnizleme" class="hidden mb-3 border border-slate-100 rounded-xl p-3"></div>
+        <div class="flex gap-2 mb-4 max-w-md">
+          <input id="subeAd" type="text" placeholder="Yeni şube adı (örn: İstanbul)" class="flex-1 min-w-0 bg-surface-container-low border-none rounded-xl px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+          <button data-on-click="subeEkle" class="shrink-0 px-4 py-2 bg-primary text-white text-xs font-bold rounded-xl hover:opacity-90 transition flex items-center gap-1"><span class="material-symbols-outlined text-sm">add</span> Ekle</button>
+        </div>
+        <div id="subeListe" class="grid grid-cols-1 sm:grid-cols-2 gap-2"><p class="text-slate-400 text-sm">Yükleniyor…</p></div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div class="px-7 py-4 border-b border-slate-50 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-1 h-5 bg-primary rounded-full"></span>
+          <h3 class="text-xs font-black text-primary uppercase tracking-widest">Kullanıcı Yönetimi</h3>
+        </div>
+        <button data-on-click="kullaniciEkleModal" class="px-4 py-2 bg-primary text-white text-xs font-bold rounded-xl hover:opacity-90 transition flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">person_add</span> Kullanıcı Ekle
+        </button>
+      </div>
+      <div id="kullaniciListe" class="divide-y divide-slate-50">
+        <p class="px-7 py-5 text-slate-400 text-sm">Yükleniyor…</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden" id="adimYetkiKart">
+      <div class="px-7 py-4 border-b border-slate-50 flex items-center gap-2">
+        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        <h3 class="text-xs font-black text-primary uppercase tracking-widest">Teslim Adımı Yetkileri</h3>
+      </div>
+      <div class="px-7 py-5">
+        <p class="text-xs text-slate-500 mb-3 max-w-3xl">Kim hangi teslim adımını yapabilir. Soluk işaret <b>varsayılandır</b> (bugünkü yetkisinden gelir: kiralama yazma yetkisi ya da teknik servis yazma yetkisi → Makine kontrolü; kiralama yazma yetkisi → Yükleme / toplama, Sahada teslim, Servis fiyatlandırma; aktif bir personel kaydına bağlı hesap → Sahada teslim). Kutuya tıklayınca kişiye özel olur; ↺ varsayılana döndürür. Yönetici her şeyi yapar.</p>
+        <div class="overflow-x-auto"><table class="w-full text-sm matris" id="adimYetkiTablo"><tbody><tr><td class="text-slate-400 py-3">Yükleniyor…</td></tr></tbody></table></div>
+      </div>
+    </div>
+
+    <div id="personelDavetModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl shadow-2xl w-full pencere-orta p-7">
+        <h2 class="text-lg font-bold font-headline mb-2" id="pdavetBaslik">Davet Gönder</h2>
+        <p class="text-sm text-slate-500 mb-5" id="pdavetAciklama">Gönderiliyor…</p>
+        <div id="pdavetLinkAlan" class="hidden">
+          <label class="lbl">Davet Bağlantısı <span class="text-slate-400 normal-case font-normal">— 7 gün geçerli</span></label>
+          <div class="flex gap-2">
+            <input id="pdavetLink" readonly class="inp text-xs" data-on-click="metniSec" data-args='["$this"]'/>
+            <button type="button" data-on-click="pdavetLinkKopyala" class="shrink-0 px-3 rounded-xl bg-surface-container-low hover:bg-primary-fixed transition"><span class="material-symbols-outlined text-primary text-lg">content_copy</span></button>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-1">E-posta gönderimi denendi, ama ulaşmama ihtimaline karşı bu bağlantıyı WhatsApp/elden de iletebilirsiniz.</p>
+        </div>
+        <div class="flex gap-3 mt-6 justify-end">
+          <button data-on-click="Eylem.gizle" data-args='["personelDavetModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Kapat</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden" id="onKontrolKart">
+      <div class="px-7 py-4 border-b border-slate-50 flex items-center gap-2">
+        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        <h3 class="text-xs font-black text-primary uppercase tracking-widest">Sistem Ön Kontrolü</h3>
+        <span id="okOzet" class="ml-auto text-[11px] font-bold"></span>
+      </div>
+      <div class="px-7 py-5">
+        <div class="flex items-center justify-between gap-4 flex-wrap mb-3">
+          <p class="text-xs text-slate-400 max-w-lg">Sunucu kurulumunu denetler: alan adı, HTTPS, veritabanı konumu ve izinleri, yükleme klasörü, yönetici şifresi, PHP eklentileri ve görsel dosyalar. <b>Siteyi sunucuya yükledikten sonra burada çalıştırın</b> — bu kontrollerin çoğu ancak sunucunun kendisinde anlamlıdır.</p>
+          <button data-on-click="onKontrolCalistir" class="shrink-0 px-4 py-2 bg-primary text-white text-xs font-bold rounded-xl hover:opacity-90 transition flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm">health_and_safety</span> Kontrolü Çalıştır
+          </button>
+        </div>
+        <div id="okSonuc" class="space-y-2"></div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden" id="wolvoxKart">
+      <div class="px-7 py-4 border-b border-slate-50 flex items-center gap-2">
+        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        <h3 class="text-xs font-black text-primary uppercase tracking-widest">AKINSOFT Wolvox Fatura Aktarımı</h3>
+      </div>
+      <div class="px-7 py-5 space-y-4">
+        <p class="text-xs text-slate-400 max-w-2xl">Faturalandırma ekranındaki <b>Wolvox XML</b> düğmesi, seçtiğiniz kiralamaları Wolvox'un kendi FATURA XML biçiminde indirir; Wolvox'ta içe aktarırsınız. Aşağıdaki değerler <b>kurulumunuza özeldir</b> — Wolvox'taki karşılıklarıyla birebir aynı yazılmalıdır.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="lbl" for="wxStokAdi">Hizmet / Stok Kartı Adı</label>
+            <input id="wxStokAdi" class="inp" placeholder="KİRALAMA HİZMETİ"/>
+            <p class="text-[11px] text-slate-400 mt-1">Kira bedelinin faturada hangi kart üzerinden görüneceği. Wolvox'ta bu adda bir kart bulunmalı.</p>
+          </div>
+          <div>
+            <label class="lbl" for="wxDepoAdi">Depo Adı <span class="font-normal normal-case text-slate-400">(opsiyonel)</span></label>
+            <input id="wxDepoAdi" class="inp" placeholder="Boş bırakılabilir"/>
+          </div>
+          <div>
+            <label class="lbl" for="wxSayac">Fatura Sayaç Tanımı <span class="font-normal normal-case text-slate-400">(opsiyonel)</span></label>
+            <input id="wxSayac" class="inp" placeholder="Wolvox'taki sayaç adı"/>
+            <p class="text-[11px] text-slate-400 mt-1">Girilirse fatura numarasını Wolvox kendisi verir. Boş bırakılırsa Taloo'daki fatura no kullanılır.</p>
+          </div>
+          <div>
+            <label class="lbl" for="wxSubeKodu">Şube Kodu</label>
+            <input id="wxSubeKodu" class="inp" placeholder="001"/>
+          </div>
+          <div>
+            <label class="lbl" for="wxPersuser">Veritabanı Kullanıcısı</label>
+            <input id="wxPersuser" class="inp" placeholder="SYSDBA"/>
+          </div>
+          <div>
+            <label class="lbl" for="wxDbname">DBNAME <span class="font-normal normal-case text-slate-400">(opsiyonel)</span></label>
+            <input id="wxDbname" class="inp" placeholder="Wolvox veritabanı adı"/>
+          </div>
+          <div>
+            <label class="lbl" for="wxDbfilename">DBFILENAME <span class="font-normal normal-case text-slate-400">(opsiyonel)</span></label>
+            <input id="wxDbfilename" class="inp" placeholder="Veritabanı dosya yolu"/>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="lbl" for="wxTrsver">Sürüm Etiketi (TRSVER)</label>
+            <input id="wxTrsver" class="inp" placeholder="ASWFT1.02.03"/>
+            <p class="text-[11px] text-slate-400 mt-1">Wolvox 9 dokümanına göre fatura kaydının DLL sürümü <b>ASWFT1.02.03</b>. Kurulumunuz Wolvox ERP s26.04.04 (Wolvox 9 serisi) — içe aktarım sürüm uyuşmazlığı hatası verirse Wolvox'un beklediği değeri buraya yazın.</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2 items-center">
+          <button data-on-click="wxKaydet" class="px-5 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Kaydet</button>
+          <span class="text-[11px] text-slate-400">Müşterilerin <b>Wolvox cari kodu</b> müşteri kartında girilir; boşsa Wolvox ünvandan eşleştirmeye çalışır.</span>
+        </div>
+
+        <div class="p-3 rounded-xl bg-amber-50 border border-amber-100">
+          <p class="text-[11px] text-amber-900 leading-relaxed"><b>İlk aktarımdan önce:</b> tek bir kiralama seçip XML indirin ve Wolvox'ta <b>deneme</b> olarak içe aktarın. Alan adları Wolvox 9 SDK dokümanından alındı; ilk denemeyi yine de kontrollü yapmak gerekir. Tutarların doğru geldiğini gördükten sonra toplu aktarıma geçin.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden" id="kopruKart">
+      <div class="px-7 py-4 border-b border-slate-50 flex items-center gap-2">
+        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        <h3 class="text-xs font-black text-primary uppercase tracking-widest">Wolvox Köprüsü</h3>
+        <span id="kpRozet" class="ml-auto text-[11px] font-bold"></span>
+      </div>
+      <div class="px-7 py-5 space-y-5">
+        <p class="text-xs text-slate-400 max-w-2xl">Ofis bilgisayarındaki köprü programı Wolvox'taki carileri okur ve değişenleri buraya gönderir; müşteri kartında <b>ünvan, vergi bilgisi, telefon, e-posta, adres, il ve aktif/pasif durumu</b> Wolvox'taki gibi olur. Eşleşme yalnız müşteri kartındaki <b>Wolvox cari kodu</b> ile yapılır. Wolvox'a hiçbir şey yazılmaz; yetkili, temsilci, şube, not, iskonto gibi Taloo'ya özgü alanlara dokunulmaz.</p>
+
+        <div>
+          <p class="text-xs font-bold text-slate-600 mb-1">Bağlantı Anahtarı</p>
+          <p class="text-xs text-slate-400 mb-3 max-w-2xl">Köprü programı kendini bu anahtarla tanıtır. Anahtar <b>yalnız üretildiği anda bir kez gösterilir</b>; kopyalayıp köprü programının kurulumuna yapıştırın. Yeni anahtar üretirseniz eskisi çalışmaz.</p>
+          <div class="flex flex-wrap gap-2 items-center">
+            <span id="kpAnahtarDurum" class="text-xs text-slate-600"></span>
+            <button type="button" id="kpUretBtn" data-on-click="kpAnahtarUret" class="px-3 py-2 bg-surface-container-low text-slate-600 font-bold rounded-xl text-xs hover:bg-surface-container transition">Anahtar Üret</button>
+          </div>
+          <div id="kpYeniAnahtarKutu" class="hidden mt-3 p-3 rounded-xl bg-amber-50 border border-amber-100 space-y-2">
+            <p class="text-[11px] text-amber-900 leading-relaxed"><b>Anahtarınız aşağıda.</b> Şimdi kopyalayın: bu sayfadan çıkınca bir daha gösterilmez, sunucuda da saklanmaz.</p>
+            <div class="flex flex-wrap gap-2 items-center">
+              <input id="kpYeniAnahtar" readonly aria-label="Yeni köprü anahtarı" data-on-click="metniSec" data-args='["$this"]' class="flex-1 min-w-[240px] bg-white border-none rounded-xl px-4 py-2 text-xs font-mono outline-none"/>
+              <button type="button" data-on-click="kpAnahtarKopyala" class="px-3 py-2 bg-primary text-white font-bold rounded-xl text-xs hover:opacity-90 transition">Kopyala</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-slate-50 pt-5">
+          <div class="flex items-center justify-between gap-4">
+            <div>
+              <p class="text-xs font-bold text-slate-600 mb-1">Wolvox'ta olup Taloo'da olmayan cariyi yeni müşteri olarak ekle</p>
+              <p class="text-xs text-slate-400 max-w-2xl">Kapalıyken bu cariler eklenmez, yalnız sayılır. Açıkken aktif cariler yeni müşteri olarak eklenir; tedarikçi ve personel grubundakiler, pasif ya da silinmiş olanlar eklenmez.</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer shrink-0">
+              <input type="checkbox" id="kpYeniEkle" data-on-change="kpYeniEkleDegisti" aria-label="Taloo'da olmayan cariyi yeni müşteri olarak ekle" class="sr-only peer"/>
+              <div class="w-10 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+            </label>
+          </div>
+        </div>
+
+        <div class="border-t border-slate-50 pt-5">
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-xs font-bold text-slate-600">Son Gönderim</p>
+            <span id="kpSonTemas" class="text-[11px] text-slate-400"></span>
+          </div>
+          <div id="kpSonuc" class="space-y-1"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden" id="epostaKart">
+      <div class="px-7 py-4 border-b border-slate-50 flex items-center gap-2">
+        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        <h3 class="text-xs font-black text-primary uppercase tracking-widest">E-posta Gönderimi</h3>
+      </div>
+      <div class="px-7 py-5 space-y-5">
+        <p class="text-xs text-slate-400 max-w-2xl">Şifre sıfırlama, müşteri hatırlatması ve günlük özet e-postaları buradan gönderilir. Paylaşımlı sunucuların çoğunda yerleşik gönderim çalışmaz veya spam klasörüne düşer; <b>kendi e-posta hesabınızı (SMTP) tanımlamanız önerilir.</b></p>
+
+        <div class="flex flex-wrap gap-3 items-end">
+          <div class="min-w-[160px]">
+            <label class="lbl">Gönderim Yöntemi</label>
+            <select id="epYontem" data-on-change="epYontemDegisti" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none">
+              <option value="mail">Sunucunun kendi gönderimi</option>
+              <option value="smtp">Kendi e-posta hesabım (SMTP)</option>
+            </select>
+          </div>
+          <div class="flex-1 min-w-[200px]">
+            <label class="lbl">Gönderen Adres</label>
+            <input id="epGonderen" type="email" placeholder="bilgi@firmaniz.com" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none"/>
+          </div>
+          <div class="flex-1 min-w-[160px]">
+            <label class="lbl">Gönderen Adı</label>
+            <input id="epGonderenAd" placeholder="Firma Adınız" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none"/>
+          </div>
+        </div>
+
+        <div id="epSmtpAlanlar" class="hidden grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="col-span-2"><label class="lbl">Sunucu (host)</label><input id="epHost" placeholder="smtp.firmaniz.com" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none"/></div>
+          <div><label class="lbl">Port</label><input id="epPort" type="number" value="587" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none"/></div>
+          <div><label class="lbl">Güvenlik</label>
+            <select id="epGuvenlik" class="w-full bg-surface-container-low border-none rounded-xl px-3 py-2.5 text-sm outline-none"><option value="tls">STARTTLS (587)</option><option value="ssl">SSL (465)</option><option value="yok">Yok</option></select></div>
+          <div class="col-span-2"><label class="lbl">Kullanıcı Adı</label><input id="epKullanici" autocomplete="off" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none"/></div>
+          <div class="col-span-2"><label class="lbl">Şifre <span id="epSifreNot" class="font-normal normal-case text-slate-400"></span></label><input id="epSifre" type="password" autocomplete="new-password" placeholder="Değiştirmek istemiyorsanız boş bırakın" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none"/></div>
+        </div>
+
+        <div class="flex flex-wrap gap-2 items-center">
+          <input id="epTestAlici" type="email" placeholder="test@adresiniz.com" aria-label="Test e-postasının gideceği adres" class="flex-1 min-w-[180px] sm:max-w-xs bg-surface-container-low border-none rounded-xl px-4 py-2 text-sm outline-none"/>
+          <button data-on-click="epTest" class="px-4 py-2 bg-surface-container-low text-slate-600 font-bold rounded-xl text-sm hover:bg-surface-container transition flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">send</span>Test Maili Gönder</button>
+          <button data-on-click="epKaydet" class="ml-auto px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Kaydet</button>
+        </div>
+
+        <div class="border-t border-slate-50 pt-5">
+          <p class="text-xs font-bold text-slate-600 mb-1">Günlük Özet E-postası</p>
+          <p class="text-xs text-slate-400 mb-3 max-w-2xl">Uyarılar (geciken iade, biten sigorta, vadesi gelen çek, bakım zamanı) şu an yalnızca panele girildiğinde hesaplanıyor. Aşağıdaki adresi hosting panelinizdeki <b>Cron Jobs</b> bölümüne günde bir kez çalışacak şekilde ekleyerek özetin her sabah e-posta ile gelmesini sağlayabilirsiniz. Uyarı yoksa e-posta gönderilmez.</p>
+          <div class="flex flex-wrap gap-2 items-center">
+            <input id="epCronAdres" readonly placeholder="Henüz üretilmedi" class="flex-1 min-w-[240px] bg-surface-container-low border-none rounded-xl px-4 py-2 text-xs font-mono outline-none"/>
+            <button data-on-click="epCronKopyala" class="px-3 py-2 bg-surface-container-low text-slate-600 font-bold rounded-xl text-xs hover:bg-surface-container transition">Kopyala</button>
+            <button data-on-click="epCronUret" class="px-3 py-2 bg-surface-container-low text-slate-600 font-bold rounded-xl text-xs hover:bg-surface-container transition">Yeni Adres Üret</button>
+          </div>
+        </div>
+
+        <div class="border-t border-slate-50 pt-5">
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-xs font-bold text-slate-600">Gönderim Kayıtları</p>
+            <span id="epOzet" class="text-[11px] text-slate-400"></span>
+          </div>
+          <div id="epLog" class="space-y-1"></div>
+          <div id="epLogSayfalama" class="mt-3"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden" id="hataKart">
+      <div class="px-7 py-4 border-b border-slate-50 flex items-center gap-2">
+        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        <h3 class="text-xs font-black text-primary uppercase tracking-widest">Hata Günlüğü</h3>
+        <span id="hgOzet" class="ml-auto text-[11px] font-bold"></span>
+      </div>
+      <div class="px-7 py-5">
+        <p class="text-xs text-slate-400 mb-4 max-w-2xl">Kullanıcıların tarayıcısında ve sunucuda oluşan yazılım hataları burada toplanır. Aynı hata tek satırda, kaç kez görüldüğüyle birlikte gösterilir. Bildirim ziline düşmez; yalnızca yönetici görebilir.</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+          <select id="hgTur" data-on-change="hataGunluguCiz" class="bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm outline-none">
+            <option value="tarayici">Tarayıcı hataları</option><option value="sunucu">Sunucu hataları</option>
+          </select>
+          <button type="button" data-on-click="hataGunluguYukle"
+            class="px-3 py-2 rounded-xl text-sm font-semibold bg-surface-container-low text-slate-600 hover:bg-error-container hover:text-error transition inline-flex items-center gap-1">
+            <span class="material-symbols-outlined text-base">refresh</span> Yenile
+          </button>
+          <button type="button" data-on-click="hataGunluguTemizle"
+            class="px-3 py-2 rounded-xl text-sm font-semibold bg-surface-container-low text-slate-600 hover:bg-error-container hover:text-error transition inline-flex items-center gap-1">
+            <span class="material-symbols-outlined text-base">delete</span> Bu günlüğü temizle
+          </button>
+        </div>
+        <div id="hgListe" class="space-y-1.5"></div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden" id="denetimKart">
+      <div class="px-7 py-4 border-b border-slate-50 flex items-center gap-2">
+        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        <h3 class="text-xs font-black text-primary uppercase tracking-widest">Denetim İzi</h3>
+      </div>
+      <div class="px-7 py-5">
+        <p class="text-xs text-slate-400 mb-4 max-w-2xl">Para dokunan işlemlerde kimin, ne zaman, hangi değeri değiştirdiği burada tutulur: hakediş, tahsilat, gider, çek/senet, maaş, kiralama, teklif ve müşteri kayıtları. Yalnızca yönetici görebilir.</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+          <input id="dlAra" type="search" placeholder="Ara (özet veya kişi)…" data-on-input="denetimAraGecikmeli" class="flex-1 min-w-[180px] bg-surface-container-low border-none rounded-xl px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/30"/>
+          <select id="dlTablo" data-on-change="denetimYukle" data-args='[1]' class="bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm outline-none"><option value="">Tüm kayıt türleri</option></select>
+          <select id="dlEylem" data-on-change="denetimYukle" data-args='[1]' class="bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm outline-none">
+            <option value="">Tüm işlemler</option><option value="ekle">Ekleme</option><option value="guncelle">Güncelleme</option><option value="sil">Silme</option>
+          </select>
+          <select id="dlKisi" data-on-change="denetimYukle" data-args='[1]' class="bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm outline-none"><option value="">Herkes</option></select>
+          <button type="button" id="dlGuvenlikBtn" data-on-click="denetimGuvenlik"
+            class="px-3 py-2 rounded-xl text-sm font-semibold bg-surface-container-low text-slate-600 hover:bg-error-container hover:text-error transition inline-flex items-center gap-1">
+            <span class="material-symbols-outlined text-base">shield</span> Yalnızca güvenlik
+          </button>
+        </div>
+        <div id="dlListe" class="space-y-1.5"></div>
+        <div id="dlSayfalama" class="mt-4"></div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div class="px-7 py-4 border-b border-slate-50 flex items-center gap-2">
+        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        <h3 class="text-xs font-black text-primary uppercase tracking-widest">Veri Yedekleme</h3>
+      </div>
+      <div class="px-7 py-5 flex items-center justify-between gap-4 flex-wrap border-b border-slate-50">
+        <p class="text-xs text-slate-400 max-w-lg">Tüm iş verinizin (müşteri, kiralama, personel, finans, ekipman) <b>ve yüklediğiniz bütün dosyaların</b> (belgeler, tutanak fotoğrafları, imzalar) tek bir ZIP kopyasını indirin. Şifreler ve geçici bağlantı jetonları yedeğe dahil edilmez. Sadece yönetici indirebilir.</p>
+        <button type="button" data-on-click="yedekIndir" class="shrink-0 px-4 py-2 bg-primary text-white text-xs font-bold rounded-xl hover:opacity-90 transition flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-sm">cloud_download</span> Yedeği İndir (ZIP)
+        </button>
+      </div>
+
+      <div class="px-7 py-5">
+        <p class="text-xs text-slate-400 max-w-lg mb-3">Bir yedeği geri yüklemek için ZIP dosyasını seçin. Sistem önce içeriğini gösterir; <b>siz onaylamadan hiçbir şey değişmez.</b> Geri yükleme sırasında mevcut verinizin otomatik bir emniyet kopyası alınır.</p>
+        <div class="flex items-center gap-3 flex-wrap">
+          <input type="file" id="gyDosya" accept=".zip" data-on-change="gyIncele" class="text-xs text-slate-600 file:mr-3 file:px-4 file:py-2 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-surface-container-low file:text-slate-600 file:cursor-pointer"/>
+          <span id="gyDurum" class="text-xs text-slate-400"></span>
+        </div>
+        <div id="gyRapor" class="hidden mt-4"></div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div class="px-7 py-4 border-b border-slate-50 flex items-center gap-2">
+        <span class="w-1 h-5 bg-primary rounded-full"></span>
+        <h3 class="text-xs font-black text-primary uppercase tracking-widest">İmzalar</h3>
+      </div>
+      <div class="p-7 space-y-6">
+
+        <div>
+          <p class="lbl mb-3">Yönetici İmzası</p>
+          <div id="yoneticiImzaBox" class="flex items-center gap-4">
+            <div id="yoneticiImzaOnizleme" class="w-40 h-20 border-2 border-dashed border-slate-200 rounded-xl flex items-center justify-center bg-surface-container-low">
+              <span class="text-slate-400 text-xs">Henüz yüklenmedi</span>
+            </div>
+            <div class="space-y-2">
+              <label class="px-4 py-2 bg-primary text-white text-xs font-bold rounded-xl cursor-pointer hover:opacity-90 transition flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-sm">upload</span> İmza Görseli Yükle
+                <input type="file" accept="image/*" class="hidden" data-on-change="yoneticiImzaYukle" data-args='["$this"]'/>
+              </label>
+              <p class="text-[10px] text-slate-400">PNG/JPG/WEBP, max 5 MB<br/>Şeffaf arka plan önerilir</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label for="imzaYedekMetin" class="lbl">İmza görseli yoksa tutanağa yazılacak cümle</label>
+          <div class="flex items-center gap-2">
+            <input id="imzaYedekMetin" maxlength="200" class="flex-1 min-w-0 bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm outline-none" placeholder="T.C. e-imza ile imzalanmıştır."/>
+            <button type="button" data-on-click="imzaYedekKaydet" class="shrink-0 px-5 py-3 bg-primary text-white text-sm font-bold rounded-xl hover:opacity-90 transition">Kaydet</button>
+          </div>
+          <p class="text-[10px] text-slate-400 mt-1">Tutanakların, kiralama sözleşmesi ve kiralama protokolünün "Kiraya Veren" imza alanına kiralamayı açan personelin imzası, o yoksa yönetici imzası basılır; teklif, hakediş ve Formlar belgelerinde yönetici imzası, teknik servis raporunda teknisyenin imzası basılır. İmza görseli hiç yoksa yalnız tutanağa bu cümle ve kiralamayı açan personelin adı yazılır; diğer belgelerde imza alanı boş kalır. Tutanakta değişiklik yalnız yeni tutanaklara uygulanır; imzalı protokol imzalandığı andaki imzayla kalır.</p>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <p class="text-xs font-semibold text-slate-600">Operatör İmzaları</p>
+            <button data-on-click="operatorEkleModal" class="px-3 py-2 bg-primary text-white text-xs font-bold rounded-xl hover:opacity-90 transition flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">add</span> Operatör Ekle
+            </button>
+          </div>
+          <div id="operatorListe" class="space-y-2">
+            <p class="text-slate-400 text-sm">Yükleniyor…</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div id="operatorModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere p-7">
+    <h2 class="text-base font-bold font-headline mb-4">Operatör İmzası Ekle / Güncelle</h2>
+    <input type="hidden" id="opEditId"/>
+    <div class="space-y-3">
+      <div>
+        <label class="lbl">Personel Seç</label>
+        <select id="opPersonelId" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm outline-none" data-on-change="opPersonelSecildi">
+          <option value="">— Personel seçin —</option>
+        </select>
+      </div>
+      <div>
+        <label class="lbl">Ad Soyad</label>
+        <input id="opAdSoyad" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm outline-none" placeholder="Otomatik dolar"/>
+      </div>
+      <div>
+        <label class="lbl">Ünvan</label>
+        <input id="opUnvan" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm outline-none" placeholder="ör: Operatör"/>
+      </div>
+      <div>
+        <label class="lbl">İmza Görseli</label>
+        <div id="opImzaOnizleme" class="mb-2 w-full h-16 border-2 border-dashed border-slate-200 rounded-xl flex items-center justify-center bg-surface-container-low hidden">
+          <img id="opImzaImg" class="h-12 object-contain" src="" alt=""/>
+        </div>
+        <label class="w-full py-2 border border-slate-200 text-slate-600 text-xs font-bold rounded-xl cursor-pointer hover:bg-surface-container-low transition flex items-center justify-center gap-1.5">
+          <span class="material-symbols-outlined text-sm">upload</span> Görsel Seç
+          <input type="file" id="opImzaDosya" accept="image/*" class="hidden" data-on-change="opOnizle" data-args='["$this"]'/>
+        </label>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-5 justify-end">
+      <button data-on-click="Eylem.gizle" data-args='["operatorModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button data-on-click="operatorKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<div id="kullaniciModal" class="hidden fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full pencere p-7">
+    <h2 class="text-lg font-bold font-headline mb-5" id="kModalBaslik">Kullanıcı Ekle</h2>
+    <input type="hidden" id="kEditId"/>
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <div class="space-y-1">
+          <label class="lbl">Kullanıcı Adı *</label>
+          <input id="kUsername" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30" placeholder="ad.soyad"/>
+        </div>
+        <div class="space-y-1">
+          <label class="lbl">Ad Soyad</label>
+          <input id="kAdSoyad" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30" placeholder="Ad Soyad"/>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="space-y-1 col-span-2">
+          <label class="lbl">E-posta <span class="font-normal normal-case text-slate-400">(şifre sıfırlama için)</span></label>
+          <input id="kEmail" type="email" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30" placeholder="ornek@firma.com"/>
+        </div>
+      </div>
+      <div class="space-y-1">
+        <label class="lbl">Şube <span class="font-normal normal-case text-slate-400">(atanırsa müşteri, kiralama, hakediş ve finans kayıtlarında yalnız o şubeyi görür — makine, personel ve yedek parça tüm şubelerde açıktır)</span></label>
+        <select id="kSube" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"><option value="">— Şube atanmadı —</option></select>
+      </div>
+      <div class="space-y-1">
+        <label class="lbl">Bağlı Personel <span class="font-normal normal-case text-slate-400">(saha personeli için ŞART: check-in, saha teslim, tutanak ve QR şoför işleri bu bağla çalışır; "Hesabım" sayfasında da bu personelin mesai/izin/belge bilgileri görünür — otomatik eşleşmez, elle seçilir)</span></label>
+        <select id="kPersonelId" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30"><option value="">— Personel kaydı bağlanmadı —</option></select>
+      </div>
+      <div class="space-y-1">
+        <label class="lbl">Şifre <span id="kSifreMecburi">*</span></label>
+        <input id="kSifre" type="password" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30" placeholder="En az 10 karakter; en az bir harf ve bir rakam"/>
+      </div>
+      <div class="space-y-2">
+        <label class="lbl">Yetkiler</label>
+        <div class="grid grid-cols-2 gap-2" id="yetkiGrid">
+          <label class="flex items-center gap-2 text-sm cursor-pointer col-span-2 pb-1 border-b border-slate-100"><input type="checkbox" id="yTum" class="rounded" data-on-change="yetkileriAyarla"/> <span class="font-bold">Tüm Modüller</span></label>
+        </div>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-6 justify-end">
+      <button data-on-click="Eylem.gizle" data-args='["kullaniciModal"]' class="px-5 py-2 text-slate-600 font-bold text-sm hover:bg-surface-container-low rounded-xl transition">Vazgeç</button>
+      <button data-on-click="kullaniciKaydet" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm hover:opacity-90 transition">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/s-ayarlar.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

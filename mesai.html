@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Mesailer — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.55rem 0.9rem;font-size:0.875rem;outline:none}
+  .inp:focus{box-shadow:0 0 0 2px #00236f33}
+  .lbl{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px}
+  .card{background:#fff;border-radius:1rem;box-shadow:0 1px 2px rgba(15,23,42,.06);padding:1rem}
+  .takvim{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+  .tk-baslik{font-size:10px;font-weight:900;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;text-align:center;padding:2px 0}
+  .tk-gun{background:#fff;border:1px solid #e2e8f0;border-radius:10px;min-height:96px;padding:5px 6px;display:flex;flex-direction:column;gap:3px;cursor:pointer;transition:border-color .12s,box-shadow .12s}
+  .tk-gun:hover{border-color:#00236f;box-shadow:0 2px 8px rgba(0,35,111,.10)}
+  .tk-gun.bos{background:#f8fafc;border-style:dashed;cursor:default;box-shadow:none}
+  .tk-gun.bos:hover{border-color:#e2e8f0}
+  .tk-gun.pazar{background:#fff7ed;border-color:#fed7aa}
+  .tk-no{font-size:11px;font-weight:800;color:#334155;display:flex;justify-content:space-between;align-items:center}
+  .tk-top{font-size:9.5px;font-weight:800;color:#00236f}
+  .tk-kayit{font-size:10px;line-height:1.25;border-radius:6px;padding:2px 4px;background:#eff4ff;color:#00236f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tk-kayit.pazar{background:#ffedd5;color:#9a3412}
+  .tk-kayit.konaklama{background:#e0f2fe;color:#075985}
+  .tk-kayit.iletildi{background:#dcfce7;color:#166534}
+  .tk-kayit.taslak{background:#f1f5f9;color:#475569}
+  .tk-kayit.reddedildi{background:#fee2e2;color:#991b1b;text-decoration:line-through}
+  @media(max-width:767px){
+    .takvim{gap:3px}
+    .tk-gun{min-height:64px;padding:3px 4px}
+    .tk-kayit{font-size:9px}
+  }
+  @media print{
+    .takvim{display:none}
+  }
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto"></nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+<div id="sideOverlay"></div>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-4 flex items-center justify-between gap-3">
+    <div class="flex items-center gap-3">
+      <button data-on-click="menuAcKapa" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-lg md:text-xl font-bold text-blue-950 font-headline">Mesailer</h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <button data-on-click="excelAktar" class="flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-surface-container-low text-sm font-semibold text-slate-600"><span class="material-symbols-outlined text-base">download</span><span class="hidden sm:inline">Excel</span></button>
+      <button data-on-click="mesaiYazdir" class="flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-surface-container-low text-sm font-semibold text-slate-600"><span class="material-symbols-outlined text-base">print</span><span class="hidden sm:inline">Yazdır</span></button>
+      <button data-on-click="mesaiEkleAc" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-white text-sm font-bold shadow-sm hover:bg-primary/90"><span class="material-symbols-outlined text-base">add</span>Mesai Ekle</button>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8">
+    <div class="card mb-4 flex flex-wrap items-center gap-2">
+      <button data-on-click="ayKaydir" data-args='[-1]' title="Önceki ay" class="p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">chevron_left</span></button>
+      <select id="fAy" data-on-change="yukle" class="bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm font-semibold outline-none focus:ring-2 focus:ring-primary/20"></select>
+      <select id="fYil" data-on-change="yukle" class="bg-surface-container-low border-none rounded-xl px-3 py-2 text-sm font-semibold outline-none focus:ring-2 focus:ring-primary/20"></select>
+      <button data-on-click="ayKaydir" data-args='[1]' title="Sonraki ay" class="p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">chevron_right</span></button>
+
+      <div class="relative flex-1 min-w-[200px]">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+        <input data-sayfa-arama id="fAra" data-on-input="aramaGecikmeli" type="text" placeholder="Personel, pozisyon veya çalışma yeri ara..." class="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/20"/>
+      </div>
+      <button data-on-click="filtreTemizle" class="px-3 py-2 text-sm text-slate-500 hover:text-primary font-medium">Temizle</button>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-3 mb-4" data-kpi-serit>
+      <div class="card"><p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Normal Mesai</p><p id="ozNormal" class="text-2xl font-black text-blue-950 mt-1">0</p><p class="text-[11px] text-slate-400">saat</p></div>
+      <div class="card"><p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Pazar Mesaisi</p><p id="ozPazar" class="text-2xl font-black text-amber-600 mt-1">0</p><p class="text-[11px] text-slate-400">gün</p></div>
+      <div class="card"><p class="text-[10px] font-black text-slate-500 uppercase tracking-widest" title="Konaklama — Finans'ta gün × maaş ÷ 60">Konaklama</p><p id="ozKonaklama" class="text-2xl font-black text-sky-700 mt-1">0</p><p class="text-[11px] text-slate-400">gün</p></div>
+      <div class="card"><p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Onay Bekleyen</p><p id="ozTaslak" class="text-2xl font-black text-slate-600 mt-1">0</p><p class="text-[11px] text-slate-400">kayıt</p></div>
+      <div class="card"><p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Finansa Hazır</p><p id="ozHazir" class="text-2xl font-black text-green-700 mt-1">0</p><p class="text-[11px] text-slate-400">kayıt</p></div>
+      <div class="card"><p class="text-[10px] font-black text-slate-500 uppercase tracking-widest" title="Resmi tatilde çalışılan günler — ödemeye değil izne gider">Resmi Tatil → İzin</p><p id="ozIzin" class="text-2xl font-black text-purple-700 mt-1">0</p><p class="text-[11px] text-slate-400">gün (onay bekliyor)</p></div>
+    </div>
+
+    <div id="adminCubuk" class="hidden card mb-4 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-start gap-2">
+        <span class="material-symbols-outlined text-primary">admin_panel_settings</span>
+        <div>
+          <p class="text-sm font-bold text-blue-950">Sistem Yöneticisi Kontrolü</p>
+          <p id="adminAciklama" class="text-[11px] text-slate-500">Onaylanan mesai saatleri Finans’taki maaş hesabına yazılır.</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button data-on-click="hepsiniOnayla" class="px-3 py-2 rounded-xl border border-slate-200 hover:border-primary hover:text-primary text-sm font-bold text-slate-600">Bekleyenleri Onayla</button>
+        <button data-on-click="finanstanGeriAl" id="geriAlBtn" class="hidden px-3 py-2 rounded-xl border border-slate-200 hover:border-amber-500 hover:text-amber-600 text-sm font-bold text-slate-600">Finanstan Geri Al</button>
+        <button data-on-click="finansaIlet" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-white text-sm font-bold shadow-sm hover:bg-primary/90"><span class="material-symbols-outlined text-base">account_balance_wallet</span>Finansa İlet</button>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <h2 class="text-sm font-bold text-blue-950 font-headline mb-2 flex items-center gap-2"><span class="material-symbols-outlined text-base text-primary">calendar_month</span><span id="takvimBaslik">Takvim</span></h2>
+      <div class="tk-basliklar takvim mb-1">
+        <div class="tk-baslik">Pzt</div><div class="tk-baslik">Sal</div><div class="tk-baslik">Çar</div>
+        <div class="tk-baslik">Per</div><div class="tk-baslik">Cum</div><div class="tk-baslik">Cmt</div><div class="tk-baslik">Paz</div>
+      </div>
+      <div id="takvim" class="takvim"></div>
+      <p class="text-[11px] text-slate-400 mt-2">Bir güne tıklayınca o güne mesai eklenir. Turuncu günler pazardır — mesai tipi otomatik “Pazar” gelir.</p>
+    </div>
+
+    <div class="card">
+      <h2 class="text-sm font-bold text-blue-950 font-headline mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-base text-primary">groups</span>Personel Özeti</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="bg-surface-container-low text-left">
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Personel</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Pozisyon</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Şube</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Normal (saat)</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Pazar (gün)</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Konaklama (gün)</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right" title="Resmi tatilde çalışıldığı için hak edilen izin">İzin (gün)</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-center">Durum</th>
+          </tr></thead>
+          <tbody id="ozetTablo"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <h2 class="text-sm font-bold text-blue-950 font-headline mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-base text-primary">list</span>Mesai Kayıtları</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="bg-surface-container-low text-left">
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Tarih</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Personel</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Tip</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Saat</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Süre</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Çalışma Yeri</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Makine</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Açıklama</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-center">Durum</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest text-center">Evrak</th>
+            <th class="px-4 py-3 text-[10px] font-black text-slate-500 uppercase tracking-widest"></th>
+          </tr></thead>
+          <tbody id="kayitTablo"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="mesaiModal" class="hidden fixed inset-0 z-[60] bg-black/40 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full pencere max-h-[90vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+        <h3 id="mmBaslik" class="text-base font-bold text-blue-950 font-headline">Mesai Ekle</h3>
+        <button data-on-click="mesaiKapat" class="p-1.5 rounded-lg hover:bg-surface-container-low"><span class="material-symbols-outlined text-slate-400">close</span></button>
+      </div>
+      <div class="p-5 space-y-3">
+        <div>
+          <label class="lbl">Personel</label>
+          <select id="mPersonel" class="inp"></select>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl" id="mTarihEtiket">Tarih</label><input id="mTarih" type="date" class="inp" data-on-change="tarihDegisti"/></div>
+          <div>
+            <label class="lbl">Mesai Tipi</label>
+            <select id="mTip" class="inp" data-on-change="tipDegistiUI"><option value="normal">Normal</option><option value="pazar">Pazar</option><option value="konaklama">Konaklama</option></select>
+          </div>
+        </div>
+        <div id="mKonaklamaAlan" class="hidden">
+          <div class="grid grid-cols-2 gap-3">
+            <div><label class="lbl">Bitiş Tarihi</label><input id="mBitisTarih" type="date" class="inp" data-on-change="konaklamaGunYaz"/></div>
+            <div><label class="lbl">Gün</label><div id="mKonaklamaGun" class="inp font-bold">1 gün</div></div>
+          </div>
+          <p class="text-[11px] text-sky-800 mt-2 bg-sky-50 border border-sky-100 rounded-lg px-2.5 py-1.5">Konaklama <b>gün</b> sayılır, saat girilmez (tek gün için bitiş = başlangıç). Finans'ta günlük tutar <b>maaş ÷ 60</b>, mesai toplamına eklenir. Ay sonunu aşan konaklama iki aya bölünür.</p>
+        </div>
+        <div id="mSaatAlanlari" class="grid grid-cols-3 gap-3">
+          <div><label class="lbl">Başlangıç</label><input id="mBas" type="time" class="inp" data-on-change="sureHesapla"/></div>
+          <div><label class="lbl">Bitiş</label><input id="mBit" type="time" class="inp" data-on-change="sureHesapla"/></div>
+          <div><label class="lbl">Süre (saat)</label><input id="mSaat" type="number" step="0.25" min="0" max="24" class="inp"/></div>
+        </div>
+        <p id="mSureNot" class="text-[11px] text-slate-400 -mt-1">Saat aralığı girilirse süre otomatik hesaplanır. Gece yarısını geçen mesai desteklenir.</p>
+        <p id="mPazarNot" class="hidden text-[11px] text-amber-700 -mt-1 bg-amber-50 border border-amber-100 rounded-lg px-2.5 py-1.5">Pazar mesaisi <b>1 gün</b> sayılır — saat girmenize gerek yok. Ücretini Finans, personel bazında günlük tutar olarak ayrıca girer.</p>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl">Çalışma Yeri</label><input id="mYer" type="text" class="inp" placeholder="Şantiye / lokasyon" list="yerListesi"/><datalist id="yerListesi"></datalist></div>
+          <div><label class="lbl">Makine Türü</label><input id="mMakine" type="text" class="inp" placeholder="Makine, sepetli araç..." list="makineListesi"/><datalist id="makineListesi"></datalist></div>
+        </div>
+        <div><label class="lbl">Açıklama</label><textarea id="mAciklama" rows="2" class="inp" placeholder="Yapılan iş"></textarea></div>
+      </div>
+      <div class="px-5 py-4 border-t border-slate-100 flex justify-end gap-2">
+        <button data-on-click="mesaiKapat" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:bg-surface-container-low">Vazgeç</button>
+        <button data-on-click="mesaiKaydet" class="px-5 py-2 rounded-xl bg-primary text-white text-sm font-bold shadow-sm hover:bg-primary/90">Kaydet</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="belgeModal" class="hidden fixed inset-0 z-[60] bg-black/40 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full pencere-orta max-h-[90vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+        <h3 class="text-base font-bold text-blue-950 font-headline">Mesai Evrakı</h3>
+        <button data-on-click="belgeKapat" class="p-1.5 rounded-lg hover:bg-surface-container-low"><span class="material-symbols-outlined text-slate-400">close</span></button>
+      </div>
+      <div class="p-5">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-2">
+          <div><label class="lbl" for="mbAd">Belge Adı</label><input id="mbAd" type="text" maxlength="200" class="inp" placeholder="Örn. İmzalı puantaj"/></div>
+          <div><label class="lbl" for="mbNo">Belge No</label><input id="mbNo" type="text" maxlength="100" class="inp" placeholder="Boş bırakılabilir"/></div>
+          <div><label class="lbl" for="mbTarih">Belge Tarihi</label><input id="mbTarih" type="date" class="inp"/></div>
+        </div>
+        <p class="text-[11px] text-slate-400 mb-3">Önce bilgileri yazın, sonra dosyayı seçin. Ad boşsa dosya adı kullanılır.</p>
+        <label class="block border-2 border-dashed border-slate-200 rounded-xl p-4 text-center cursor-pointer hover:border-primary transition">
+          <input id="bDosya" type="file" accept="image/*,application/pdf" multiple class="hidden" data-on-change="belgeSecildi" data-args='["$this"]'/>
+          <span class="material-symbols-outlined text-3xl text-slate-300">upload_file</span>
+          <p class="text-sm font-semibold text-slate-600 mt-1">Belge yükle</p>
+          <p class="text-[11px] text-slate-400">JPG, PNG, WEBP veya PDF · en fazla 10 dosya</p>
+        </label>
+        <div id="belgeListe" class="mt-4 space-y-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="printArea"></div>
+</main>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/s-mesai.js"></script>
+</body>
+</html>

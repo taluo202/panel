@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>İl Toplu Doldurma — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px;height:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .inp{width:100%;background:#eff4ff;border:none;border-radius:0.75rem;padding:0.4rem 0.7rem;font-size:0.8125rem;outline:none}
+  .rozet{display:inline-flex;align-items:center;gap:3px;padding:1px 7px;border-radius:999px;font-size:10px;font-weight:800;white-space:nowrap}
+  .g-yuksek{background:#dcfce7;color:#15803d} .g-orta{background:#fef3c7;color:#b45309}
+  .g-dusuk{background:#ffedd5;color:#c2410c}  .g-yok{background:#f1f5f9;color:#64748b}
+  tr.secili{background:#f5f9ff}
+  .aday{font-size:10px;font-weight:700;padding:1px 6px;border-radius:6px;background:#e0e7ff;color:#3730a3;cursor:pointer}
+  .aday:hover{background:#c7d2fe}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2"><a href="index.html" title="Dashboard"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a></div>
+  <nav class="flex-1 flex flex-col gap-0.5 overflow-y-auto"></nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen md:!pb-24">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="text-base font-bold text-blue-950 font-headline">İl Toplu Doldurma</h1>
+    </div>
+    <a href="filo-analiz.html" class="px-3 py-2 text-primary hover:bg-primary/10 text-sm font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-lg">map</span><span class="hidden sm:inline">Filo Analizi</span></a>
+  </header>
+
+  <div class="p-4 md:p-8">
+    <p class="text-sm text-slate-500 mb-5 max-w-3xl">
+      Filo Analizi haritası kiralamanın <b>il</b> alanına bakar. Aşağıda her kaydın lokasyon, müşteri adresi ve şube
+      metninden il tahmini yapıldı. <b>Onayladıklarınız kaydedilir</b> — tahminler siz kaydetmeden hiçbir şeyi değiştirmez.
+    </p>
+
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-5">
+      <div class="bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Kayıt</p><p class="text-2xl font-black text-blue-900 font-headline" id="ozToplam">—</p></div>
+      <div class="bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Yüksek Güven</p><p class="text-2xl font-black text-green-700 font-headline" id="ozYuksek">—</p></div>
+      <div class="bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Orta</p><p class="text-2xl font-black text-amber-600 font-headline" id="ozOrta">—</p></div>
+      <div class="bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Düşük / Belirsiz</p><p class="text-2xl font-black text-orange-600 font-headline" id="ozDusuk">—</p></div>
+      <div class="bg-white rounded-xl p-4 shadow-sm"><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Tahmin Edilemedi</p><p class="text-2xl font-black text-slate-400 font-headline" id="ozYok">—</p></div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm p-4 mb-5 flex flex-wrap gap-2 items-center">
+      <select id="fKapsam" class="inp !w-auto" data-on-change="yukle">
+        <option value="eksik">İli boş olan kiralamalar</option>
+        <option value="hepsi">Tüm kiralamalar (mevcut illeri de düzelt)</option>
+      </select>
+      <span class="flex-1"></span>
+      <button data-on-click="secGuvenli" class="px-3 py-2 bg-green-50 text-green-700 hover:bg-green-100 text-xs font-bold rounded-xl flex items-center gap-1.5 transition"><span class="material-symbols-outlined text-base">done_all</span>Güvenilir tahminleri seç</button>
+      <button data-on-click="secHepsi" class="px-3 py-2 bg-surface-container-low text-slate-600 hover:bg-slate-200 text-xs font-bold rounded-xl transition">İli dolu olan tümünü seç</button>
+      <button data-on-click="secTemizle" class="px-3 py-2 bg-surface-container-low text-slate-600 hover:bg-slate-200 text-xs font-bold rounded-xl transition">Seçimi temizle</button>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm min-w-[900px]">
+          <thead class="bg-surface-container-low text-[10px] uppercase tracking-widest text-slate-400 font-bold">
+            <tr>
+              <th class="px-3 py-3 w-10"><input type="checkbox" id="hepsiKutu" data-on-change="hepsiToggle" data-args='["$this"]' class="rounded border-slate-300"/></th>
+              <th class="px-3 py-3 text-left">Kiralama</th>
+              <th class="px-3 py-3 text-left">Tahminin dayandığı metin</th>
+              <th class="px-3 py-3 text-left w-28">Güven</th>
+              <th class="px-3 py-3 text-left w-52">İl</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"><tr><td colspan="5" class="text-center text-slate-400 py-16 text-sm">Yükleniyor…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="fixed bottom-0 left-0 md:left-64 right-0 bg-white/90 backdrop-blur-xl border-t border-slate-200 px-4 md:px-8 py-3 flex items-center justify-between gap-3 z-40">
+  <p class="text-sm text-slate-600"><b id="secimSayisi" class="text-blue-950">0</b> kayıt kaydedilecek</p>
+  <button id="kaydetBtn" data-on-click="kaydet" disabled class="px-5 py-2.5 bg-primary text-white text-sm font-bold rounded-xl flex items-center gap-2 transition disabled:opacity-40 disabled:cursor-not-allowed hover:bg-primary/90">
+    <span class="material-symbols-outlined text-lg">save</span>Seçilenleri Kaydet
+  </button>
+</div>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/s-il-doldur.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

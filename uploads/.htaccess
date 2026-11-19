@@ -1,0 +1,25 @@
+Options -Indexes -ExecCGI
+<FilesMatch "\.(ph[a-z0-9]*|phtml|phar|sh|py|pl|cgi|asp|aspx|exe|dll)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(personel|izin|mesai|masraf|signatures|arac|manlift|genel_servis|kiralama_belge|kiralama|dis_kiralama|nakliye|servis-talep|servis|iade_tutanak|tutanak|kiralama_puantaj)(/|$) - [F,L]
+    RewriteRule ^([A-Za-z0-9_-]+/)?(firma|kiralama_galeri|kiralama_gorsel|kiralama_kat|kiralama_urun_kat)/[A-Za-z0-9_./-]+$ - [L]
+    RewriteRule ^ - [F,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.svg$">
+        Header always set Content-Security-Policy "sandbox; default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:"
+        Header always set Content-Disposition "inline"
+        Header always set X-Content-Type-Options "nosniff"
+    </FilesMatch>
+</IfModule>

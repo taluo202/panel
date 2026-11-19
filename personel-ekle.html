@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="img/logo.svg"/>
+<title>Yeni Personel Ekle — Kurumsal Panel</title>
+<link rel="stylesheet" href="css/tailwind.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{font-family:'Inter',sans-serif} h1,h2,h3{font-family:'Manrope',sans-serif}
+  ::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:#d5e3fc;border-radius:4px}
+  .evrak-row{transition:background .12s} .evrak-row:hover{background:#f8f9ff}
+  .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;transition:background .3s}
+  .dot-ok{background:#22c55e} .dot-warn{background:#f97316} .dot-err{background:#ba1a1a} .dot-empty{background:#e2e8f0}
+</style>
+<link rel="stylesheet" href="css/belge.css"/>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-2xl flex flex-col py-6 px-4 z-50 border-r border-slate-100">
+  <div class="mb-6 px-2">
+    <a href="index.html" title="Dashboard"><img src="img/logo.svg" alt="" class="firma-logo h-12 w-auto"/></a>
+  </div>
+  <nav class="flex-1 flex flex-col gap-0.5">
+    <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">dashboard</span><span>Dashboard</span></a>
+    <a href="personel.html" class="flex items-center gap-3 px-3 py-2.5 bg-primary text-white rounded-xl text-sm font-bold shadow-sm"><span class="material-symbols-outlined text-xl">badge</span><span>Personel Yönetimi</span></a>
+    <a href="arac.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">directions_car</span><span>Araç Yönetimi</span></a>
+    <a href="manlift.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">precision_manufacturing</span><span>Makine Yönetimi</span></a>
+    <a href="finans.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">account_balance_wallet</span><span>Finans</span></a>
+    <a href="rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">summarize</span><span>Raporlar</span></a>
+    <a href="kiralama.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">menu_book</span><span>Kataloglar</span></a>
+    <a href="kiralama-takip.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">assignment</span><span>Kiralama Takip</span></a>
+    <a href="musteriler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">groups</span><span>M&#252;&#351;teriler</span></a>
+    <a href="teklifler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">request_quote</span><span>Teklifler</span></a>
+    <a href="hakedisler.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt</span><span>Hakedi&#351;ler</span></a>
+    <a href="nakliye.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">local_shipping</span><span>Nakliye</span></a>
+    <a href="yedek-parca.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">build</span><span>Yedek Par&#231;a</span></a>
+    <a href="makine-rapor.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">monitoring</span><span>Makine Raporu</span></a>
+    <a href="formlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">receipt_long</span><span>Formlar</span></a>
+    <a href="ayarlar.html" class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-surface-container-low hover:text-primary rounded-xl text-sm font-medium transition-all"><span class="material-symbols-outlined text-xl">settings</span><span>Ayarlar</span></a>
+  </nav>
+  <div class="pt-4 border-t border-slate-100">
+    <button data-on-click="App.logout" class="w-full flex items-center gap-3 px-3 py-2.5 text-error hover:bg-error-container rounded-xl text-sm font-medium transition-all">
+      <span class="material-symbols-outlined text-xl">logout</span><span>Çıkış Yap</span></button>
+  </div>
+</aside>
+
+<main class="main-content md:ml-64 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 md:px-8 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <button id="hamburgerBtn" class="md:hidden p-2 rounded-xl hover:bg-surface-container-low text-slate-600"><span class="material-symbols-outlined">menu</span></button>
+      <button data-on-click="Eylem.geri" class="p-2 hover:bg-surface-container-low rounded-xl transition-colors text-slate-500">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <div>
+        <nav class="hidden md:flex items-center gap-1 text-[10px] text-slate-400 font-medium uppercase tracking-wider">
+          <a href="personel.html" class="hover:text-primary">Personel Yönetimi</a>
+          <span>/</span><span class="text-primary font-bold" id="breadTitle">Yeni Personel Ekle</span>
+        </nav>
+        <h1 class="text-base font-bold text-blue-950 font-headline leading-tight" id="pageTitle">Personel Ekleme Formu</h1>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="personel.html" class="px-4 py-2 text-slate-500 font-bold text-sm hover:text-on-surface transition">Vazgeç</a>
+      <button data-on-click="kaydet" id="saveBtn" class="px-6 py-2 bg-primary text-white font-bold rounded-xl text-sm shadow-sm hover:opacity-90 transition flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-lg">save</span> <span id="saveTxt">Kaydet</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-wrap justify-between items-end gap-3 mb-7">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-on-surface font-headline tracking-tight" id="pageH2">Yeni Personel Kaydı</h2>
+          <p class="text-slate-500 mt-1 text-sm">Personel bilgilerini doldurun ve evraklarını yükleyin.</p>
+        </div>
+        <div class="hidden sm:block text-right">
+          <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Evrak Doluluk Oranı</div>
+          <div class="flex items-center gap-2">
+            <div class="w-32 h-2 bg-slate-100 rounded-full overflow-hidden">
+              <div class="h-full bg-primary rounded-full transition-all duration-500" id="evrakBar" style="width:0%"></div>
+            </div>
+            <span class="text-sm font-black text-primary" id="evrakPct">%0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-12 gap-6">
+        <div class="col-span-12 lg:col-span-8 space-y-5">
+
+          <section class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="px-7 py-4 border-b border-slate-50 flex items-center gap-2">
+              <span class="w-1 h-5 bg-primary rounded-full"></span>
+              <h3 class="text-xs font-black text-primary uppercase tracking-widest">Kimlik Bilgileri</h3>
+            </div>
+            <div class="p-7 grid grid-cols-2 gap-5 form-tek">
+              <div class="space-y-1.5">
+                <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Ad Soyad *</label>
+                <input id="fAd" data-on-input="adGirildi" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition" placeholder="Ahmet Yılmaz"/>
+              </div>
+              <div class="space-y-1.5">
+                <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">T.C. Kimlik No</label>
+                <input id="fTc" maxlength="11" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/30 outline-none transition" placeholder="12345678901"/>
+              </div>
+              <div class="space-y-1.5">
+                <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">E-Posta</label>
+                <input id="fEmail" type="email" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition" placeholder="ornek@sirket.com"/>
+              </div>
+              <div class="space-y-1.5">
+                <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">İşe Giriş Tarihi *</label>
+                <input id="fGiris" type="date" data-on-change="updateProgress" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition"/>
+              </div>
+              <div class="space-y-1.5">
+                <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Pozisyon *</label>
+                <input id="fPozisyon" data-on-input="updateProgress" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition" placeholder="Saha Operasyon Uzmanı"/>
+              </div>
+              <div class="space-y-1.5">
+                <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Meslek</label>
+                <select id="fMeslek" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition">
+                  <option value="">— Belirtilmedi —</option>
+                  <option value="operator">Operatör</option>
+                  <option value="sofor">Şoför</option>
+                  <option value="teknisyen">Teknisyen</option>
+                  <option value="elektrikci">Elektrikçi</option>
+                  <option value="saha">Saha Personeli</option>
+                  <option value="idari">İdari / Ofis</option>
+                </select>
+              </div>
+              <div class="space-y-1.5">
+                <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Şube</label>
+                <select id="fSube" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition">
+                  <option value="">— Şube yok —</option>
+                </select>
+              </div>
+              <div class="space-y-1.5">
+                <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Bağlı Yönetici</label>
+                <select id="fAmir" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition">
+                  <option value="">— Yönetici atanmadı —</option>
+                </select>
+              </div>
+              <div class="space-y-1.5">
+                <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Telefon</label>
+                <input id="fTelefon" type="tel" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition" placeholder="0532 000 0000"/>
+              </div>
+              <div class="space-y-1.5">
+                <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Durum</label>
+                <select id="fDurum" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition">
+                  <option value="aktif">Aktif</option>
+                  <option value="izinli">İzinli</option>
+                  <option value="raporlu">Raporlu</option>
+                  <option value="pasif">Pasif</option>
+                </select>
+              </div>
+              <div class="space-y-1.5 col-span-2">
+                <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Adres</label>
+                <textarea id="fAdres" rows="2" class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/30 outline-none transition resize-none" placeholder="İkametgah adresi…"></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="px-7 py-4 bg-error-container/20 border-b border-error-container/30 flex flex-wrap items-center gap-x-2 gap-y-1">
+              <span class="w-1 h-5 bg-error rounded-full"></span>
+              <h3 class="text-xs font-black text-error uppercase tracking-widest whitespace-nowrap">Süreli Evraklar</h3>
+              <span class="w-full sm:w-auto sm:ml-auto text-[11px] text-error/80 font-semibold">Geçerlilik tarihi &amp; dosya yükle</span>
+            </div>
+            <div id="sureliBolum" class="divide-y divide-slate-50/80"></div>
+          </section>
+
+          <section class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="px-7 py-4 bg-surface-container-low border-b border-slate-50 flex items-center gap-2">
+              <span class="w-1 h-5 bg-primary-container rounded-full"></span>
+              <h3 class="text-xs font-black text-primary uppercase tracking-widest">Hukuki &amp; İdari Evraklar</h3>
+            </div>
+            <div id="hukukiBolum" class="divide-y divide-slate-50/80"></div>
+          </section>
+
+          <section class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="px-7 py-4 bg-surface-container-low border-b border-slate-50 flex items-center gap-2">
+              <span class="w-1 h-5 bg-secondary rounded-full"></span>
+              <h3 class="text-xs font-black text-secondary uppercase tracking-widest">Kişisel Evraklar</h3>
+            </div>
+            <div id="kisiselBolum" class="divide-y divide-slate-50/80"></div>
+          </section>
+
+          <section class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="px-7 py-4 bg-surface-container-low border-b border-slate-50 flex items-center gap-2">
+              <span class="w-1 h-5 bg-outline rounded-full"></span>
+              <h3 class="text-xs font-black text-on-surface-variant uppercase tracking-widest">Diğer &amp; Eski Evraklar</h3>
+            </div>
+            <div id="digerBolum" class="divide-y divide-slate-50/80"></div>
+          </section>
+        </div>
+
+        <div class="col-span-12 lg:col-span-4 space-y-5">
+          <div class="bg-white rounded-xl p-7 shadow-sm flex flex-col items-center sticky top-24">
+            <div class="w-24 h-24 rounded-full bg-primary-fixed flex items-center justify-center text-3xl font-black text-primary mb-4 select-none" id="avatarEl">?</div>
+            <p class="text-sm font-bold text-on-surface" id="adLabel">Yeni Personel</p>
+            <p class="text-[11px] text-slate-500 mt-0.5" id="pozLabel">Pozisyon girilmedi</p>
+            <div class="w-full mt-6 space-y-2">
+              <div class="flex items-center gap-2 text-[11px]" id="chkAd"><span class="dot dot-empty"></span><span class="text-slate-400">Ad Soyad</span></div>
+              <div class="flex items-center gap-2 text-[11px]" id="chkGiris"><span class="dot dot-empty"></span><span class="text-slate-400">İşe Giriş Tarihi</span></div>
+              <div class="flex items-center gap-2 text-[11px]" id="chkPoz"><span class="dot dot-empty"></span><span class="text-slate-400">Pozisyon</span></div>
+            </div>
+            <div class="w-full mt-6 pt-5 border-t border-slate-50 space-y-2">
+              <button data-on-click="kaydet" class="w-full py-3 bg-primary text-white font-bold rounded-xl text-sm shadow-sm hover:opacity-90 transition flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-lg">save</span> Personeli Kaydet
+              </button>
+              <a href="personel.html" class="w-full py-2.5 text-slate-500 font-bold text-sm hover:text-on-surface transition block text-center">Vazgeç</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="js/eylem.js"></script>
+<script src="js/belge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/app-panel.js"></script>
+<script src="js/s-personel-ekle.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>

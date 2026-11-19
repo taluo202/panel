@@ -1,0 +1,1 @@
+"function"!=typeof sekmeAc&&(location.href="portal-giris.html"+(location.search?"?donus="+encodeURIComponent("portal.html"+location.search):""));
